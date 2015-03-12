@@ -73,6 +73,9 @@
     <Reference Include="UnityVS.VersionSpecific">
       <HintPath>Assets\UnityVS\Editor\UnityVS.VersionSpecific.dll</HintPath>
     </Reference>
+    <Reference Include="Assembly-UnityScript">
+      <HintPath>Library\ScriptAssemblies\Assembly-UnityScript.dll</HintPath>
+    </Reference>
     <Reference Include="Assembly-UnityScript-firstpass">
       <HintPath>Library\ScriptAssemblies\Assembly-UnityScript-firstpass.dll</HintPath>
     </Reference>
@@ -88,6 +91,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\AIBehavior\Editor\AIBehaviorsMadeEasy\AIBehaviorsAboutWindow.cs" />
+    <Compile Include="Assets\AIBehavior\Editor\AIBehaviorsMadeEasy\AIBehaviorsEditor.cs" />
+    <Compile Include="Assets\AIBehavior\Editor\AIBehaviorsMadeEasy\AIBehaviorsMenuItems.cs" />
+    <Compile Include="Assets\AIBehavior\Editor\AIBehaviorsMadeEasy\AnimationStatesEditor.cs" />
     <Compile Include="Assets\Advanced AI\Editor\AdvancedAIEditor.cs" />
     <Compile Include="Assets\Advanced AI\Editor\AdvancedAiCompanionInspector.cs" />
     <Compile Include="Assets\Advanced AI\Editor\AdvancedAiDefenderInspector.cs" />
@@ -113,6 +120,12 @@
     <None Include="Assets\Advanced AI\Changelog.txt" />
     <None Include="Assets\Advanced AI\Documentation\Support.txt" />
     <None Include="Assets\Advanced AI\ReadMe.txt" />
+    <None Include="Assets\AIBehavior\_Setup.txt" />
+    <None Include="Assets\AIBehavior\AIBehaviorDemoScene\Shaders\AlphaSelfIllumWithFade.shader" />
+    <None Include="Assets\AIBehavior\AIBehaviorDemoScene\Shaders\DiffuseWithAdjustableIllumin.shader" />
+    <None Include="Assets\AIBehavior\AIBehaviorDemoScene\Shaders\Projector Light.shader" />
+    <None Include="Assets\AIBehavior\Documentation\_ReadMe.txt" />
+    <None Include="Assets\AIBehavior\Documentation\_ReleaseNotes.txt" />
     <None Include="Assets\AstarPathfindingProject\Editor\EditorAssets\Materials\Navmesh2.shader" />
     <None Include="Assets\AstarPathfindingProject\ExampleScenes\_Example Scenes.txt" />
     <None Include="Assets\AstarPathfindingProject\ExampleScenes\Materials\DiffuseAlwaysVisible.shader" />

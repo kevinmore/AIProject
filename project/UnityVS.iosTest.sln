@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.0
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnityVS.iosTest.CSharp.Editor", "UnityVS.iosTest.CSharp.Editor.csproj", "{583C03D9-595A-20B3-38BE-A848A5C8FBFA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnityVS.iosTest.CSharp", "UnityVS.iosTest.CSharp.csproj", "{1FBDD75B-3C33-BE89-9726-40E4B155CED1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnityVS.iosTest.CSharp.Plugins", "UnityVS.iosTest.CSharp.Plugins.csproj", "{1A9E8233-A4C1-354F-6004-9673E3E4E2C3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{583C03D9-595A-20B3-38BE-A848A5C8FBFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{583C03D9-595A-20B3-38BE-A848A5C8FBFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{583C03D9-595A-20B3-38BE-A848A5C8FBFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{583C03D9-595A-20B3-38BE-A848A5C8FBFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1FBDD75B-3C33-BE89-9726-40E4B155CED1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1FBDD75B-3C33-BE89-9726-40E4B155CED1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1FBDD75B-3C33-BE89-9726-40E4B155CED1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1FBDD75B-3C33-BE89-9726-40E4B155CED1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A9E8233-A4C1-354F-6004-9673E3E4E2C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A9E8233-A4C1-354F-6004-9673E3E4E2C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A9E8233-A4C1-354F-6004-9673E3E4E2C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A9E8233-A4C1-354F-6004-9673E3E4E2C3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

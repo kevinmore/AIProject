@@ -64,6 +64,12 @@
     <Reference Include="Pathfinding.JsonFx">
       <HintPath>Assets\AstarPathfindingProject\Plugins\JsonFx\Pathfinding.JsonFx.dll</HintPath>
     </Reference>
+    <Reference Include="BehaviorDesignerEditor">
+      <HintPath>Assets\Behavior Designer\Editor\BehaviorDesignerEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="BehaviorDesignerRuntime">
+      <HintPath>Assets\Behavior Designer\Runtime\BehaviorDesignerRuntime.dll</HintPath>
+    </Reference>
     <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
       <HintPath>Assets\UnityVS\Editor\SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
@@ -115,6 +121,11 @@
     <Compile Include="Assets\AstarPathfindingProject\Editor\ModifierEditors\RaycastModifierEditor.cs" />
     <Compile Include="Assets\AstarPathfindingProject\Editor\ModifierEditors\SmoothModifierEditor.cs" />
     <Compile Include="Assets\AstarPathfindingProject\Editor\SeekerEditor.cs" />
+    <Compile Include="Assets\Behavior Designer\Editor\BehaviorTreeInspector.cs" />
+    <Compile Include="Assets\Behavior Designer\Editor\ExternalBehaviorTreeInspector.cs" />
+    <Compile Include="Assets\Behavior Designer\Editor\Object Drawers\FloatSliderDrawer.cs" />
+    <Compile Include="Assets\Behavior Designer\Editor\Object Drawers\IntSliderDrawer.cs" />
+    <Compile Include="Assets\Behavior Designer\Editor\Object Drawers\SharedGenericVariableDrawer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Advanced AI\Changelog.txt" />

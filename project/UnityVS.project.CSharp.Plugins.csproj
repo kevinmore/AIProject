@@ -58,6 +58,9 @@
     <Reference Include="Pathfinding.JsonFx">
       <HintPath>Assets\AstarPathfindingProject\Plugins\JsonFx\Pathfinding.JsonFx.dll</HintPath>
     </Reference>
+    <Reference Include="BehaviorDesignerRuntime">
+      <HintPath>Assets\Behavior Designer\Runtime\BehaviorDesignerRuntime.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Standard Assets\Character Controllers\Sources\Scripts\MouseLook.cs" />

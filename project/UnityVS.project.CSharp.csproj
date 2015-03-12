@@ -58,8 +58,32 @@
     <Reference Include="Pathfinding.JsonFx">
       <HintPath>Assets\AstarPathfindingProject\Plugins\JsonFx\Pathfinding.JsonFx.dll</HintPath>
     </Reference>
+    <Reference Include="Assembly-UnityScript-firstpass">
+      <HintPath>Library\ScriptAssemblies\Assembly-UnityScript-firstpass.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="UnityVS.project.CSharp.Plugins.csproj">
+      <Project>{3B600E2A-28CE-CC3F-2F16-46A04F253FF9}</Project>
+      <Name>UnityVS.project.CSharp.Plugins</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Assets\Advanced AI\Scripts\AdvancedAiCompanion.cs" />
+    <Compile Include="Assets\Advanced AI\Scripts\AdvancedAiDefender.cs" />
+    <Compile Include="Assets\Advanced AI\Scripts\AdvancedAiEnemy.cs" />
+    <Compile Include="Assets\Advanced AI\Scripts\AdvancedAiNpcAggressive.cs" />
+    <Compile Include="Assets\Advanced AI\Scripts\AdvancedAiNpcPassive.cs" />
+    <Compile Include="Assets\Advanced AI\Scripts\DecalsAutoDestruct.cs" />
+    <Compile Include="Assets\Advanced AI\Scripts\DestroyRagdoll.cs" />
+    <Compile Include="Assets\Advanced AI\Scripts\IdleSphere.cs" />
+    <Compile Include="Assets\Advanced AI\Scripts\PlayerHealth.cs" />
+    <Compile Include="Assets\Advanced AI\Scripts\Projectile.cs" />
+    <Compile Include="Assets\Advanced AI\Showcase\Scripts\ExampleGUI.cs" />
+    <Compile Include="Assets\Advanced AI\Showcase\Scripts\ExampleShoot.cs" />
+    <Compile Include="Assets\Advanced AI\Showcase\Scripts\FPS.cs" />
+    <Compile Include="Assets\Advanced AI\Showcase\Scripts\FPSInteraction.cs" />
+    <Compile Include="Assets\Advanced AI\Showcase\Scripts\StepsHandlerExample.cs" />
     <Compile Include="Assets\AstarPathfindingProject\Core\AI\AIPath.cs" />
     <Compile Include="Assets\AstarPathfindingProject\Core\AI\NavmeshController.cs" />
     <Compile Include="Assets\AstarPathfindingProject\Core\AI\Seeker.cs" />
@@ -137,6 +161,9 @@
     <Compile Include="Assets\Tutorial\PathFinding.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\Advanced AI\Changelog.txt" />
+    <None Include="Assets\Advanced AI\Documentation\Support.txt" />
+    <None Include="Assets\Advanced AI\ReadMe.txt" />
     <None Include="Assets\AstarPathfindingProject\Editor\EditorAssets\Materials\Navmesh2.shader" />
     <None Include="Assets\AstarPathfindingProject\ExampleScenes\_Example Scenes.txt" />
     <None Include="Assets\AstarPathfindingProject\ExampleScenes\Materials\DiffuseAlwaysVisible.shader" />
@@ -149,6 +176,7 @@
     <None Include="Assets\AstarPathfindingProject\Plugins\JsonFx\Readme.txt" />
     <None Include="Assets\AstarPathfindingProject\Readme.txt" />
     <None Include="Assets\AstarPathfindingProject\Readme_upgrading.txt" />
+    <None Include="Assets\Standard Assets\Particles\Sources\Shaders\Particle Alpha Blend (Queue +100).shader" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2010\UnityVS.CSharp.targets" />
 </Project>

@@ -707,9 +707,18 @@
     <Compile Include="Assets\Behavior Designer\Runtime\Variables\SharedVector2.cs" />
     <Compile Include="Assets\Behavior Designer\Runtime\Variables\SharedVector3.cs" />
     <Compile Include="Assets\Behavior Designer\Runtime\Variables\SharedVector4.cs" />
-    <Compile Include="Assets\Tutorial\Grid.cs" />
-    <Compile Include="Assets\Tutorial\Node.cs" />
-    <Compile Include="Assets\Tutorial\PathFinding.cs" />
+    <Compile Include="Assets\Outpost\Pathfinding Engine\Scripts\Examples\AnimationControl.cs" />
+    <Compile Include="Assets\Outpost\Pathfinding Engine\Scripts\Examples\DynamicObjectMovement.cs" />
+    <Compile Include="Assets\Outpost\Pathfinding Engine\Scripts\Examples\Message.cs" />
+    <Compile Include="Assets\Outpost\Pathfinding Engine\Scripts\Examples\MouseHitTarget.cs" />
+    <Compile Include="Assets\Outpost\Pathfinding Engine\Scripts\Examples\Patrol.cs" />
+    <Compile Include="Assets\Outpost\Pathfinding Engine\Scripts\PathFinding\AgentComponent.cs" />
+    <Compile Include="Assets\Outpost\Pathfinding Engine\Scripts\PathFinding\Classes\Agent.cs" />
+    <Compile Include="Assets\Outpost\Pathfinding Engine\Scripts\PathFinding\Classes\Area.cs" />
+    <Compile Include="Assets\Outpost\Pathfinding Engine\Scripts\PathFinding\Classes\Heap.cs" />
+    <Compile Include="Assets\Outpost\Pathfinding Engine\Scripts\PathFinding\Classes\Node.cs" />
+    <Compile Include="Assets\Outpost\Pathfinding Engine\Scripts\PathFinding\PathfindingEngine.cs" />
+    <Compile Include="Assets\Outpost\Standard Assets\Water (Basic)\Sources\Scripts\WaterSimple.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Advanced AI\Changelog.txt" />
@@ -733,6 +742,7 @@
     <None Include="Assets\AstarPathfindingProject\Plugins\JsonFx\Readme.txt" />
     <None Include="Assets\AstarPathfindingProject\Readme.txt" />
     <None Include="Assets\AstarPathfindingProject\Readme_upgrading.txt" />
+    <None Include="Assets\Outpost\Standard Assets\Water (Basic)\Sources\Shaders\FX-Water Simple.shader" />
     <None Include="Assets\Standard Assets\Particles\Sources\Shaders\Particle Alpha Blend (Queue +100).shader" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2010\UnityVS.CSharp.targets" />

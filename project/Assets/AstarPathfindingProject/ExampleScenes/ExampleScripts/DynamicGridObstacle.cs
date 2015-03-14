@@ -20,8 +20,8 @@ public class DynamicGridObstacle : MonoBehaviour {
 	
 	/** Use this for initialization */
 	void Start () {
-		col = GetComponent<Collider>();
-		if (GetComponent<Collider>() == null) {
+		col = collider;
+		if (collider == null) {
 			Debug.LogError ("A collider must be attached to the GameObject for DynamicGridObstacle to work");
 		}
 		StartCoroutine (UpdateGraphs ());

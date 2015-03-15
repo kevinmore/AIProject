@@ -1,42 +1,43 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEditor;
+using CS7056_AIToolKit;
 
-[CustomEditor (typeof(PathFindingSolver))]
-public class PathFindingSolverEditor : Editor {
+[CustomEditor(typeof(PathFindingSolver))]
+public class PathFindingSolverEditor : Editor
+{
 
     PathFindingSolver solver;
     bool showAreaSettings = true, showSolverSettings = true, showGizmosSettings = true;
 
     // Enables editor stuff
-    public void OnEnable() {
-
+    public void OnEnable()
+    {
         solver = target as PathFindingSolver;
-
     }
 
     // Draw the customized editor
-    public override void OnInspectorGUI() {
-
+    public override void OnInspectorGUI()
+    {
         int logoSize = 128;
         GUILayout.Box((Texture2D)Resources.Load("Editor/tcd"), GUILayout.Width(logoSize), GUILayout.Height(logoSize));
         GUILayout.Label("CS7056 Path Finding Solver");
-        GUILayout.Label("   - Huanxiang Wang 14333168");
+        GUILayout.Label("- Huanxiang Wang 14333168");
         EditorGUILayout.LabelField("");
-        
+
         SceneView.RepaintAll();
 
-		DrawDefaultInspector ();
+        DrawDefaultInspector();
 
         // Area settings
         EditorGUILayout.LabelField("");
         showAreaSettings = EditorGUILayout.Foldout(showAreaSettings, "World Settings");
         if (showAreaSettings)
         {
-            solver.area.tileSize = EditorGUILayout.IntField("Tiles Size: ", solver.area.tileSize);
-            solver.area.tilesInX = EditorGUILayout.IntField("Tiles in X: ", solver.area.tilesInX);
-            solver.area.tilesInZ = EditorGUILayout.IntField("Tiles in Z: ", solver.area.tilesInZ);
-            solver.area.height = EditorGUILayout.FloatField("Height    : ", solver.area.height);
+            solver.world.tileSize = EditorGUILayout.IntField("Tiles Size: ", solver.world.tileSize);
+            solver.world.tilesInX = EditorGUILayout.IntField("Tiles in X: ", solver.world.tilesInX);
+            solver.world.tilesInZ = EditorGUILayout.IntField("Tiles in Z: ", solver.world.tilesInZ);
+            solver.world.height = EditorGUILayout.FloatField("Height    : ", solver.world.height);
         }
 
         // Solver settings
@@ -49,11 +50,9 @@ public class PathFindingSolverEditor : Editor {
             solver.diagonalConnection = EditorGUILayout.Toggle("Diagonal Connection : ", solver.diagonalConnection);
             solver.erode = EditorGUILayout.Toggle("Erode : ", solver.erode);
             solver.agentAvoidance = EditorGUILayout.Toggle("Agent Avoidance : ", solver.agentAvoidance);
-            solver.dynamicObstacle = EditorGUILayout.Toggle("Dynamic Obstacle : ", solver.dynamicObstacle);
-            if (solver.dynamicObstacle)
-            {
-                solver.updateTimeForDynamicObstacles = EditorGUILayout.FloatField("  Update Time : ", solver.updateTimeForDynamicObstacles);
-            }
+            solver.checkDynamicObstacle = EditorGUILayout.Toggle("Dynamic Obstacle : ", solver.checkDynamicObstacle);
+            if (solver.checkDynamicObstacle)
+                solver.updateRateForDynamicObstacles = EditorGUILayout.FloatField("  Update Rate(seconds) : ", solver.updateRateForDynamicObstacles);
         }
 
         // Gizmos settings
@@ -65,27 +64,24 @@ public class PathFindingSolverEditor : Editor {
             if (solver.showGizmo)
             {
                 solver.showNodes = EditorGUILayout.Toggle("  Show Nodes : ", solver.showNodes);
-                if (solver.showNodes) 
+                if (solver.showNodes)
                     solver.colorNode = EditorGUILayout.ColorField("    Color : ", solver.colorNode);
 
 
                 solver.showLinks = EditorGUILayout.Toggle("  Links : ", solver.showLinks);
-                if (solver.showLinks) 
+                if (solver.showLinks)
                     solver.colorLinks = EditorGUILayout.ColorField("    Color : ", solver.colorLinks);
 
                 solver.showUnwalkableNodes = EditorGUILayout.Toggle("  Unwalkable Nodes : ", solver.showUnwalkableNodes);
-                if (solver.showUnwalkableNodes) 
+                if (solver.showUnwalkableNodes)
                     solver.colorUnwalkableNode = EditorGUILayout.ColorField("    Color : ", solver.colorUnwalkableNode);
             }
         }
-        
-		if(GUI.changed)
-		{
-			EditorUtility.SetDirty( solver );
-		}
-	}
 
-
-
+        if (GUI.changed)
+        {
+            EditorUtility.SetDirty(solver);
+        }
+    }
 
 }

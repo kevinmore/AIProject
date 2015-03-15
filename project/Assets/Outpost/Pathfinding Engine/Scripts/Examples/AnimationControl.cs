@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using CS7056_AIToolKit;
 
 public class AnimationControl : MonoBehaviour {
 

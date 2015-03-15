@@ -716,7 +716,7 @@
     <Compile Include="Assets\Outpost\Pathfinding Engine\Scripts\Examples\Patrol.cs" />
     <Compile Include="Assets\Outpost\Pathfinding Engine\Scripts\PathFinding\PathFindingAgent.cs" />
     <Compile Include="Assets\Outpost\Pathfinding Engine\Scripts\PathFinding\Classes\Agent.cs" />
-    <Compile Include="Assets\Outpost\Pathfinding Engine\Scripts\PathFinding\Classes\Area.cs" />
+    <Compile Include="Assets\Outpost\Pathfinding Engine\Scripts\PathFinding\Classes\NavWorld.cs" />
     <Compile Include="Assets\Outpost\Pathfinding Engine\Scripts\PathFinding\Classes\Heap.cs" />
     <Compile Include="Assets\Outpost\Pathfinding Engine\Scripts\PathFinding\Classes\Node.cs" />
     <Compile Include="Assets\Outpost\Pathfinding Engine\Scripts\PathFinding\PathFindingSolver.cs" />

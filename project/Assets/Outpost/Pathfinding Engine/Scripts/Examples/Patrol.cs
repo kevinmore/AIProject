@@ -2,13 +2,13 @@
 using System.Collections;
 
 public class Patrol : MonoBehaviour {
-	private AgentComponent agentComponent;
+	private PathFindingAgent agentComponent;
 	private Agent agent;
 	public Transform[] points;
 	private int pointPos=0;
 	
 	void Start () {
-		agentComponent = transform.GetComponent<AgentComponent> ();
+		agentComponent = transform.GetComponent<PathFindingAgent> ();
 		agent = agentComponent.agent;
 	}
 

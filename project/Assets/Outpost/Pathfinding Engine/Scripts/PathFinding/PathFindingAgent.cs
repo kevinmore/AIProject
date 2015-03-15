@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 
 
-public class AgentComponent : MonoBehaviour {
+public class PathFindingAgent : MonoBehaviour {
 	
 	public Agent agent = new Agent(5,0,true);
 	private int stepsToSmooth = 4;
@@ -21,11 +21,11 @@ public class AgentComponent : MonoBehaviour {
 	
 	void Start () {
 		agent.Launch (transform);
-		dynamicObstacleLayer = PathfindingEngine.Instance.dynamicObstacleLayer;
-		agentLayer = PathfindingEngine.Instance.agentLayer;
-		height = PathfindingEngine.Instance.area.height;
-		radius = PathfindingEngine.Instance.area.tileSize * 0.45f;
-		agentAvoidance = PathfindingEngine.Instance.agentAvoidance;
+		dynamicObstacleLayer = PathFindingSolver.Instance.dynamicObstacleLayer;
+		agentLayer = PathFindingSolver.Instance.agentLayer;
+		height = PathFindingSolver.Instance.area.height;
+		radius = PathFindingSolver.Instance.area.tileSize * 0.45f;
+		agentAvoidance = PathFindingSolver.Instance.agentAvoidance;
 	}
 	
 	
@@ -55,7 +55,7 @@ public class AgentComponent : MonoBehaviour {
 						float dist = Vector3.Distance(step,stepBefore);
 						if(Physics.SphereCast (step+new Vector3(0,0.1f,0),radius ,dir , out hit,dist,agentLayer)) {
 							walkable = false;
-							nodeWithAgent = PathfindingEngine.Instance.Vector3ToNode(step);
+							nodeWithAgent = PathFindingSolver.Instance.Vector3ToNode(step);
 							nodeWithAgent.walkable = false;
 							aceleration = true;
 						}
@@ -181,7 +181,7 @@ public class AgentComponent : MonoBehaviour {
 	//draw  current path.
 	public bool showGizmo;
 	public bool showPath;
-	public Color gizmoColorPath = Color.blue;
+	public Color gizmoColorPath = Color.green;
 	void OnDrawGizmos(){
 		if(showGizmo){
 			if(showPath){

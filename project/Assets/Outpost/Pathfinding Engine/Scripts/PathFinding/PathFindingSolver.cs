@@ -3,8 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 
 
-public class PathfindingEngine : MonoBehaviour {
-	public static PathfindingEngine Instance;
+public class PathFindingSolver : MonoBehaviour {
+	public static PathFindingSolver Instance;
 	[HideInInspector] public  Area  area = new Area(10,10,10,1);
 	[HideInInspector] public  float inclinationMax = 30;
 	[HideInInspector] public  bool  diagonalConnection = true;
@@ -17,7 +17,6 @@ public class PathfindingEngine : MonoBehaviour {
 	public LayerMask obstacleLayer;
 	public LayerMask dynamicObstacleLayer;
 	public LayerMask agentLayer;
-
 
 
 	void Awake(){
@@ -216,9 +215,9 @@ public class PathfindingEngine : MonoBehaviour {
 	[HideInInspector] public bool showGizmo=true;
 	[HideInInspector] public bool showNodes=true;
 	[HideInInspector] public bool showLinks=true;
-	[HideInInspector] public bool showUnwalkableNodes=false;
+	[HideInInspector] public bool showUnwalkableNodes=true;
 	[HideInInspector] public Color colorNode = Color.white;
-	[HideInInspector] public Color colorLinks = Color.magenta;
+	[HideInInspector] public Color colorLinks = Color.blue;
 	[HideInInspector] public Color colorUnwalkableNode = Color.red;
 
 
@@ -289,7 +288,7 @@ public class PathfindingEngine : MonoBehaviour {
 	
 	
 	public static void SearchPath(Agent agent , Vector3 target){
-		agent.endNode 	= PathfindingEngine.Instance.Vector3ToNode( target );
+		agent.endNode 	= PathFindingSolver.Instance.Vector3ToNode( target );
 		if(!agent.search){
 			agent.search = true;
 			agentsToSearchPath.Add (agent);

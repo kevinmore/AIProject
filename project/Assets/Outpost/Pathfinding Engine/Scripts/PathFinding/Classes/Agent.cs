@@ -33,7 +33,7 @@ public class Agent{
 	}
 
 	public void GoTo(Vector3 pos){
-		PathfindingEngine.SearchPath (this , pos);
+		PathFindingSolver.SearchPath (this , pos);
 	}
 
 }	

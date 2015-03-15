@@ -7,14 +7,16 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{76619906-8354-7292-B899-6DA50ADAC95C}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <AssemblyName>Assembly-CSharp</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>4.6.1f1</UnityVersion>
@@ -712,12 +714,12 @@
     <Compile Include="Assets\Outpost\Pathfinding Engine\Scripts\Examples\Message.cs" />
     <Compile Include="Assets\Outpost\Pathfinding Engine\Scripts\Examples\MouseHitTarget.cs" />
     <Compile Include="Assets\Outpost\Pathfinding Engine\Scripts\Examples\Patrol.cs" />
-    <Compile Include="Assets\Outpost\Pathfinding Engine\Scripts\PathFinding\AgentComponent.cs" />
+    <Compile Include="Assets\Outpost\Pathfinding Engine\Scripts\PathFinding\PathFindingAgent.cs" />
     <Compile Include="Assets\Outpost\Pathfinding Engine\Scripts\PathFinding\Classes\Agent.cs" />
     <Compile Include="Assets\Outpost\Pathfinding Engine\Scripts\PathFinding\Classes\Area.cs" />
     <Compile Include="Assets\Outpost\Pathfinding Engine\Scripts\PathFinding\Classes\Heap.cs" />
     <Compile Include="Assets\Outpost\Pathfinding Engine\Scripts\PathFinding\Classes\Node.cs" />
-    <Compile Include="Assets\Outpost\Pathfinding Engine\Scripts\PathFinding\PathfindingEngine.cs" />
+    <Compile Include="Assets\Outpost\Pathfinding Engine\Scripts\PathFinding\PathFindingSolver.cs" />
     <Compile Include="Assets\Outpost\Standard Assets\Water (Basic)\Sources\Scripts\WaterSimple.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -58,23 +58,12 @@
     <Reference Include="Pathfinding.JsonFx">
       <HintPath>Assets\AstarPathfindingProject\Plugins\JsonFx\Pathfinding.JsonFx.dll</HintPath>
     </Reference>
-    <Reference Include="BehaviorDesignerRuntime">
-      <HintPath>Assets\Behavior Designer\Runtime\BehaviorDesignerRuntime.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Standard Assets\Character Controllers\Sources\Scripts\MouseLook.cs" />
+    <Compile Include="Assets\Standard Assets\Scripts\General Scripts\ActivateTrigger.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Advanced AI\Changelog.txt" />
-    <None Include="Assets\Advanced AI\Documentation\Support.txt" />
-    <None Include="Assets\Advanced AI\ReadMe.txt" />
-    <None Include="Assets\AIBehavior\_Setup.txt" />
-    <None Include="Assets\AIBehavior\AIBehaviorDemoScene\Shaders\AlphaSelfIllumWithFade.shader" />
-    <None Include="Assets\AIBehavior\AIBehaviorDemoScene\Shaders\DiffuseWithAdjustableIllumin.shader" />
-    <None Include="Assets\AIBehavior\AIBehaviorDemoScene\Shaders\Projector Light.shader" />
-    <None Include="Assets\AIBehavior\Documentation\_ReadMe.txt" />
-    <None Include="Assets\AIBehavior\Documentation\_ReleaseNotes.txt" />
     <None Include="Assets\AstarPathfindingProject\Editor\EditorAssets\Materials\Navmesh2.shader" />
     <None Include="Assets\AstarPathfindingProject\ExampleScenes\_Example Scenes.txt" />
     <None Include="Assets\AstarPathfindingProject\ExampleScenes\Materials\DiffuseAlwaysVisible.shader" />
@@ -89,6 +78,12 @@
     <None Include="Assets\AstarPathfindingProject\Readme_upgrading.txt" />
     <None Include="Assets\Outpost\Standard Assets\Water (Basic)\Sources\Shaders\FX-Water Simple.shader" />
     <None Include="Assets\Standard Assets\Particles\Sources\Shaders\Particle Alpha Blend (Queue +100).shader" />
+    <None Include="Assets\stateMachine\readme.txt" />
+    <None Include="Assets\stateMachine\Resources\carFSM.txt" />
+    <None Include="Assets\stateMachine\Resources\gameControllerFSM.txt" />
+    <None Include="Assets\stateMachine\Resources\lightFSM.txt" />
+    <None Include="Assets\stateMachine\Resources\testFSM.txt" />
+    <None Include="Assets\stateMachine\Resources\walkerFSM.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2010\UnityVS.CSharp.targets" />
 </Project>

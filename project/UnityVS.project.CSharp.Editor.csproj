@@ -7,16 +7,14 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{27D5E6A2-E45F-91CF-059C-8CE1B183046D}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <AssemblyName>Assembly-CSharp-Editor</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Full v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile>
-    </CompilerResponseFile>
+    <CompilerResponseFile></CompilerResponseFile>
     <UnityProjectType>Editor:5</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>4.6.1f1</UnityVersion>
@@ -66,12 +64,6 @@
     <Reference Include="Pathfinding.JsonFx">
       <HintPath>Assets\AstarPathfindingProject\Plugins\JsonFx\Pathfinding.JsonFx.dll</HintPath>
     </Reference>
-    <Reference Include="BehaviorDesignerEditor">
-      <HintPath>Assets\Behavior Designer\Editor\BehaviorDesignerEditor.dll</HintPath>
-    </Reference>
-    <Reference Include="BehaviorDesignerRuntime">
-      <HintPath>Assets\Behavior Designer\Runtime\BehaviorDesignerRuntime.dll</HintPath>
-    </Reference>
     <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
       <HintPath>Assets\UnityVS\Editor\SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
@@ -80,9 +72,6 @@
     </Reference>
     <Reference Include="UnityVS.VersionSpecific">
       <HintPath>Assets\UnityVS\Editor\UnityVS.VersionSpecific.dll</HintPath>
-    </Reference>
-    <Reference Include="Assembly-UnityScript">
-      <HintPath>Library\ScriptAssemblies\Assembly-UnityScript.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-UnityScript-firstpass">
       <HintPath>Library\ScriptAssemblies\Assembly-UnityScript-firstpass.dll</HintPath>
@@ -99,16 +88,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\AIBehavior\Editor\AIBehaviorsMadeEasy\AIBehaviorsAboutWindow.cs" />
-    <Compile Include="Assets\AIBehavior\Editor\AIBehaviorsMadeEasy\AIBehaviorsEditor.cs" />
-    <Compile Include="Assets\AIBehavior\Editor\AIBehaviorsMadeEasy\AIBehaviorsMenuItems.cs" />
-    <Compile Include="Assets\AIBehavior\Editor\AIBehaviorsMadeEasy\AnimationStatesEditor.cs" />
-    <Compile Include="Assets\Advanced AI\Editor\AdvancedAIEditor.cs" />
-    <Compile Include="Assets\Advanced AI\Editor\AdvancedAiCompanionInspector.cs" />
-    <Compile Include="Assets\Advanced AI\Editor\AdvancedAiDefenderInspector.cs" />
-    <Compile Include="Assets\Advanced AI\Editor\AdvancedAiEnemyInspector.cs" />
-    <Compile Include="Assets\Advanced AI\Editor\AdvancedAiNpcAggressiveInspector.cs" />
-    <Compile Include="Assets\Advanced AI\Editor\AdvancedAiNpcPassiveInspector.cs" />
     <Compile Include="Assets\AstarPathfindingProject\Editor\AnimationLinkEditor.cs" />
     <Compile Include="Assets\AstarPathfindingProject\Editor\AstarPathEditor.cs" />
     <Compile Include="Assets\AstarPathfindingProject\Editor\AstarUpdateWindow.cs" />
@@ -123,23 +102,10 @@
     <Compile Include="Assets\AstarPathfindingProject\Editor\ModifierEditors\RaycastModifierEditor.cs" />
     <Compile Include="Assets\AstarPathfindingProject\Editor\ModifierEditors\SmoothModifierEditor.cs" />
     <Compile Include="Assets\AstarPathfindingProject\Editor\SeekerEditor.cs" />
-    <Compile Include="Assets\Behavior Designer\Editor\BehaviorTreeInspector.cs" />
-    <Compile Include="Assets\Behavior Designer\Editor\ExternalBehaviorTreeInspector.cs" />
-    <Compile Include="Assets\Behavior Designer\Editor\Object Drawers\FloatSliderDrawer.cs" />
-    <Compile Include="Assets\Behavior Designer\Editor\Object Drawers\IntSliderDrawer.cs" />
-    <Compile Include="Assets\Behavior Designer\Editor\Object Drawers\SharedGenericVariableDrawer.cs" />
     <Compile Include="Assets\Outpost\Pathfinding Engine\Scripts\Editor\PathFindingSolverEditor.cs" />
+    <Compile Include="Assets\stateMachine\Editor\editorFSM.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Advanced AI\Changelog.txt" />
-    <None Include="Assets\Advanced AI\Documentation\Support.txt" />
-    <None Include="Assets\Advanced AI\ReadMe.txt" />
-    <None Include="Assets\AIBehavior\_Setup.txt" />
-    <None Include="Assets\AIBehavior\AIBehaviorDemoScene\Shaders\AlphaSelfIllumWithFade.shader" />
-    <None Include="Assets\AIBehavior\AIBehaviorDemoScene\Shaders\DiffuseWithAdjustableIllumin.shader" />
-    <None Include="Assets\AIBehavior\AIBehaviorDemoScene\Shaders\Projector Light.shader" />
-    <None Include="Assets\AIBehavior\Documentation\_ReadMe.txt" />
-    <None Include="Assets\AIBehavior\Documentation\_ReleaseNotes.txt" />
     <None Include="Assets\AstarPathfindingProject\Editor\EditorAssets\Materials\Navmesh2.shader" />
     <None Include="Assets\AstarPathfindingProject\ExampleScenes\_Example Scenes.txt" />
     <None Include="Assets\AstarPathfindingProject\ExampleScenes\Materials\DiffuseAlwaysVisible.shader" />
@@ -154,6 +120,12 @@
     <None Include="Assets\AstarPathfindingProject\Readme_upgrading.txt" />
     <None Include="Assets\Outpost\Standard Assets\Water (Basic)\Sources\Shaders\FX-Water Simple.shader" />
     <None Include="Assets\Standard Assets\Particles\Sources\Shaders\Particle Alpha Blend (Queue +100).shader" />
+    <None Include="Assets\stateMachine\readme.txt" />
+    <None Include="Assets\stateMachine\Resources\carFSM.txt" />
+    <None Include="Assets\stateMachine\Resources\gameControllerFSM.txt" />
+    <None Include="Assets\stateMachine\Resources\lightFSM.txt" />
+    <None Include="Assets\stateMachine\Resources\testFSM.txt" />
+    <None Include="Assets\stateMachine\Resources\walkerFSM.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2010\UnityVS.CSharp.targets" />
 </Project>

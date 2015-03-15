@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace CS7056_AIToolKit
 {
+    /// <summary>
+    /// Heap Data Structure for efficient operation when doing path finding
+    /// </summary>
     public class Heap
     {
         public List<Node> closeList = new List<Node>();
@@ -79,7 +82,5 @@ namespace CS7056_AIToolKit
 
             }
         }
-
-
     }
 }

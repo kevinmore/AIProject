@@ -6,6 +6,9 @@ namespace CS7056_AIToolKit
 {
     public enum State { Clear, Open, Close };
 
+    /// <summary>
+    /// Node Class to represent a Node in the A* Grid
+    /// </summary>
     [HideInInspector]
     public class Node
     {
@@ -25,6 +28,12 @@ namespace CS7056_AIToolKit
         public Node(Vector3 _pos)
         {
             pos = _pos;
+        }
+
+        public void Reset()
+        {
+            state = State.Clear;
+            parent = null;
         }
 
     }

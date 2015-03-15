@@ -2,6 +2,10 @@
 using System.Collections;
 namespace CS7056_AIToolKit
 {
+    /// <summary>
+    /// Navigation World Class, which is a box that bounds the geometry world.
+    /// The navigation map (A* grid) will be generated inside the world
+    /// </summary>
     [System.Serializable]
     public class NavWorld
     {
@@ -24,13 +28,8 @@ namespace CS7056_AIToolKit
         {
             if (map == null) return;
             for (int i = 0; i < tilesInX; ++i)
-            {
                 for (int j = 0; j < tilesInZ; ++j)
-                {
-                    map[i, j].state = State.Clear;
-                    map[i, j].parent = null;
-                }
-            }
+                    map[i, j].Reset();
         }
     }
 

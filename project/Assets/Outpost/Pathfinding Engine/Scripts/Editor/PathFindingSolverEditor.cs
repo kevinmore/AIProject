@@ -3,6 +3,10 @@ using System.Collections;
 using UnityEditor;
 using CS7056_AIToolKit;
 
+/// <summary>
+/// Customized editor for the path finding solver
+/// </summary>
+
 [CustomEditor(typeof(PathFindingSolver))]
 public class PathFindingSolverEditor : Editor
 {

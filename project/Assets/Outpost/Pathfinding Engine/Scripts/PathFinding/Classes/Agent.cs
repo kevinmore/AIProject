@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace CS7056_AIToolKit
 {
+    /// <summary>
+    /// The Agent class represents a path finding agent
+    /// </summary>
     [System.Serializable]
     public class Agent
     {

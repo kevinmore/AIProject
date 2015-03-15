@@ -5,7 +5,9 @@ using System.Collections.Generic;
 
 namespace CS7056_AIToolKit
 {
-
+    /// <summary>
+    /// This is an agent component that should be attached to a path finding seeker
+    /// </summary>
     public class PathFindingAgent : MonoBehaviour
     {
 

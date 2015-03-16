@@ -14,89 +14,50 @@ using System.Collections;
 /// - Create a camera. Make the camera a child of the capsule. Reset it's transform.
 /// - Add a MouseLook script to the camera.
 ///   -> Set the mouse look to use LookY. (You want the camera to tilt up and down like a head. The character already turns.)
-namespace AIBehaviorExamples
-{
-	[AddComponentMenu("Camera-Control/Mouse Look")]
-	public class MouseLook : MonoBehaviour
+[AddComponentMenu("Camera-Control/Mouse Look")]
+public class MouseLook : MonoBehaviour {
+
+	public enum RotationAxes { MouseXAndY = 0, MouseX = 1, MouseY = 2 }
+	public RotationAxes axes = RotationAxes.MouseXAndY;
+	public float sensitivityX = 15F;
+	public float sensitivityY = 15F;
+
+	public float minimumX = -360F;
+	public float maximumX = 360F;
+
+	public float minimumY = -60F;
+	public float maximumY = 60F;
+
+	float rotationY = 0F;
+
+	void Update ()
 	{
-		public enum RotationAxes { MouseXAndY = 0, MouseX = 1, MouseY = 2 }
-		public RotationAxes axes = RotationAxes.MouseXAndY;
-		public bool useJoysticks = false;
-		public float sensitivityX = 15F;
-		public float sensitivityY = 15F;
-
-		public float minimumX = -360F;
-		public float maximumX = 360F;
-
-		public float minimumY = -60F;
-		public float maximumY = 60F;
-
-		float rotationY = 0F;
-		float joyX = 0;
-
-		void Awake()
+		if (axes == RotationAxes.MouseXAndY)
 		{
-	#if !UNITY_EDITOR
-			Screen.lockCursor = true;
-	#endif
-		}
-
-
-		void Update ()
-		{
-			joyX = GetJoystickX() * 2;
-
-			if (axes == RotationAxes.MouseXAndY)
-			{
-				float rotationX = transform.localEulerAngles.y + (Input.GetAxis("Mouse X") + GetJoystickX()) * sensitivityX;
-
-				rotationY += Input.GetAxis("Mouse Y") * sensitivityY + GetJoystickY();
-				rotationY = Mathf.Clamp (rotationY, minimumY, maximumY);
-				
-				transform.localEulerAngles = new Vector3(-rotationY, rotationX + joyX, 0);
-			}
-			else if (axes == RotationAxes.MouseX)
-			{
-				transform.Rotate(0, Input.GetAxis("Mouse X") * sensitivityX + joyX, 0);
-			}
-			else
-			{
-				rotationY += Input.GetAxis("Mouse Y") * sensitivityY + GetJoystickY();
-				rotationY = Mathf.Clamp (rotationY, minimumY, maximumY);
-
-				transform.localEulerAngles = new Vector3(-rotationY, transform.localEulerAngles.y, 0);
-			}
-		}
-		
-		
-		private float GetJoystickX()
-		{
-			return GetJoystick("Joystick X");
-		}
-		
-		
-		private float GetJoystickY()
-		{
-			return GetJoystick("Joystick Y");
-		}
-
-		
-		private float GetJoystick(string axisName)
-		{
-			if ( useJoysticks )
-			{
-				return Input.GetAxis(axisName);
-			}
+			float rotationX = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * sensitivityX;
 			
-			return 0.0f;
+			rotationY += Input.GetAxis("Mouse Y") * sensitivityY;
+			rotationY = Mathf.Clamp (rotationY, minimumY, maximumY);
+			
+			transform.localEulerAngles = new Vector3(-rotationY, rotationX, 0);
 		}
-
-		
-		void Start ()
+		else if (axes == RotationAxes.MouseX)
 		{
-			// Make the rigid body not change rotation
-			if (rigidbody)
-				rigidbody.freezeRotation = true;
+			transform.Rotate(0, Input.GetAxis("Mouse X") * sensitivityX, 0);
 		}
+		else
+		{
+			rotationY += Input.GetAxis("Mouse Y") * sensitivityY;
+			rotationY = Mathf.Clamp (rotationY, minimumY, maximumY);
+			
+			transform.localEulerAngles = new Vector3(-rotationY, transform.localEulerAngles.y, 0);
+		}
+	}
+	
+	void Start ()
+	{
+		// Make the rigid body not change rotation
+		if (rigidbody)
+			rigidbody.freezeRotation = true;
 	}
 }

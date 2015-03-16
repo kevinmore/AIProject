@@ -153,6 +153,17 @@
     <Compile Include="Assets\Outpost\Pathfinding Engine\Scripts\PathFinding\PathFindingAgent.cs" />
     <Compile Include="Assets\Outpost\Pathfinding Engine\Scripts\PathFinding\PathFindingSolver.cs" />
     <Compile Include="Assets\Outpost\Standard Assets\Water (Basic)\Sources\Scripts\WaterSimple.cs" />
+    <Compile Include="Assets\Toon_Level_Kit\Examples\Script\CarCamera.cs" />
+    <Compile Include="Assets\Toon_Level_Kit\Examples\Script\Fog.cs" />
+    <Compile Include="Assets\Toon_Level_Kit\Examples\Script\Kart.cs" />
+    <Compile Include="Assets\Toon_Level_Kit\Examples\Script\LevelJump.cs" />
+    <Compile Include="Assets\Toon_Level_Kit\Examples\Script\RotateObject.cs" />
+    <Compile Include="Assets\Toon_Level_Kit\Examples\Script\Spawner.cs" />
+    <Compile Include="Assets\Toon_Level_Kit\TLK-Medias\Scripts\BillboardLaub.cs" />
+    <Compile Include="Assets\Toon_Level_Kit\TLK-Medias\Scripts\Butterfly.cs" />
+    <Compile Include="Assets\Toon_Level_Kit\TLK-Medias\Scripts\FpsCounter.cs" />
+    <Compile Include="Assets\Toon_Level_Kit\TLK-Medias\Scripts\HTLiquidSpriteSheet.cs" />
+    <Compile Include="Assets\Toon_Level_Kit\TLK-Medias\Scripts\HTSpriteSheet.cs" />
     <Compile Include="Assets\stateMachine\1 Core Scripts\Action.cs" />
     <Compile Include="Assets\stateMachine\1 Core Scripts\Attribute.cs" />
     <Compile Include="Assets\stateMachine\1 Core Scripts\Condition.cs" />
@@ -201,6 +212,13 @@
     <None Include="Assets\stateMachine\Resources\lightFSM.txt" />
     <None Include="Assets\stateMachine\Resources\testFSM.txt" />
     <None Include="Assets\stateMachine\Resources\walkerFSM.txt" />
+    <None Include="Assets\Toon_Level_Kit\Documentation\Readme.txt" />
+    <None Include="Assets\Toon_Level_Kit\TLK-Medias\Materials\GlassTypeA.shader" />
+    <None Include="Assets\Toon_Level_Kit\TLK-Medias\Shaders\Glass.shader" />
+    <None Include="Assets\Toon_Level_Kit\TLK-Medias\Shaders\Leave.shader" />
+    <None Include="Assets\Toon_Level_Kit\TLK-Medias\Shaders\Rim.shader" />
+    <None Include="Assets\Toon_Level_Kit\TLK-Medias\Shaders\Vegetation.shader" />
+    <None Include="Assets\Toon_Level_Kit\TLK-Medias\Shaders\Vegetation-Lightmap.shader" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2010\UnityVS.CSharp.targets" />
 </Project>

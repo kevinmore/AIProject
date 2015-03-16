@@ -4,7 +4,7 @@ using System.Collections.Generic;
 //--------------------------------------------------------------------
 namespace CS7056_AIToolKit
 {
-    public class FSM : object
+    public class FSM
     {
         private List<State> states;
         private List<FSMEvent> events;

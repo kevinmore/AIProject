@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace CS7056_AIToolKit
 {
-    public class Attribute : object
+    public class Attribute
     {
         public string name;
         public string value;

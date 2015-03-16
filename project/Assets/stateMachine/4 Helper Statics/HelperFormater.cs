@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace CS7056_AIToolKit
 {
-    public static class HelperFormater : object
+    public static class HelperFormater
     {
 
 

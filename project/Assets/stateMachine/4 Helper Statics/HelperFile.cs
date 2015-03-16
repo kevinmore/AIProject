@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEditor;
 namespace CS7056_AIToolKit
 {
-    public static class HelperFile : object
+    public static class HelperFile
     {
 
         //------------------------------------------------------

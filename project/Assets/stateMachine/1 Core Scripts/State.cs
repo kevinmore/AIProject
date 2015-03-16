@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace CS7056_AIToolKit
 {
-    public class State : object
+    public class State
     {
         public List<int> events;
         public List<FSMEvent> eventBucket;

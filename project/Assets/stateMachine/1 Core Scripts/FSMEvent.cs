@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 namespace CS7056_AIToolKit
 {
-    public class FSMEvent : object
+    public class FSMEvent
     {
 
         public int toStateID;

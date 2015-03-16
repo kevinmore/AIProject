@@ -4,7 +4,7 @@ using System.Collections;
 
 namespace CS7056_AIToolKit
 {
-    public static class HelperEditor : object
+    public static class HelperEditor
     {
 
         private static Texture2D _staticRectTexture;

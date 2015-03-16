@@ -5,7 +5,7 @@ namespace CS7056_AIToolKit
     /// <summary>
     /// Simple Attribute pair to hold attributes in
     /// </summary>
-    public class AttributePair : object
+    public class AttributePair
     {
         public AttributePair(string label_, string value_)
         {

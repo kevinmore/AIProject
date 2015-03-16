@@ -3,7 +3,7 @@ using System.Collections;
 
 namespace CS7056_AIToolKit
 {
-    public static class HelperGraphics : object
+    public static class HelperGraphics
     {
 
         // Use this for initialization

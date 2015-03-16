@@ -13,16 +13,16 @@ using UnityEditor;
 //---------------------------------------------------------------------------------
 namespace CS7056_AIToolKit
 {
-    public class editorFSM : EditorWindow
+    public class FSMEditor : EditorWindow
     {
         //Rect windowRect =new Rect (100,100,200,200);
-        List<statePanel> states = new List<statePanel>();
+        List<StatePanel> states = new List<StatePanel>();
         List<EventConnection> events = new List<EventConnection>();
         List<AttributePair> attributes = new List<AttributePair>();
         private static bool needUpdate = false;
         private bool needToAddControllerScript = false;
 
-        static editorFSM()
+        static FSMEditor()
         {
             justRecompiled = true;
             //Debug.Log("test");
@@ -32,8 +32,8 @@ namespace CS7056_AIToolKit
         public Texture arrow;
         private int runCounter = 0;
 
-        public statePanel startStateSelected;
-        public statePanel endStateSelected;
+        public StatePanel startStateSelected;
+        public StatePanel endStateSelected;
         private string currentState = "";
         public stateController currentStateController;
 
@@ -46,7 +46,7 @@ namespace CS7056_AIToolKit
 
         Rect windowRect = new Rect(200, 100, 250, 200);
         //Rect windowRect2 = new Rect (600, 100, 300, 300);
-        statePanel selectedState;
+        StatePanel selectedState;
         EventConnection selectedEvent;
 
         private Vector2 scrollPosition_;
@@ -93,7 +93,7 @@ namespace CS7056_AIToolKit
         private static void showEditor()
         {
 
-            EditorWindow.GetWindow<editorFSM>(false, "State-Based Controller", true);
+            EditorWindow.GetWindow<FSMEditor>(false, "State-Based Controller", true);
         }
         //---------------------------------------------------------------------------------
 
@@ -268,7 +268,7 @@ namespace CS7056_AIToolKit
         //----------------------------------------------------------------------------	
         private void addState()
         {
-            statePanel newState = new statePanel(new Rect(startPos.x - HelperConstants.StateWidth / 2, startPos.y - HelperConstants.StateHeight / 2,
+            StatePanel newState = new StatePanel(new Rect(startPos.x - HelperConstants.StateWidth / 2, startPos.y - HelperConstants.StateHeight / 2,
                                                       HelperConstants.StateWidth,
                                                       HelperConstants.StateHeight), stateName);
             newState.stateDiscription = stateDiscription;
@@ -473,7 +473,7 @@ namespace CS7056_AIToolKit
 
 
         //----------------------------------------------------------------------------
-        int getNumberEvents(statePanel from, statePanel to, int startIndex)
+        int getNumberEvents(StatePanel from, StatePanel to, int startIndex)
         {
             int sum = 0;
             for (int i = startIndex; i < events.Count; i++)
@@ -568,7 +568,7 @@ namespace CS7056_AIToolKit
 
             GUI.Label(new Rect(position.width / 2 - 100, 5, 200, 20), "Double click to create new state.");
 
-            foreach (statePanel sp in states)
+            foreach (StatePanel sp in states)
             {
                 if (sp.selected == true) { sp.showHighlight(); }
             }
@@ -577,7 +577,7 @@ namespace CS7056_AIToolKit
             int count = 0;
 
 
-            foreach (statePanel state_ in states)
+            foreach (StatePanel state_ in states)
             {
                 state_.location = GUILayout.Window(count, state_.location, DoPanelWindow, count + ": " + state_.stateName);
 
@@ -610,7 +610,7 @@ namespace CS7056_AIToolKit
 
 
 
-            foreach (statePanel state_ in states)
+            foreach (StatePanel state_ in states)
             {
                 if (state_.markedForDeath)
                     dirty = true;
@@ -680,7 +680,7 @@ namespace CS7056_AIToolKit
                 else
                     clickCounter = 0;
 
-                statePanel sp = getStateForPoint(stopMousePos);
+                StatePanel sp = getStateForPoint(stopMousePos);
 
                 if (sp != null && startStateSelected != null && eventConDrag != null)
                 {
@@ -710,7 +710,7 @@ namespace CS7056_AIToolKit
                 startPos = Event.current.mousePosition;
                 Vector2 startMousePos = Event.current.mousePosition;
 
-                statePanel sp = getStateHandleForPoint(startMousePos);
+                StatePanel sp = getStateHandleForPoint(startMousePos);
                 if (sp != null)
                 {
                     startStateSelected = sp;
@@ -731,7 +731,7 @@ namespace CS7056_AIToolKit
                 if (eventConDrag != null)
                 {
                     if (eventConDrag.to == null)
-                        eventConDrag.to = new statePanel(new Rect(mousePos.x, mousePos.y, 5, 5), "temp");
+                        eventConDrag.to = new StatePanel(new Rect(mousePos.x, mousePos.y, 5, 5), "temp");
                     else
                     {
                         eventConDrag.to.location.x = mousePos.x;
@@ -756,7 +756,7 @@ namespace CS7056_AIToolKit
         //----------------------------------------------------------------------------
         private void selectState(Vector2 point)
         {
-            foreach (statePanel sp in states)
+            foreach (StatePanel sp in states)
             {
                 if (sp.stateHolds(point))
                 {
@@ -808,7 +808,7 @@ namespace CS7056_AIToolKit
         //----------------------------------------------------------------------------
         private void selectStateReset()
         {
-            foreach (statePanel sp in states)
+            foreach (StatePanel sp in states)
             {
                 sp.selected = false;
             }
@@ -817,11 +817,11 @@ namespace CS7056_AIToolKit
         //----------------------------------------------------------------------------
 
         //----------------------------------------------------------------------------
-        private statePanel getStateHandleForPoint(Vector2 point)
+        private StatePanel getStateHandleForPoint(Vector2 point)
         {
             Vector2 pmod = new Vector2(point.x + scrollPosition.x, point.y + scrollPosition.y);
 
-            foreach (statePanel sp in states)
+            foreach (StatePanel sp in states)
             {
                 if (sp.handleHolds(pmod)) return sp;
             }
@@ -830,11 +830,11 @@ namespace CS7056_AIToolKit
         //----------------------------------------------------------------------------
 
         //----------------------------------------------------------------------------
-        private statePanel getStateForPoint(Vector2 point)
+        private StatePanel getStateForPoint(Vector2 point)
         {
             Vector2 pmod = new Vector2(point.x + scrollPosition.x, point.y + scrollPosition.y);
 
-            foreach (statePanel sp in states)
+            foreach (StatePanel sp in states)
             {
                 if (sp.stateHolds(pmod)) return sp;
             }
@@ -1122,10 +1122,10 @@ namespace CS7056_AIToolKit
 
 
         //---------------------------------------------------------------------------------
-        statePanel getPanelAtClick(Vector2 clickedAt)
+        StatePanel getPanelAtClick(Vector2 clickedAt)
         {
 
-            foreach (statePanel state_ in states)
+            foreach (StatePanel state_ in states)
             {
                 if (state_.location.Contains(clickedAt)) return state_;
 
@@ -1137,7 +1137,7 @@ namespace CS7056_AIToolKit
 
 
         //----------------------------------------------------------------------------
-        void deleteState(statePanel target_)
+        void deleteState(StatePanel target_)
         {
             states.Remove(target_);
 
@@ -1160,7 +1160,7 @@ namespace CS7056_AIToolKit
 
 
         //----------------------------------------------------------------------------
-        private string getLinkedEvents(statePanel state)
+        private string getLinkedEvents(StatePanel state)
         {
             List<string> links = new List<string>();
             foreach (EventConnection ec in events)
@@ -1201,7 +1201,7 @@ namespace CS7056_AIToolKit
         {
             string line1 = "//STATES   ID,   EVENTS\n";
             int i = 0;
-            foreach (statePanel sp in states)
+            foreach (StatePanel sp in states)
             {
                 if (i < states.Count - 1)
                     line1 = line1 + sp.stateName + "," + sp.id + "," + getLinkedEvents(sp) + "," + sp.location.x + "," + sp.location.y + "," + sp.stateDiscription + ";\n";
@@ -1283,9 +1283,9 @@ namespace CS7056_AIToolKit
         }
         //----------------------------------------------------------------------------
 
-        private statePanel getStateFrom(int id)
+        private StatePanel getStateFrom(int id)
         {
-            foreach (statePanel sp in states)
+            foreach (StatePanel sp in states)
             {
                 if (sp.eventsList.Contains(id)) return sp;
             }
@@ -1305,7 +1305,7 @@ namespace CS7056_AIToolKit
 
             for (int i = 0; i < stateParts.Length; i++)
             {
-                states.Add(new statePanel(stateParts[i]));
+                states.Add(new StatePanel(stateParts[i]));
             }
 
 
@@ -1326,8 +1326,8 @@ namespace CS7056_AIToolKit
                     //Debug.Log("EVENT="+eventParts[i]);
                     int id_ = int.Parse(s[1]);
                     string name_ = s[0];
-                    statePanel from_ = getStateFrom(id_);
-                    statePanel to_ = states[int.Parse(s[2])];
+                    StatePanel from_ = getStateFrom(id_);
+                    StatePanel to_ = states[int.Parse(s[2])];
 
                     EventConnection ec = new EventConnection(from_, to_);
                     ec.eventName = name_;

@@ -4,12 +4,12 @@ namespace CS7056_AIToolKit
 {
     public class EventConnection
     {
-        public EventConnection(statePanel start, statePanel end)
+        public EventConnection(StatePanel start, StatePanel end)
         {
             from = start;
             to = end;
         }
-        public EventConnection(statePanel start)
+        public EventConnection(StatePanel start)
         {
             from = start;
         }
@@ -17,8 +17,8 @@ namespace CS7056_AIToolKit
 
 
 
-        public statePanel from;
-        public statePanel to;
+        public StatePanel from;
+        public StatePanel to;
 
         public Vector2 fromPT;
         public Vector2 toPT;

@@ -18,7 +18,7 @@ namespace CS7056_AIToolKit
 
 
     //---------------------------------------------------------------------------------
-    public class statePanel
+    public class StatePanel
     {
         public List<EndPoint> panelEndPoints;
         public List<int> eventsList = new List<int>();
@@ -35,7 +35,7 @@ namespace CS7056_AIToolKit
         //200 X 150
         //name,id,events,locationX,locationY
         //state,   0,  ,212,283
-        public statePanel(string line)
+        public StatePanel(string line)
         {
             string[] s = line.Split(',');
             stateName = s[0];
@@ -61,7 +61,7 @@ namespace CS7056_AIToolKit
         }
 
         //---------------------------------------------------------------------------------
-        public statePanel(Rect currentLocation, string newName)
+        public StatePanel(Rect currentLocation, string newName)
         {
             panelEndPoints = new List<EndPoint>();
             location = currentLocation;

@@ -7,14 +7,16 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{27D5E6A2-E45F-91CF-059C-8CE1B183046D}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <AssemblyName>Assembly-CSharp-Editor</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Full v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
     <UnityProjectType>Editor:5</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>4.6.1f1</UnityVersion>
@@ -108,7 +110,7 @@
     <Compile Include="Assets\Outpost\Pathfinding Engine\Scripts\Editor\PathFindingSolverEditor.cs" />
     <Compile Include="Assets\Toon_Level_Kit\TLK-Medias\Scripts\Editor\ButterflyInspector.cs" />
     <Compile Include="Assets\Toon_Level_Kit\TLK-Medias\Scripts\Editor\MaxAtlasSize.cs" />
-    <Compile Include="Assets\stateMachine\Editor\editorFSM.cs" />
+    <Compile Include="Assets\stateMachine\Editor\FSMEditor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\AstarPathfindingProject\Editor\EditorAssets\Materials\Navmesh2.shader" />

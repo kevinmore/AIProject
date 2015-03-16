@@ -69,12 +69,12 @@ namespace CS7056_AIToolKit
         /// </summary>
         /// <returns>The state call backs.</returns>
         /// <param name="states">States.</param>
-        public static string sectionStateCallBacks(List<statePanel> states)
+        public static string sectionStateCallBacks(List<StatePanel> states)
         {
             string line = "";
             string devider = "//.......................................................................\n";
 
-            foreach (statePanel sp in states)
+            foreach (StatePanel sp in states)
             {
                 line = line + devider + "//" + sp.stateDiscription +
                     "\nprivate void Entered_State_" + sp.stateName + " ()\n  {\n Debug.Log(\"Entered State " + sp.stateName + "\");  \n   //state entered handling code goes here\n\n  }\n" + devider + "\n\n\n";
@@ -111,7 +111,7 @@ namespace CS7056_AIToolKit
         /// <param name="controllerName">Controller name.</param>
         /// <param name="definitionFileName">Definition file name.</param>
         /// <param name="states">States.</param>
-        public static string makeFileUsing(string controllerName, string definitionFileName, List<statePanel> states)
+        public static string makeFileUsing(string controllerName, string definitionFileName, List<StatePanel> states)
         {
             return sectionHeader(controllerName) +
                    sectionStartAndUpdate(definitionFileName) +

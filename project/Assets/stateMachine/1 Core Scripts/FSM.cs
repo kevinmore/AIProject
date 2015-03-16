@@ -6,8 +6,6 @@ namespace CS7056_AIToolKit
 {
     public class FSM : object
     {
-
-
         private List<State> states;
         private List<FSMEvent> events;
         private List<Attribute> attributes;
@@ -27,7 +25,6 @@ namespace CS7056_AIToolKit
         /// <param name="line">Line.</param>
         public FSM(string line)
         {
-
             //get rid of extra formating used to make human readable text file
             line = line.Replace(" ", "");
             line = stripComments(line.Split('\n'));

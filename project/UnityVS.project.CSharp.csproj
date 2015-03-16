@@ -185,6 +185,7 @@
     <Compile Include="Assets\stateMachine\4 Helper Statics\HelperFile.cs" />
     <Compile Include="Assets\stateMachine\4 Helper Statics\HelperFormater.cs" />
     <Compile Include="Assets\stateMachine\4 Helper Statics\HelperGraphics.cs" />
+    <Compile Include="Assets\stateMachine\Controllers\bobController.cs" />
     <Compile Include="Assets\stateMachine\Controllers\carController.cs" />
     <Compile Include="Assets\stateMachine\Controllers\gameController.cs" />
     <Compile Include="Assets\stateMachine\Controllers\lightController.cs" />
@@ -204,9 +205,11 @@
     <None Include="Assets\AstarPathfindingProject\Plugins\JsonFx\Readme.txt" />
     <None Include="Assets\AstarPathfindingProject\Readme.txt" />
     <None Include="Assets\AstarPathfindingProject\Readme_upgrading.txt" />
+    <None Include="Assets\fantasy horde_vilagers\shader\Compressed MaskedShader2sided 5-4 cut out.shader" />
     <None Include="Assets\Outpost\Standard Assets\Water (Basic)\Sources\Shaders\FX-Water Simple.shader" />
     <None Include="Assets\Standard Assets\Particles\Sources\Shaders\Particle Alpha Blend (Queue +100).shader" />
     <None Include="Assets\stateMachine\readme.txt" />
+    <None Include="Assets\stateMachine\Resources\bobFSM.txt" />
     <None Include="Assets\stateMachine\Resources\carFSM.txt" />
     <None Include="Assets\stateMachine\Resources\gameControllerFSM.txt" />
     <None Include="Assets\stateMachine\Resources\lightFSM.txt" />

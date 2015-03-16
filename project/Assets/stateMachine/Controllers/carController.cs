@@ -1,4 +1,4 @@
-using FSM_NS;
+using CS7056_AIToolKit;
 using UnityEngine;
 using System.Collections;
 
@@ -15,8 +15,8 @@ public class carController: stateController ,stateControllerInterface
 
 void Start ()
   {
-    string pushString = FSM_NS.HelperFile.getTextFileFromResource("carFSM");
-    myStateMachine = new FSM_NS.FSM(pushString,this);
+    string pushString = HelperFile.getTextFileFromResource("carFSM");
+    myStateMachine = new FSM(pushString,this);
     myStateMachine.jumpToState(startStateID);
 	moveVector    =Vector3.forward*speed;
   }

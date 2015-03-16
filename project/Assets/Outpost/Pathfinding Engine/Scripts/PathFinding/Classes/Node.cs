@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace CS7056_AIToolKit
 {
-    public enum State { Clear, Open, Close };
+    public enum NodeState { Clear, Open, Close };
 
     /// <summary>
     /// Node Class to represent a Node in the A* Grid
@@ -21,7 +21,7 @@ namespace CS7056_AIToolKit
         public float G;
         public float H;
         public float F;
-        public State state = State.Clear;
+        public NodeState state = NodeState.Clear;
 
         public Node() { }
 
@@ -32,7 +32,7 @@ namespace CS7056_AIToolKit
 
         public void Reset()
         {
-            state = State.Clear;
+            state = NodeState.Clear;
             parent = null;
         }
 

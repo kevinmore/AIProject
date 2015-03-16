@@ -1,4 +1,4 @@
-using FSM_NS;
+using CS7056_AIToolKit;
 using UnityEngine;
 using System.Collections;
 
@@ -11,8 +11,8 @@ private Animator ani;
 void Start ()
   {
     ani=GetComponent<Animator>();
-    string pushString = FSM_NS.HelperFile.getTextFileFromResource("walkerFSM");
-    myStateMachine    = new FSM_NS.FSM(pushString,this);
+    string pushString = HelperFile.getTextFileFromResource("walkerFSM");
+    myStateMachine    = new FSM(pushString,this);
 	currentState      =	myStateMachine.state.name;
 		moveVector    =Vector3.forward*speed;
 	//new Vector3(gameObject.transform.position.x,gameObject.transform.position.y,gameObject.transform.position.z);

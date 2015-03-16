@@ -309,20 +309,20 @@ namespace CS7056_AIToolKit
             while (true)
             {
                 heap.closeList.Add(node);
-                node.state = State.Close;
+                node.state = NodeState.Close;
 
                 for (int i = 0; i < node.neighbourNodes.Length; i++)
                 {
                     if (node.neighbourNodes[i].walkable)
                     {
-                        if (node.neighbourNodes[i].state == State.Clear)
+                        if (node.neighbourNodes[i].state == NodeState.Clear)
                         {
                             node.neighbourNodes[i].G = node.G + node.neighbourNodes[i].cost;
                             node.neighbourNodes[i].H = Vector3.Distance(node.neighbourNodes[i].pos, agent.endNode.pos);
                             node.neighbourNodes[i].F = node.neighbourNodes[i].G + node.neighbourNodes[i].H;
                             node.neighbourNodes[i].parent = node;
                         }
-                        else if (node.neighbourNodes[i].state == State.Open)
+                        else if (node.neighbourNodes[i].state == NodeState.Open)
                         {
                             float tempG = node.G + node.neighbourNodes[i].cost;
                             if (node.neighbourNodes[i].G > tempG)
@@ -336,9 +336,9 @@ namespace CS7056_AIToolKit
                 }
                 foreach (Node neighbour in node.neighbourNodes)
                 {
-                    if (neighbour.state == State.Clear && neighbour.walkable)
+                    if (neighbour.state == NodeState.Clear && neighbour.walkable)
                     {
-                        neighbour.state = State.Open;
+                        neighbour.state = NodeState.Open;
                         heap.Configure(Heap.Operation.Insert, neighbour);
                     }
                 }

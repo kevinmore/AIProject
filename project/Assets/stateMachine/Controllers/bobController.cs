@@ -1,4 +1,4 @@
-using FSM_NS;
+using CS7056_AIToolKit;
 using UnityEngine;
 using System.Collections;
 
@@ -6,8 +6,8 @@ public class bobController: stateController ,stateControllerInterface
 {
 void Start ()
   {
-    string pushString = FSM_NS.HelperFile.getTextFileFromResource("bobFSM");
-    myStateMachine = new FSM_NS.FSM(pushString,this);
+      string pushString = HelperFile.getTextFileFromResource("bobFSM");
+    myStateMachine = new FSM(pushString,this);
 
 myStateMachine.jumpToState(startStateID);
    }

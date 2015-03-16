@@ -1,4 +1,4 @@
-using FSM_NS;
+using CS7056_AIToolKit;
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
@@ -18,8 +18,8 @@ void Start ()
 	listners=new List<GameObject>();
 	yellowLight.SetActive(false);
 	greenLight.SetActive(false);
-    string pushString = FSM_NS.HelperFile.getTextFileFromResource("lightFSM");
-    myStateMachine = new FSM_NS.FSM(pushString,this);
+    string pushString = HelperFile.getTextFileFromResource("lightFSM");
+    myStateMachine = new FSM(pushString,this);
 	myStateMachine.jumpToState(startStateID);
   }
 

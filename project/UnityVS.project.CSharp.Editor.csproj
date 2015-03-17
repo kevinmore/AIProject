@@ -85,21 +85,21 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Outpost\Pathfinding Engine\Scripts\Editor\PathFindingSolverEditor.cs" />
+    <Compile Include="Assets\CS7056_AIToolKit\FiniteStateMachine\Scripts\Editor\FSMEditor.cs" />
+    <Compile Include="Assets\CS7056_AIToolKit\Pathfinding Engine\Scripts\Editor\PathFindingSolverEditor.cs" />
     <Compile Include="Assets\Toon_Level_Kit\TLK-Medias\Scripts\Editor\ButterflyInspector.cs" />
     <Compile Include="Assets\Toon_Level_Kit\TLK-Medias\Scripts\Editor\MaxAtlasSize.cs" />
-    <Compile Include="Assets\stateMachine\Editor\FSMEditor.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\CS7056_AIToolKit\FiniteStateMachine\readme.txt" />
+    <None Include="Assets\CS7056_AIToolKit\Resources\carFSM.txt" />
+    <None Include="Assets\CS7056_AIToolKit\Resources\gameControllerFSM.txt" />
+    <None Include="Assets\CS7056_AIToolKit\Resources\lightFSM.txt" />
+    <None Include="Assets\CS7056_AIToolKit\Resources\testFSM.txt" />
+    <None Include="Assets\CS7056_AIToolKit\Resources\walkerFSM.txt" />
+    <None Include="Assets\CS7056_AIToolKit\Standard Assets\Water (Basic)\Sources\Shaders\FX-Water Simple.shader" />
     <None Include="Assets\fantasy horde_vilagers\shader\Compressed MaskedShader2sided 5-4 cut out.shader" />
-    <None Include="Assets\Outpost\Standard Assets\Water (Basic)\Sources\Shaders\FX-Water Simple.shader" />
     <None Include="Assets\Standard Assets\Particles\Sources\Shaders\Particle Alpha Blend (Queue +100).shader" />
-    <None Include="Assets\stateMachine\readme.txt" />
-    <None Include="Assets\stateMachine\Resources\carFSM.txt" />
-    <None Include="Assets\stateMachine\Resources\gameControllerFSM.txt" />
-    <None Include="Assets\stateMachine\Resources\lightFSM.txt" />
-    <None Include="Assets\stateMachine\Resources\testFSM.txt" />
-    <None Include="Assets\stateMachine\Resources\walkerFSM.txt" />
     <None Include="Assets\Toon_Level_Kit\Documentation\Readme.txt" />
     <None Include="Assets\Toon_Level_Kit\TLK-Medias\Materials\GlassTypeA.shader" />
     <None Include="Assets\Toon_Level_Kit\TLK-Medias\Shaders\Glass.shader" />

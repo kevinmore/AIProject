@@ -14,10 +14,16 @@ public class PathFindingSolverEditor : Editor
     PathFindingSolver solver;
     bool showAreaSettings = true, showSolverSettings = true, showGizmosSettings = true;
 
+    private GUIStyle style;
+    private Color textColor;
+
     // Enables editor stuff
     public void OnEnable()
     {
         solver = target as PathFindingSolver;
+        textColor = new Color(.7f, .8f, .5f);
+        style.normal.textColor = textColor;
+        style.fontSize = 14;
     }
 
     // Draw the customized editor
@@ -25,8 +31,8 @@ public class PathFindingSolverEditor : Editor
     {
         int logoSize = 128;
         GUILayout.Box((Texture2D)Resources.Load("Editor/tcd"), GUILayout.Width(logoSize), GUILayout.Height(logoSize));
-        GUILayout.Label("Path Finding Solver");
-        GUILayout.Label("- Huanxiang Wang 14333168");
+        GUILayout.Label("Path Finding Solver", style);
+        GUILayout.Label("- Huanxiang Wang 14333168", style);
         EditorGUILayout.LabelField("");
 
         SceneView.RepaintAll();

@@ -3,7 +3,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class lightController: stateController ,stateControllerInterface 
+public class lightController: StateController ,StateControllerInterface 
 {
 
   public  GameObject redLight;
@@ -18,8 +18,8 @@ void Start ()
 	listners=new List<GameObject>();
 	yellowLight.SetActive(false);
 	greenLight.SetActive(false);
-    string pushString = HelperFile.getTextFileFromResource("lightFSM");
-    myStateMachine = new FSM(pushString,this);
+    string pushString = CS7056_AIToolKit.HelperFile.getTextFileFromResource("lightFSM");
+    myStateMachine = new CS7056_AIToolKit.FSM(pushString,this);
 	myStateMachine.jumpToState(startStateID);
   }
 

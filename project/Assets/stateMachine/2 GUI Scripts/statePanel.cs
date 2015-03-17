@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 
-
 namespace CS7056_AIToolKit
 {
     public class EndPoint

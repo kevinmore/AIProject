@@ -3,7 +3,7 @@ using System.Collections;
 
 namespace CS7056_AIToolKit
 {
-    public abstract class stateController : MonoBehaviour
+    public abstract class StateController : MonoBehaviour
     {
         public FSM myStateMachine;
         public string currentState;

@@ -4,14 +4,16 @@ using System.Collections.Generic;
 //--------------------------------------------------------------------
 namespace CS7056_AIToolKit
 {
-    public class FSM
+    public class FSM 
     {
+
+
         private List<State> states;
         private List<FSMEvent> events;
         private List<Attribute> attributes;
         public static int stateCount = 0;
         public static int actionCount = 0;
-        public stateControllerInterface target;
+        public StateControllerInterface target;
         private State currentState;
         private string definition;
 
@@ -20,11 +22,12 @@ namespace CS7056_AIToolKit
 
         //------------------------------------------------------------------
         /// <summary>
-        /// Initializes a new instance of the <see cref="FSM_NS.FSM"/> class.
+        /// Initializes a new instance of the <see cref="CS7056_AIToolKit.FSM"/> class.
         /// </summary>
         /// <param name="line">Line.</param>
         public FSM(string line)
         {
+
             //get rid of extra formating used to make human readable text file
             line = line.Replace(" ", "");
             line = stripComments(line.Split('\n'));
@@ -53,11 +56,11 @@ namespace CS7056_AIToolKit
 
         //-----------------------------------------------------------------
         /// <summary>
-        /// Initializes a new instance of the <see cref="FSM_NS.FSM"/> class.
+        /// Initializes a new instance of the <see cref="CS7056_AIToolKit.FSM"/> class.
         /// </summary>
         /// <param name="line">Line.</param>
         /// <param name="target_">Target_.</param>
-        public FSM(string line, stateControllerInterface target_)
+        public FSM(string line, StateControllerInterface target_)
         {
 
             target = target_;
@@ -78,7 +81,7 @@ namespace CS7056_AIToolKit
         /// <param name="line">Line.</param>
         /// <param name="target_">Target_.</param>
         /// <param name="currentStateID">Current state I.</param>
-        public FSM(string line, stateControllerInterface target_, int currentStateID)
+        public FSM(string line, StateControllerInterface target_, int currentStateID)
         {
             target = target_;
             line = line.Replace(" ", "");

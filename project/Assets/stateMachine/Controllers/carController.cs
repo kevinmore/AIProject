@@ -2,7 +2,7 @@ using CS7056_AIToolKit;
 using UnityEngine;
 using System.Collections;
 
-public class carController: stateController ,stateControllerInterface 
+public class carController: StateController ,StateControllerInterface 
 {
 
 //public lightController theStopLight;
@@ -15,8 +15,8 @@ public class carController: stateController ,stateControllerInterface
 
 void Start ()
   {
-    string pushString = HelperFile.getTextFileFromResource("carFSM");
-    myStateMachine = new FSM(pushString,this);
+    string pushString = CS7056_AIToolKit.HelperFile.getTextFileFromResource("carFSM");
+    myStateMachine = new CS7056_AIToolKit.FSM(pushString,this);
     myStateMachine.jumpToState(startStateID);
 	moveVector    =Vector3.forward*speed;
   }

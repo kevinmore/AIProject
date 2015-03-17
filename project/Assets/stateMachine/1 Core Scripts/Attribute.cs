@@ -2,6 +2,8 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
+
+
 namespace CS7056_AIToolKit
 {
     public class Attribute
@@ -12,7 +14,7 @@ namespace CS7056_AIToolKit
 
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FSM_NS.Attribute"/> class.
+        /// Initializes a new instance of the <see cref="CS7056_AIToolKit.Attribute"/> class.
         /// </summary>
         /// <param name="line">Line.</param>
         public Attribute(string line)

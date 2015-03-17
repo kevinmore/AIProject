@@ -20,7 +20,7 @@ namespace CS7056_AIToolKit
             string line0 = "using UnityEngine;\n";
             string line1 = "using System.Collections;\n\n";
             string line2 = "using CS7056_AIToolKit;\n";
-            string line3 = "public class " + controllerName + ": stateController, stateControllerInterface \n{\n";
+            string line3 = "public class " + controllerName + ": StateController ,stateControllerInterface \n{\n";
 
             return line0 + line1 + line2 + line3;
 
@@ -48,12 +48,12 @@ namespace CS7056_AIToolKit
         /// <param name="definationFile">Defination file.</param>
         public static string sectionStartAndUpdate(string definationFile)
         {
-            string line1 = "    void Start ()\n" +
+            string line1 = "void Start ()\n" +
                           "  {\n" +
                                sectionLoadFSM(definationFile) +
                         "\nmyStateMachine.jumpToState(startStateID);\n " +
                          "  }\n\n";
-            string line2 = "    void Update () \n  {\n//Your code here\n\n" +
+            string line2 = "void Update () \n  {\n//Your code here\n\n" +
                     "superUpdate();\n" + "\n  }\n\n";
 
 

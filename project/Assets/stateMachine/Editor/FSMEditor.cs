@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
+
+
 //---------------------------------------------------------------------------------
 
 
@@ -35,7 +37,7 @@ namespace CS7056_AIToolKit
         public StatePanel startStateSelected;
         public StatePanel endStateSelected;
         private string currentState = "";
-        public stateController currentStateController;
+        public StateController currentStateController;
 
         bool dragging_ = false;
         bool dirty = false;
@@ -191,7 +193,7 @@ namespace CS7056_AIToolKit
                 GameObject sco = (GameObject)source;
                 if (sco != null)
                 {
-                    stateController sc = sco.GetComponent<stateController>();
+                    StateController sc = sco.GetComponent<StateController>();
                     if (sc.myStateMachine != null)
                     {
                         if (sc.myStateMachine.state != null)
@@ -352,7 +354,7 @@ namespace CS7056_AIToolKit
             GUILayout.BeginArea(new Rect(point.x, point.y + 175, 100, 50));
             if (GUILayout.Button("Build Controller"))
             {
-                if (controllerName == "stateController") controllerName = controllerName + "1";
+                if (controllerName == "StateController") controllerName = controllerName + "1";
                 Debug.Log("Make Controller: " + Application.dataPath + "/" + controllerName);
                 save();
                 HelperFile.saveToFile(Application.dataPath + "/stateMachine/Controllers/" + controllerName + ".cs", HelperFormater.makeFileUsing(controllerName, filename, states));
@@ -401,7 +403,7 @@ namespace CS7056_AIToolKit
                     PlayerPrefs.SetString("target", source.name);
                     PlayerPrefs.Save();
                     GameObject o = (GameObject)source;
-                    stateController tempSC = o.GetComponent<stateController>();
+                    StateController tempSC = o.GetComponent<StateController>();
                     if (tempSC != null)
                     {
                         controllerName = getShortName(tempSC.ToString());
@@ -1093,17 +1095,17 @@ namespace CS7056_AIToolKit
             float arrowSize = 17;
             Rect arrowRect = new Rect(endPos.x - arrowSize / 2, endPos.y - arrowSize / 2, arrowSize, arrowSize);
             if (currentNodeLocation == nodeLocation.bottom)
-                arrow = (Texture2D)Resources.Load("arrowDown", typeof(Texture2D));
+                arrow = (Texture2D)Resources.Load("Editor/arrowDown", typeof(Texture2D));
 
             else
                 if (currentNodeLocation == nodeLocation.top)
-                    arrow = (Texture2D)Resources.Load("arrowUp", typeof(Texture2D));
+                    arrow = (Texture2D)Resources.Load("Editor/arrowUp", typeof(Texture2D));
                 else
                     if (currentNodeLocation == nodeLocation.left)
-                        arrow = (Texture2D)Resources.Load("arrowLeft", typeof(Texture2D));
+                        arrow = (Texture2D)Resources.Load("Editor/arrowLeft", typeof(Texture2D));
                     else
 
-                        arrow = (Texture2D)Resources.Load("arrowRight", typeof(Texture2D));
+                        arrow = (Texture2D)Resources.Load("Editor/arrowRight", typeof(Texture2D));
 
 
             //GUIUtility.RotateAroundPivot(20,new Vector2(0,0));
@@ -1355,6 +1357,5 @@ namespace CS7056_AIToolKit
 
             Repaint();
         }
-
     }
 }

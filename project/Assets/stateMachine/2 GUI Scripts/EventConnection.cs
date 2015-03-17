@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+
 namespace CS7056_AIToolKit
 {
     public class EventConnection

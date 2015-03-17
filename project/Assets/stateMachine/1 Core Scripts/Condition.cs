@@ -18,7 +18,7 @@ namespace CS7056_AIToolKit
 
         //-----------------------------------------------------------------------------
         /// <summary>
-        /// Initializes a new instance of the <see cref="FSM_NS.Condition"/> class.
+        /// Initializes a new instance of the <see cref="CS7056_AIToolKit.Condition"/> class.
         /// </summary>
         public Condition()
         {
@@ -42,7 +42,7 @@ namespace CS7056_AIToolKit
 
         //-----------------------------------------------------------------------------
         /// <summary>
-        /// Initializes a new instance of the <see cref="FSM_NS.Condition"/> class.
+        /// Initializes a new instance of the <see cref="CS7056_AIToolKit.Condition"/> class.
         /// </summary>
         /// <param name="a">The alpha component.</param>
         /// <param name="Attributes">Attributes.</param>
@@ -124,7 +124,7 @@ namespace CS7056_AIToolKit
 
         //-----------------------------------------------------------------------------
         /// <summary>
-        /// Gets a value indicating whether this <see cref="FSM_NS.Condition"/> is true.
+        /// Gets a value indicating whether this <see cref="CS7056_AIToolKit.Condition"/> is true.
         /// </summary>
         /// <value><c>true</c> if true; otherwise, <c>false</c>.</value>
         public bool True

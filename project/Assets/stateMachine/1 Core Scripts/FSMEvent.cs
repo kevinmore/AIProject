@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+
 namespace CS7056_AIToolKit
 {
     public class FSMEvent
@@ -17,7 +18,7 @@ namespace CS7056_AIToolKit
 
         ///--------------------------------------------------------------------
         /// <summary>
-        /// Initializes a new instance of the <see cref="FSM_NS.FSMEvent"/> class.
+        /// Initializes a new instance of the <see cref="CS7056_AIToolKit.FSMEvent"/> class.
         /// </summary>
         public FSMEvent()
         {

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEditor;
+
 namespace CS7056_AIToolKit
 {
     public static class HelperFile

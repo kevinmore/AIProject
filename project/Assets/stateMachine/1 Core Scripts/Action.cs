@@ -21,7 +21,7 @@ namespace CS7056_AIToolKit
 
         //--------------------------------------------------------
         /// <summary>
-        /// Initializes a new instance of the <see cref="FSM_NS.Action"/> class.
+        /// Initializes a new instance of the <see cref="CS7056_AIToolKit.Action"/> class.
         /// </summary>
         public Action()
         {
@@ -33,7 +33,7 @@ namespace CS7056_AIToolKit
 
         //--------------------------------------------------------------------	
         /// <summary>
-        /// Initializes a new instance of the <see cref="FSM_NS.Action"/> class.
+        /// Initializes a new instance of the <see cref="CS7056_AIToolKit.Action"/> class.
         /// </summary>
         /// <param name="a">The alpha component.</param>
         /// <param name="Attributes">Attributes.</param>

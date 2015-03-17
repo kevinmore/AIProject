@@ -1,16 +1,16 @@
-using FSM_NS;
+using CS7056_AIToolKit;
 using UnityEngine;
 using System.Collections;
 
-public class gameController: stateController ,stateControllerInterface 
+public class gameController: StateController ,StateControllerInterface 
 {
 
  public GameObject target;
 
 void Start ()
   {
-    string pushString = FSM_NS.HelperFile.getTextFileFromResource("gameControllerFSM");
-    myStateMachine = new FSM_NS.FSM(pushString,this);
+    string pushString = CS7056_AIToolKit.HelperFile.getTextFileFromResource("gameControllerFSM");
+    myStateMachine = new CS7056_AIToolKit.FSM(pushString,this);
 
     myStateMachine.jumpToState(startStateID);
    }

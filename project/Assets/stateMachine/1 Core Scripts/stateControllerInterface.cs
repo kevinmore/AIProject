@@ -2,9 +2,10 @@ using UnityEngine;
 using System.Collections;
 
 
-public interface StateControllerInterface 
+public interface stateControllerInterface 
 {
-    void enteredState(string stateName);
-	void leftState(string stateName);
-	void tickFired();
+    void enteredState (string stateName);
+	 void leftState    (string stateName);
+	 void tickFired();
+   
 }

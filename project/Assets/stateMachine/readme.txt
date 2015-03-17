@@ -86,7 +86,7 @@ examples:
     old=true
     radius=3.1415
 
-In your controller file (inherets from Abstract Class StateController)
+In your controller file (inherets from Abstract Class stateController)
 
 To send an event to the state machine use: 
    eventToFSM = "stateName";

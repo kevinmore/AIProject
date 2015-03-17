@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 
 namespace CS7056_AIToolKit
 {
-    public class Condition
+    public class Condition : object
     {
 
         //if left <|>|= right

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace CS7056_AIToolKit
 {
-    public class Attribute
+    public class Attribute : object
     {
         public string name;
         public string value;

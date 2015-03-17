@@ -4,7 +4,7 @@ using UnityEditor;
 
 namespace CS7056_AIToolKit
 {
-    public static class HelperFile
+    public static class HelperFile : object
     {
 
         //------------------------------------------------------

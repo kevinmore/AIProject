@@ -3,9 +3,8 @@ using System.Collections;
 
 namespace CS7056_AIToolKit
 {
-    public static class HelperGraphics
+    public static class HelperGraphics : object
     {
-
         // Use this for initialization
         public static float angle(Vector2 start, Vector2 end)
         {

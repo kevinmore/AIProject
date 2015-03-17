@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace CS7056_AIToolKit
 {
-    public class Action
+    public class Action : object
     {
 
 

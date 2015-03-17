@@ -4,7 +4,7 @@ using System.Collections.Generic;
 //--------------------------------------------------------------------
 namespace CS7056_AIToolKit
 {
-    public class FSM 
+    public class FSM : object
     {
 
 

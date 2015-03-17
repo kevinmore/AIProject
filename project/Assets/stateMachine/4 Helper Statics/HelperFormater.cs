@@ -4,11 +4,8 @@ using System.Collections.Generic;
 
 namespace CS7056_AIToolKit
 {
-    public static class HelperFormater
+    public static class HelperFormater : object
     {
-
-
-
         //----------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// header section

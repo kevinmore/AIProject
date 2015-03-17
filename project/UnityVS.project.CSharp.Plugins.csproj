@@ -59,11 +59,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\CS7056_AIToolKit\FiniteStateMachine\readme.txt" />
-    <None Include="Assets\CS7056_AIToolKit\Resources\carFSM.txt" />
-    <None Include="Assets\CS7056_AIToolKit\Resources\gameControllerFSM.txt" />
-    <None Include="Assets\CS7056_AIToolKit\Resources\lightFSM.txt" />
-    <None Include="Assets\CS7056_AIToolKit\Resources\testFSM.txt" />
-    <None Include="Assets\CS7056_AIToolKit\Resources\walkerFSM.txt" />
+    <None Include="Assets\CS7056_AIToolKit\Resources\FSM\carFSM.txt" />
+    <None Include="Assets\CS7056_AIToolKit\Resources\FSM\gameControllerFSM.txt" />
+    <None Include="Assets\CS7056_AIToolKit\Resources\FSM\lightFSM.txt" />
+    <None Include="Assets\CS7056_AIToolKit\Resources\FSM\testControllerFSM.txt" />
+    <None Include="Assets\CS7056_AIToolKit\Resources\FSM\walkerFSM.txt" />
     <None Include="Assets\CS7056_AIToolKit\Standard Assets\Water (Basic)\Sources\Shaders\FX-Water Simple.shader" />
     <None Include="Assets\fantasy horde_vilagers\shader\Compressed MaskedShader2sided 5-4 cut out.shader" />
     <None Include="Assets\Standard Assets\Particles\Sources\Shaders\Particle Alpha Blend (Queue +100).shader" />

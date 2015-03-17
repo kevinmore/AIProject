@@ -25,7 +25,7 @@ public class PathFindingSolverEditor : Editor
     {
         int logoSize = 128;
         GUILayout.Box((Texture2D)Resources.Load("Editor/tcd"), GUILayout.Width(logoSize), GUILayout.Height(logoSize));
-        GUILayout.Label("CS7056 Path Finding Solver");
+        GUILayout.Label("Path Finding Solver");
         GUILayout.Label("- Huanxiang Wang 14333168");
         EditorGUILayout.LabelField("");
 

@@ -63,7 +63,7 @@ namespace CS7056_AIToolKit
         private string eventCondition = "";
         private string eventAction = "";
         private string filename = "mainFSM";
-        private string resourcesDirectory = "/CS7056_AIToolKit/Resources";
+        private string resourcesDirectory = "/CS7056_AIToolKit/Resources/FSM";
         private string controllerName = "appStateController";
         private Color darkGray = new Color(.02f, .02f, .02f, 1);
 
@@ -91,17 +91,16 @@ namespace CS7056_AIToolKit
         private static bool justRecompiled;
 
         //---------------------------------------------------------------------------------
-        [MenuItem("Window/Tools/FSMWindow")]
+        [MenuItem("Finite State Machine/Designer")]
         private static void showEditor()
         {
-
-            EditorWindow.GetWindow<FSMEditor>(false, "State-Based Controller", true);
+            EditorWindow.GetWindow<FSMEditor>(false, "FSM Designer", true);
         }
         //---------------------------------------------------------------------------------
 
 
         //---------------------------------------------------------------------------------
-        [MenuItem("Window/Tools/FSMWindow", true)]
+        [MenuItem("Finite State Machine/Designer", true)]
         private static bool showEditorValidator()
         {
             return true;
@@ -223,7 +222,6 @@ namespace CS7056_AIToolKit
         //----------------------------------------------------------------------------
         void attributeInputBox(Rect frame, float boarder)
         {
-
             HelperEditor.DrawColorBox(new Rect(frame.x - boarder, frame.y - boarder, frame.width + boarder * 2, frame.height + boarder * 2), Color.gray, "");
             HelperEditor.DrawColorBox(frame, new Color(.15f, .15f, .15f), "Attributes");
             float lChunk = 25;
@@ -279,8 +277,36 @@ namespace CS7056_AIToolKit
         }
         //----------------------------------------------------------------------------
 
+        /// <summary>
+        /// Save the FSM to a text file
+        /// </summary>
+        private void saveFSM()
+        {
+            Debug.Log(("SAVE FSM " + Application.dataPath + resourcesDirectory));
+            save();
+            HelperFile.saveToFile(Application.dataPath + resourcesDirectory + "/" + filename + ".txt", getFSMString());
+
+            //AssetDatabase.ImportAsset(Application.dataPath + resourcesDirectory+"/"+filename+".txt");
+            //loadFSM(HelperFile.getTextFileFromResource(filename));
+            Repaint();
+        }
+
+        /// <summary>
+        /// Load the FSM from a text file
+        /// </summary>
+        private void loadFSM()
+        {
+            Debug.Log(("LOAD FSM " + Application.dataPath + resourcesDirectory));
+            save();
+            //HelperFile.saveToFile(Application.dataPath + resourcesDirectory+"/"+filename+".txt",getFSMString());
+
+            string filestring = HelperFile.getTextFileFromResource(filename);
+            //filestring = EditorGUILayout.ObjectField(filestring,typeof(object), true);
 
 
+            if (filestring.Length > 3)
+                loadFSM(filestring);
+        }
 
         //----------------------------------------------------------------------------
         /// <summary>
@@ -297,64 +323,99 @@ namespace CS7056_AIToolKit
         }
         //----------------------------------------------------------------------------
 
+        void logoPanel()
+        {
+            Vector2 point = new Vector2(10, 20);
 
+            GUIStyle style = new GUIStyle();
+            style.normal.textColor = new Color(.7f, .8f, .5f);
+
+            HelperEditor.DrawColorBox(new Rect(point.x - 7, point.y - 7, 204, 86), Color.gray);
+            HelperEditor.DrawColorBox(new Rect(point.x - 5, point.y - 5, 200, 82), new Color(.15f, .15f, .15f));
+
+            GUILayout.BeginArea(new Rect(point.x, point.y, 200, 84));
+            GUI.Label(new Rect(0, 0, 64, 64), (Texture2D)Resources.Load("Editor/tcd"));
+            GUI.Label(new Rect(point.x + 50, point.y, 200, 30), "Finite State Machine", style);
+            GUI.Label(new Rect(point.x, point.y + 40, 200, 30), "- Huanxiang Wang 14333168", style);
+            GUILayout.EndArea();
+        }
 
 
         //----------------------------------------------------------------------------
         void fileControlPanel(Vector2 point)
         {
-            HelperEditor.DrawColorBox(new Rect(point.x - 7, point.y - 7, 204, 274), Color.gray);
-            HelperEditor.DrawColorBox(new Rect(point.x - 5, point.y - 5, 200, 270), new Color(.15f, .15f, .15f));
+            HelperEditor.DrawColorBox(new Rect(point.x - 7, point.y - 7, 204, 124), Color.gray);
+            HelperEditor.DrawColorBox(new Rect(point.x - 5, point.y - 5, 200, 120), new Color(.15f, .15f, .15f));
 
-            GUI.Label(new Rect(point.x, point.y, 150, 20), "Resource Directory");
-            resourcesDirectory = GUI.TextField(new Rect(point.x, point.y + 20, 180, 20), resourcesDirectory);
+//             GUI.Label(new Rect(point.x, point.y, 150, 20), "Resource Directory");
+//             resourcesDirectory = GUI.TextField(new Rect(point.x, point.y + 20, 180, 20), resourcesDirectory);
 
-            GUI.Label(new Rect(point.x, point.y + 45, 200, 20), "Resource Filename");
-            filename = GUI.TextField(new Rect(point.x, point.y + 65, 150, 20), filename);
+//             GUI.Label(new Rect(point.x, point.y, 200, 20), "Resource Filename");
+//             filename = GUI.TextField(new Rect(point.x, point.y + 20, 150, 20), filename);
 
 
+//             GUILayout.BeginArea(new Rect(point.x, point.y + 45, 80, 50));
+//             if (GUILayout.Button("SAVE FSM"))
+//             {
+//                 saveFSM();
+//             }
+//             GUILayout.EndArea();
+// 
+//             GUILayout.BeginArea(new Rect(point.x + 100, point.y + 45, 80, 50));
+//             if (GUILayout.Button("LOAD FSM"))
+//             {
+//                 loadFSM();
+//             }
+//             GUILayout.EndArea();
 
+
+            string beforeSource = "";
+            if (source != null)
+            {
+                beforeSource = source.name;
+            }
+            GUI.Label(new Rect(point.x, point.y + 10, 155, 20), "Target");
+            GUILayout.BeginArea(new Rect(point.x + 50, point.y + 10, 135, 50));
+            source = EditorGUILayout.ObjectField(source, typeof(GameObject), true);
+            GUILayout.EndArea();
+            if (source != null && source.name != beforeSource)
+            {
+                PlayerPrefs.SetString("target", source.name);
+                PlayerPrefs.Save();
+                GameObject o = (GameObject)source;
+                StateController tempSC = o.GetComponent<StateController>();
+                if (tempSC != null)
+                {
+                    controllerName = getShortName(tempSC.ToString());
+                    filename = controllerName + "FSM";
+                    loadFSM();
+                    PlayerPrefs.SetString("controllerName", controllerName);
+                    PlayerPrefs.Save();
+                }
+                else
+                {
+                    controllerName = "";
+                    filename = "";
+                    reset();
+                }
+            }
+
+
+            GUI.Label(new Rect(point.x, point.y + 35, 200, 20), "Controller Name:");
+
+            controllerName = GUI.TextField(new Rect(point.x, point.y + 55, 180, 20), controllerName);
 
             GUILayout.BeginArea(new Rect(point.x, point.y + 90, 80, 50));
-            if (GUILayout.Button("SAVE FSM"))
-            {
-                Debug.Log(("SAVE FSM " + Application.dataPath + resourcesDirectory));
-                save();
-                HelperFile.saveToFile(Application.dataPath + resourcesDirectory + "/" + filename + ".txt", getFSMString());
-
-                //AssetDatabase.ImportAsset(Application.dataPath + resourcesDirectory+"/"+filename+".txt");
-                //loadFSM(HelperFile.getTextFileFromResource(filename));
-                Repaint();
-            }//
-            GUILayout.EndArea();
-
-            GUILayout.BeginArea(new Rect(point.x + 100, point.y + 90, 80, 50));
-            if (GUILayout.Button("LOAD FSM"))
-            {
-                Debug.Log(("LOAD FSM " + Application.dataPath + resourcesDirectory));
-                save();
-                //HelperFile.saveToFile(Application.dataPath + resourcesDirectory+"/"+filename+".txt",getFSMString());
-
-                string filestring = HelperFile.getTextFileFromResource(filename);
-                //filestring = EditorGUILayout.ObjectField(filestring,typeof(object), true);
-
-
-                if (filestring.Length > 3)
-                    loadFSM(filestring);
-
-            }
-            GUILayout.EndArea();
-
-
-
-            GUI.Label(new Rect(point.x, point.y + 130, 200, 20), "Controller name");
-
-            controllerName = GUI.TextField(new Rect(point.x, point.y + 150, 180, 20), controllerName);
-
-            GUILayout.BeginArea(new Rect(point.x, point.y + 175, 100, 50));
-            if (GUILayout.Button("Build Controller"))
+            if (GUILayout.Button("Build"))
             {
                 if (controllerName == "StateController") controllerName = controllerName + "1";
+                if (controllerName.Length == 0 && source != null)
+                {
+                    controllerName = source.name + "Controller";
+                }
+                filename = controllerName + "FSM";
+                saveFSM();
+
                 Debug.Log("Make Controller: " + Application.dataPath + "/" + controllerName);
                 save();
                 HelperFile.saveToFile(Application.dataPath + "/CS7056_AIToolKit/FiniteStateMachine/Controllers/" + controllerName + ".cs", HelperFormater.makeFileUsing(controllerName, filename, states));
@@ -388,35 +449,11 @@ namespace CS7056_AIToolKit
                 Repaint();
             }
             GUILayout.EndArea();
-            string beforeSource = "";
-            if (source != null)
-            {
-                beforeSource = source.name;
-            }
-            GUI.Label(new Rect(point.x, point.y + 210, 200, 20), "Target");
-            GUILayout.BeginArea(new Rect(point.x + 50, point.y + 210, 135, 50));
-            source = EditorGUILayout.ObjectField(source, typeof(GameObject), true);
-            GUILayout.EndArea();
-            if (source != null)
-                if (source.name != beforeSource)
-                {
-                    PlayerPrefs.SetString("target", source.name);
-                    PlayerPrefs.Save();
-                    GameObject o = (GameObject)source;
-                    StateController tempSC = o.GetComponent<StateController>();
-                    if (tempSC != null)
-                    {
-                        controllerName = getShortName(tempSC.ToString());
-                        PlayerPrefs.SetString("controllerName", controllerName);
-                        PlayerPrefs.Save();
-                    }
-                }
-            //
+            
 
-            GUILayout.BeginArea(new Rect(point.x, point.y + 240, 100, 50));
-            if (GUILayout.Button("Clear Screen"))
+            GUILayout.BeginArea(new Rect(point.x + 100, point.y + 90, 80, 50));
+            if (GUILayout.Button("Clear"))
             {
-
                 reset();
             }
             GUILayout.EndArea();
@@ -434,17 +471,12 @@ namespace CS7056_AIToolKit
         //-----------------------------------------------------------------------------
         void buttonPanel()
         {
-
-
-            fileControlPanel(new Vector2(10, 20));
-
-
+            fileControlPanel(new Vector2(10, 110));
 
             //stateInputBox(new Rect(10,10, 200, 180),2);
             //eventInputBox(new Rect(10,200, 200, 300),2);
 
-            attributeInputBox(new Rect(5, 300, 200, 280), 2);
-
+            attributeInputBox(new Rect(5, 233, 200, 280), 2);
         }
         //----------------------------------------------------------------------------
 
@@ -620,6 +652,7 @@ namespace CS7056_AIToolKit
 
             GUI.EndScrollView();
 
+            logoPanel();
             buttonPanel();
 
             eventMouseMaker();
@@ -662,7 +695,7 @@ namespace CS7056_AIToolKit
                 {
                     clickCounter++;
                     selectEvent(startPos);
-                    Debug.Log("Clicked" + clickCounter + "  " + Vector2.Distance(stopMousePos, lastClick));
+                    //Debug.Log("Clicked" + clickCounter + "  " + Vector2.Distance(stopMousePos, lastClick));
                     if (selectedEvent == null && clickCounter > 1)
                     {
                         clickCounter = 1;
@@ -1299,6 +1332,8 @@ namespace CS7056_AIToolKit
             reset();
             //string line = FSM.Replace(" ","");
             string line = HelperFormater.stripComments(FSM.Split('\n'));
+            if (line.Length == 0) return;
+
             string[] parts = line.Split('|');
 
             string[] stateParts = parts[0].Split(';');

@@ -10,7 +10,7 @@ namespace CS7056_AIToolKit
         //------------------------------------------------------
         public static string getTextFileFromResource(string filename)
         {
-            TextAsset textAsset = (TextAsset)Resources.Load(filename, typeof(TextAsset));
+            TextAsset textAsset = (TextAsset)Resources.Load("FSM/" + filename, typeof(TextAsset));
             if (textAsset != null)
                 return textAsset.text;
             else return "";

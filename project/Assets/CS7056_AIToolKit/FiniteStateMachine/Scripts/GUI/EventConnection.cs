@@ -33,7 +33,7 @@ namespace CS7056_AIToolKit
         private float editHeigt = 50;
         private Rect location;
 
-        private Color boxColor = new Color(.2f, .1f, .1f, .01f);
+         private Color boxColor = new Color(.2f, .1f, .1f, .01f);
         private Color selecteBoxColor = new Color(.9f, .9f, .2f, .01f);
         private Color boxColorBack = new Color(.45f, .6f, .6f, .01f);
         private Color editboxColorBack = new Color(.1f, .1f, .1f, .9f);

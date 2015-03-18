@@ -63,7 +63,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\CS7056_AIToolKit\FiniteStateMachine\Controllers\bobController.cs" />
     <Compile Include="Assets\CS7056_AIToolKit\FiniteStateMachine\Controllers\carController.cs" />
     <Compile Include="Assets\CS7056_AIToolKit\FiniteStateMachine\Controllers\gameController.cs" />
     <Compile Include="Assets\CS7056_AIToolKit\FiniteStateMachine\Controllers\lightController.cs" />

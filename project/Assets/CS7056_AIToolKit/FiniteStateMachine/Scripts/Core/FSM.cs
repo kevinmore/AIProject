@@ -45,7 +45,6 @@ namespace CS7056_AIToolKit
         /// <value>The name.</value>
         public string name
         {
-
             get
             {
                 return state.name;
@@ -210,7 +209,6 @@ namespace CS7056_AIToolKit
                     s = s + events[i].getSaveString();
 
                 }
-
             }
             return s;
         }
@@ -791,9 +789,6 @@ namespace CS7056_AIToolKit
             }
         }
         //-----------------------------
-
-
-
 
     }
 }

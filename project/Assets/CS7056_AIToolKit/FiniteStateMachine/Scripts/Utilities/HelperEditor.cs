@@ -9,8 +9,6 @@ namespace CS7056_AIToolKit
         private static Texture2D _staticRectTexture;
         private static GUIStyle _staticRectStyle;
 
-        private static Color textColor = new Color(.7f, .8f, .5f);
-
         //---------------------------------------------------------------------------------
         public static void DrawColorBox(Rect position, Color color, string text)
         {
@@ -27,7 +25,7 @@ namespace CS7056_AIToolKit
             _staticRectTexture.Apply();
 
             _staticRectStyle.normal.background = _staticRectTexture;
-            _staticRectStyle.normal.textColor = textColor;
+            _staticRectStyle.normal.textColor = HelperConstants.cyan;
             _staticRectStyle.alignment = TextAnchor.UpperCenter;
 
             GUI.Box(position, text, _staticRectStyle);

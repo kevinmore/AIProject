@@ -6,6 +6,7 @@ namespace CS7056_AIToolKit
     public abstract class StateController : MonoBehaviour
     {
         public FSM myStateMachine;
+        public string previousState;
         public string currentState;
         public float delayOffTime = 2.0f;
         private bool repeating = true;
@@ -127,6 +128,7 @@ namespace CS7056_AIToolKit
         /// <param name="stateName">State name.</param>
         public void leftState(string stateName)
         {
+            previousState = stateName;
             Invoke("Left_State_" + stateName, 0.0f);
         }//----------------------------------------
 

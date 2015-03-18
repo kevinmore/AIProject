@@ -36,6 +36,7 @@ namespace CS7056_AIToolKit
 
         public StatePanel startStateSelected;
         public StatePanel endStateSelected;
+        private string previousState = "";
         private string currentState = "";
         public StateController currentStateController;
 
@@ -62,10 +63,10 @@ namespace CS7056_AIToolKit
 
         private string eventCondition = "";
         private string eventAction = "";
-        private string filename = "mainFSM";
+        private string filename = "";
+        private string controllerName = "";
         private string resourcesDirectory = "/CS7056_AIToolKit/Resources/FSM";
-        private string controllerName = "appStateController";
-        private Color darkGray = new Color(.02f, .02f, .02f, 1);
+        //private Color darkGray = new Color(.02f, .02f, .02f, 1.0f);
 
         //private string attributeLabel="";
         //private string attributeLabel="";
@@ -73,7 +74,7 @@ namespace CS7056_AIToolKit
         EventConnection eventConDrag;
 
 
-        private string stateDiscription = "This state happens when...";
+        private string stateDiscription = "Enter description...";
 
 
         private int screenBoxX = Screen.width;
@@ -89,6 +90,7 @@ namespace CS7056_AIToolKit
         float maxY = 0;
         Vector2 atttributScroll = new Vector2(0, 100);
         private static bool justRecompiled;
+
 
         //---------------------------------------------------------------------------------
         [MenuItem("Finite State Machine/Designer")]
@@ -141,9 +143,7 @@ namespace CS7056_AIToolKit
             if (PlayerPrefs.HasKey("resourceFilename"))
             {
                 filename = PlayerPrefs.GetString("resourceFilename");
-
             }
-
         }
         //---------------------------------------------------------------------------------
 
@@ -197,7 +197,9 @@ namespace CS7056_AIToolKit
                     {
                         if (sc.myStateMachine.state != null)
                         {
-                            currentState = sc.myStateMachine.state.name;
+                            previousState = sc.previousState;
+                            currentState = sc.currentState;
+
                             currentStateController = sc;
                             Repaint();
                         }
@@ -323,20 +325,23 @@ namespace CS7056_AIToolKit
         }
         //----------------------------------------------------------------------------
 
-        void logoPanel()
+        void DrawLogoPanel()
         {
             Vector2 point = new Vector2(10, 20);
 
             GUIStyle style = new GUIStyle();
-            style.normal.textColor = new Color(.7f, .8f, .5f);
+            style.normal.textColor = HelperConstants.cyan;
+            style.fontSize = 12;
 
             HelperEditor.DrawColorBox(new Rect(point.x - 7, point.y - 7, 204, 86), Color.gray);
             HelperEditor.DrawColorBox(new Rect(point.x - 5, point.y - 5, 200, 82), new Color(.15f, .15f, .15f));
 
             GUILayout.BeginArea(new Rect(point.x, point.y, 200, 84));
-            GUI.Label(new Rect(0, 0, 64, 64), (Texture2D)Resources.Load("Editor/tcd"));
-            GUI.Label(new Rect(point.x + 50, point.y, 200, 30), "Finite State Machine", style);
-            GUI.Label(new Rect(point.x, point.y + 40, 200, 30), "- Huanxiang Wang 14333168", style);
+            GUI.Label(new Rect(0, 0, 70, 70), (Texture2D)Resources.Load("Editor/tcd"), style);
+            GUI.Label(new Rect(55, 0, 200, 30), "Finite State Machine", style);
+            GUI.Label(new Rect(85, 15, 200, 30), "Designer", style);
+            GUI.Label(new Rect(55, 40, 200, 30), "- Huanxiang Wang", style);
+            GUI.Label(new Rect(80, 55, 200, 30), "14333168", style); 
             GUILayout.EndArea();
         }
 
@@ -469,7 +474,7 @@ namespace CS7056_AIToolKit
         }
 
         //-----------------------------------------------------------------------------
-        void buttonPanel()
+        void DrawControlPanel()
         {
             fileControlPanel(new Vector2(10, 110));
 
@@ -602,66 +607,46 @@ namespace CS7056_AIToolKit
 
             GUI.Label(new Rect(position.width / 2 - 100, 5, 200, 20), "Double click to create new state.");
 
-            foreach (StatePanel sp in states)
-            {
-                if (sp.selected == true) { sp.showHighlight(); }
-            }
-
             BeginWindows();
             int count = 0;
 
-
-            foreach (StatePanel state_ in states)
+            foreach (StatePanel panel in states)
             {
-                state_.location = GUILayout.Window(count, state_.location, DoPanelWindow, count + ": " + state_.stateName);
+                panel.screenRect = GUILayout.Window(count, panel.screenRect, OnCurrentState, "State " + count + ": " + panel.stateName);
+                if (panel.screenRect.x + panel.screenRect.width > maxX)
+                    maxX = panel.screenRect.x + panel.screenRect.width + 10;
 
+                if (panel.screenRect.y + panel.screenRect.height > maxY)
+                    maxY = panel.screenRect.y + panel.screenRect.height + 10;
 
-
-
-                if (state_.location.x + state_.location.width > maxX)
-                {
-                    maxX = state_.location.x + state_.location.width + 10;
-                }
-                if (state_.location.y + state_.location.height > maxY)
-                {
-                    maxY = state_.location.y + state_.location.height + 10;
-                }
-
-
-                state_.id = count;
-                state_.show();
+                panel.id = count;
+                panel.Show();
                 count++;
 
+                if (panel.selected == true) panel.ShowHighlight();
             }
 
             virtualWindow.width = maxX;
             virtualWindow.height = maxY;
             EndWindows();
 
+            DrawLinks();
 
-            drawLinks();
-
-
-
-
-            foreach (StatePanel state_ in states)
+            foreach (StatePanel panel in states)
             {
-                if (state_.markedForDeath)
+                if (panel.markedForDeath)
                     dirty = true;
             }
 
             GUI.EndScrollView();
 
-            logoPanel();
-            buttonPanel();
+            DrawLogoPanel();
+            DrawControlPanel();
 
             eventMouseMaker();
 
-
             if (dirty) clean();
             cleanEvents();
-
-
         }
         //*********************************************************************************
         //---------------------------------------------------------------------------------
@@ -769,8 +754,8 @@ namespace CS7056_AIToolKit
                         eventConDrag.to = new StatePanel(new Rect(mousePos.x, mousePos.y, 5, 5), "temp");
                     else
                     {
-                        eventConDrag.to.location.x = mousePos.x;
-                        eventConDrag.to.location.y = mousePos.y;
+                        eventConDrag.to.screenRect.x = mousePos.x;
+                        eventConDrag.to.screenRect.y = mousePos.y;
 
 
                         selectState(mousePos);
@@ -816,13 +801,10 @@ namespace CS7056_AIToolKit
                     eventName = ec.eventName;
                     eventCondition = ec.conditions;
                     eventAction = ec.actions;
-
-
                 }
                 else
                 {
                     ec.selected = false;
-
                 }
             }
         }
@@ -879,17 +861,16 @@ namespace CS7056_AIToolKit
 
 
         //----------------------------------------------------------------------------
-        void drawLinks()
+        void DrawLinks()
         {
             //Debug.Log("test 1: "+events.Count);
-
 
             foreach (EventConnection ec in events)
             {
 
                 Handles.BeginGUI();
                 if (ec != null)
-                    DrawNodeCurve(ec.from.location, ec.to.location, ec);
+                    DrawEventCurve(ec.from.screenRect, ec.to.screenRect, ec);
 
                 Handles.EndGUI();
 
@@ -907,7 +888,7 @@ namespace CS7056_AIToolKit
                 {
 
                     Handles.BeginGUI();
-                    DrawNodeCurve(eventConDrag.from.location, eventConDrag.to.location, eventConDrag);
+                    DrawEventCurve(eventConDrag.from.screenRect, eventConDrag.to.screenRect, eventConDrag);
                     Handles.EndGUI();
 
                 }
@@ -928,7 +909,7 @@ namespace CS7056_AIToolKit
 
 
         //----------------------------------------------------------------------------
-        public enum nodeLocation
+        public enum NodeLocation
         {
             right,
             bottom,
@@ -941,20 +922,20 @@ namespace CS7056_AIToolKit
 
 
         //----------------------------------------------------------------------------
-        nodeLocation getNodeLocation(float angle)
+        NodeLocation getNodeLocation(float angle)
         {
-            if (angle >= -45 && angle < 45) return nodeLocation.right;
-            if (angle >= 45 && angle < 135) return nodeLocation.top;
-            if (angle >= 135 || angle < -135) return nodeLocation.left;
-            if (angle >= -135 && angle < -45) return nodeLocation.bottom;
+            if (angle >= -45 && angle < 45) return NodeLocation.right;
+            if (angle >= 45 && angle < 135) return NodeLocation.top;
+            if (angle >= 135 || angle < -135) return NodeLocation.left;
+            if (angle >= -135 && angle < -45) return NodeLocation.bottom;
 
-            return nodeLocation.right;
+            return NodeLocation.right;
         }
         //----------------------------------------------------------------------------
 
 
         //----------------------------------------------------------------------------
-        nodeLocation getNodeLocation(Rect start, Rect end)
+        NodeLocation getNodeLocation(Rect start, Rect end)
         {
             return getNodeLocation(HelperGraphics.angle(start.center, end.center));
         }
@@ -962,28 +943,28 @@ namespace CS7056_AIToolKit
 
 
         //----------------------------------------------------------------------------	
-        Vector3 getStartPos(Rect start, Rect end, nodeLocation currentNodeLocation, int repeatCount)
+        Vector3 getStartPos(Rect start, Rect end, NodeLocation currentNodeLocation, int repeatCount)
         {
             float adj = 0;
             if (start == end) adj = -60.0f;
             float boxAdjust = 2;
 
-            if (currentNodeLocation == nodeLocation.right)
+            if (currentNodeLocation == NodeLocation.right)
             {
                 return new Vector3(start.x + start.width + boxAdjust, start.y + start.height / 3 + repeatCount * 10 + adj, 0);
 
             }
-            if (currentNodeLocation == nodeLocation.left)
+            if (currentNodeLocation == NodeLocation.left)
             {
                 return new Vector3(start.x - boxAdjust, start.y + start.height / 3 + repeatCount * 10 + adj, 0);
 
             }
-            if (currentNodeLocation == nodeLocation.top)
+            if (currentNodeLocation == NodeLocation.top)
             {
                 return new Vector3(start.x + start.width / 3 + repeatCount * 10 + adj, start.y - boxAdjust, 0);
 
             }
-            if (currentNodeLocation == nodeLocation.bottom)
+            if (currentNodeLocation == NodeLocation.bottom)
             {
                 return new Vector3(start.x + start.width / 3 + repeatCount * 10 + adj, start.y + start.height + boxAdjust, 0);
 
@@ -995,28 +976,28 @@ namespace CS7056_AIToolKit
 
         //----------------------------------------------------------------------------
         //new Vector3(end.x, end.y + end.height / 2, 0);
-        Vector3 getEndPos(Rect start, Rect end, nodeLocation currentNodeLocation, int repeatCount)
+        Vector3 getEndPos(Rect start, Rect end, NodeLocation currentNodeLocation, int repeatCount)
         {
             float adj = 10;
             float adj2 = 0;
             if (start == end) adj2 = 60.0f;
 
-            if (currentNodeLocation == nodeLocation.right)
+            if (currentNodeLocation == NodeLocation.right)
             {
                 return new Vector3(end.x - adj, end.y + end.height / 1.5f + repeatCount * 10 + adj2, 0);
 
             }
-            if (currentNodeLocation == nodeLocation.left)
+            if (currentNodeLocation == NodeLocation.left)
             {
                 return new Vector3(end.x + end.width + adj, end.y + end.height / 1.5f + repeatCount * 10 + adj2, 0);
 
             }
-            if (currentNodeLocation == nodeLocation.top)
+            if (currentNodeLocation == NodeLocation.top)
             {
                 return new Vector3(end.x + end.width / 1.5f + repeatCount * 10 + adj2, end.y + end.height + adj, 0);
 
             }
-            if (currentNodeLocation == nodeLocation.bottom)
+            if (currentNodeLocation == NodeLocation.bottom)
             {
                 return new Vector3(end.x + end.width / 1.5f + repeatCount * 10 + adj2, end.y - adj, 0);
 
@@ -1028,24 +1009,24 @@ namespace CS7056_AIToolKit
 
 
         //----------------------------------------------------------------------------
-        Vector3 getStartTan(nodeLocation currentNodeLocation, float chunk, Vector3 startPos)
+        Vector3 getStartTan(NodeLocation currentNodeLocation, float chunk, Vector3 startPos)
         {
-            if (currentNodeLocation == nodeLocation.right)
+            if (currentNodeLocation == NodeLocation.right)
             {
                 return startPos + chunk * Vector3.right;
 
             }
-            if (currentNodeLocation == nodeLocation.left)
+            if (currentNodeLocation == NodeLocation.left)
             {
                 return startPos + chunk * Vector3.left;
 
             }
-            if (currentNodeLocation == nodeLocation.top)
+            if (currentNodeLocation == NodeLocation.top)
             {
                 return startPos + chunk * Vector3.down;
 
             }
-            if (currentNodeLocation == nodeLocation.bottom)
+            if (currentNodeLocation == NodeLocation.bottom)
             {
                 return startPos + chunk * Vector3.up;
 
@@ -1057,24 +1038,24 @@ namespace CS7056_AIToolKit
 
 
         //----------------------------------------------------------------------------
-        Vector3 getEndTan(nodeLocation currentNodeLocation, float chunk, Vector3 endPos)
+        Vector3 getEndTan(NodeLocation currentNodeLocation, float chunk, Vector3 endPos)
         {
-            if (currentNodeLocation == nodeLocation.right)
+            if (currentNodeLocation == NodeLocation.right)
             {
                 return endPos + chunk * Vector3.left;
 
             }
-            if (currentNodeLocation == nodeLocation.left)
+            if (currentNodeLocation == NodeLocation.left)
             {
                 return endPos + chunk * Vector3.right;
 
             }
-            if (currentNodeLocation == nodeLocation.top)
+            if (currentNodeLocation == NodeLocation.top)
             {
                 return endPos + chunk * Vector3.up;
 
             }
-            if (currentNodeLocation == nodeLocation.bottom)
+            if (currentNodeLocation == NodeLocation.bottom)
             {
                 return endPos + chunk * Vector3.down;
 
@@ -1092,19 +1073,18 @@ namespace CS7056_AIToolKit
             Rect box = new Rect(point.x - size / 2, point.y - size / 2, size, size);
             Rect box2 = new Rect(box.x - boarder, box.y - boarder, box.width + boarder * 2, box.height + boarder * 2);
 
-            HelperEditor.DrawColorBox(box2, Color.gray);
-            HelperEditor.DrawColorBox(box, Color.black);
-
+            HelperEditor.DrawColorBox(box2, new Color(.35f, .35f, .35f));
+            HelperEditor.DrawColorBox(box, new Color(.15f, .15f, .15f));
         }
         //----------------------------------------------------------------------------
 
 
 
         //----------------------------------------------------------------------------
-        void DrawNodeCurve(Rect start, Rect end, EventConnection eventCon)
+        void DrawEventCurve(Rect start, Rect end, EventConnection eventCon)
         {
 
-            nodeLocation currentNodeLocation = getNodeLocation(start, end);
+            NodeLocation currentNodeLocation = getNodeLocation(start, end);
 
             Vector3 startPos = getStartPos(start, end, currentNodeLocation, eventCon.fromToCount);
             Vector3 endPos = getEndPos(start, end, currentNodeLocation, eventCon.fromToCount);
@@ -1118,38 +1098,35 @@ namespace CS7056_AIToolKit
             Vector3 endTan = getEndTan(currentNodeLocation, chunk, endPos);//endPos +  chunk*Vector3.left;;
 
             Color shadowCol = new Color(0, 0, 0, 0.06f);
-            //Vector3 end3=new Vector3(endPos.x-(endPos.x- startPos.x)/45,endPos.y-(endPos.y- startPos.y)/45,0);
+            Vector3 end3=new Vector3(endPos.x-(endPos.x- startPos.x)/45,endPos.y-(endPos.y- startPos.y)/45,0);
 
-            for (int i = 0; i < 3; i++)
-            {// Draw a shadow
-                //arrow = Resources.GetBuiltinResource<Texture>("/stateMachine/Resources/arrow.png");
+            // Draw a shadow
+            for (int i = 0; i < 3; ++i)
+            {
                 Handles.DrawBezier(startPos, endPos, startTan, endTan, shadowCol, null, (i + 3) * 5);
             }
             float arrowSize = 17;
             Rect arrowRect = new Rect(endPos.x - arrowSize / 2, endPos.y - arrowSize / 2, arrowSize, arrowSize);
-            if (currentNodeLocation == nodeLocation.bottom)
+            if (currentNodeLocation == NodeLocation.bottom)
                 arrow = (Texture2D)Resources.Load("Editor/arrowDown", typeof(Texture2D));
-
+            else if (currentNodeLocation == NodeLocation.top)
+                arrow = (Texture2D)Resources.Load("Editor/arrowUp", typeof(Texture2D));
+            else if (currentNodeLocation == NodeLocation.left)
+                 arrow = (Texture2D)Resources.Load("Editor/arrowLeft", typeof(Texture2D));
             else
-                if (currentNodeLocation == nodeLocation.top)
-                    arrow = (Texture2D)Resources.Load("Editor/arrowUp", typeof(Texture2D));
-                else
-                    if (currentNodeLocation == nodeLocation.left)
-                        arrow = (Texture2D)Resources.Load("Editor/arrowLeft", typeof(Texture2D));
-                    else
-
-                        arrow = (Texture2D)Resources.Load("Editor/arrowRight", typeof(Texture2D));
+                 arrow = (Texture2D)Resources.Load("Editor/arrowRight", typeof(Texture2D));
 
 
-            //GUIUtility.RotateAroundPivot(20,new Vector2(0,0));
+            //Handles.color = Color.white;
 
-            Handles.color = Color.white;
+            // Check the current state
+            Color cureveColor = Color.white;
+            if (eventCon.from.stateName == previousState && eventCon.to.stateName == currentState)
+            {
+                cureveColor = HelperConstants.lightOrange;
+            }
 
-
-            //Handles.ConeCap (0,end3, Quaternion.AngleAxis(0,Vector3.down) ,11);	
-            //Handles.ConeCap (0,endPos, Quaternion.AngleAxis(0,Vector3.down) ,7);
-
-            Handles.DrawBezier(startPos, endPos, startTan, endTan, Color.gray, null, 2);
+            Handles.DrawBezier(startPos, endPos, startTan, endTan, cureveColor, null, 2);
             drawHandle(startPos);
             GUI.DrawTexture(arrowRect, arrow);
         }
@@ -1162,11 +1139,9 @@ namespace CS7056_AIToolKit
 
             foreach (StatePanel state_ in states)
             {
-                if (state_.location.Contains(clickedAt)) return state_;
-
+                if (state_.screenRect.Contains(clickedAt)) return state_;
             }
             return null;
-
         }
         //---------------------------------------------------------------------------------
 
@@ -1216,6 +1191,7 @@ namespace CS7056_AIToolKit
         }
         //----------------------------------------------------------------------------
 
+
         //----------------------------------------------------------------------------
         private string getAttributeString()
         {
@@ -1231,6 +1207,7 @@ namespace CS7056_AIToolKit
         }
         //----------------------------------------------------------------------------
 
+
         //----------------------------------------------------------------------------
         private string getStateString()
         {
@@ -1239,9 +1216,9 @@ namespace CS7056_AIToolKit
             foreach (StatePanel sp in states)
             {
                 if (i < states.Count - 1)
-                    line1 = line1 + sp.stateName + "," + sp.id + "," + getLinkedEvents(sp) + "," + sp.location.x + "," + sp.location.y + "," + sp.stateDiscription + ";\n";
+                    line1 = line1 + sp.stateName + "," + sp.id + "," + getLinkedEvents(sp) + "," + sp.screenRect.x + "," + sp.screenRect.y + "," + sp.stateDiscription + ";\n";
                 else
-                    line1 = line1 + sp.stateName + "," + sp.id + "," + getLinkedEvents(sp) + "," + sp.location.x + "," + sp.location.y + "," + sp.stateDiscription + "\n";
+                    line1 = line1 + sp.stateName + "," + sp.id + "," + getLinkedEvents(sp) + "," + sp.screenRect.x + "," + sp.screenRect.y + "," + sp.stateDiscription + "\n";
                 i++;
             }
 
@@ -1253,9 +1230,7 @@ namespace CS7056_AIToolKit
         //----------------------------------------------------------------------------
         private string getFSMString()
         {
-
             return getStateString() + getAttributeString() + getEventsString();
-
         }
         //----------------------------------------------------------------------------
 
@@ -1272,18 +1247,19 @@ namespace CS7056_AIToolKit
                     line = line + events[i].eventName + "," + events[i].id + "," + events[i].to.id + "," + events[i].conditions + "," + events[i].actions + "\n";
             }
             return line;
-        }//
+        }
+        //----------------------------------------------------------------------------
 
 
         //----------------------------------------------------------------------------
-        void DoPanelWindow(int windowID)
+        void OnCurrentState(int windowID)
         {
             if (GUI.Button(new Rect(180, 0, 20, 15), "-"))
             {
                 //Debug.Log("Delete "+windowID);
                 states[windowID].markedForDeath = true;
                 dirty = true;
-            }//
+            }
 
             states[windowID].stateName = GUILayout.TextField(states[windowID].stateName);
             states[windowID].stateName = states[windowID].stateName.Replace(" ", "");
@@ -1295,14 +1271,14 @@ namespace CS7056_AIToolKit
             states[windowID].stateName = states[windowID].stateName.Replace(":", "");
             states[windowID].stateDiscription = GUILayout.TextArea(states[windowID].stateDiscription);
 
-            //Debug.Log("-+"+currentState+"  --"+states[windowID].stateName);
+            // Draw the indicator
             if (Application.isPlaying && currentState == states[windowID].stateName)
             {
-                runCounter += 2;
+                ++runCounter;
                 int adjRC = runCounter % ((int)HelperConstants.StateWidth - 10);
                 int adjX = runCounter % ((int)HelperConstants.StateWidth - 25);
                 int adjY = runCounter % ((int)45);
-                HelperEditor.DrawColorBox(new Rect(5, HelperConstants.StateHeight - 15, 5 + adjRC, 10), Color.green);
+                HelperEditor.DrawColorBox(new Rect(5, HelperConstants.StateHeight - 15, 5 + adjRC, 10), HelperConstants.darkOrange);
 
                 //HelperEditor.DrawColorBox(new Rect(5+adjX-10,HelperConstants.StateHeight-20,25,15),Color.green);
             }
@@ -1375,8 +1351,6 @@ namespace CS7056_AIToolKit
                 }
 
             }
-
-
 
         }
 

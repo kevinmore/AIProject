@@ -84,6 +84,13 @@ namespace CS7056_AIToolKit
             HelperEditor.DrawColorBox(back, HelperConstants.darkOrange, "");
         }
 
+        public void ShowHighlight(Color color)
+        {
+            float boarder = 2;
+            Rect back = new Rect(screenRect.position.x - boarder, screenRect.position.y - boarder, screenRect.width + boarder * 2, screenRect.height + boarder * 2);
+            HelperEditor.DrawColorBox(back, color, "");
+        }
+
         //---------------------------------------------------------------------------------
         public void Show()
         {

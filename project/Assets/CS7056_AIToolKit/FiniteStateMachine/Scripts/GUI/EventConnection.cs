@@ -28,9 +28,9 @@ namespace CS7056_AIToolKit
         public string actions = "";
         public int id = 0;
 
-        private float width = 130;
-        private float heigt = 30;
-        private float editHeigt = 50;
+        private float width = 180;
+        private float heigt = 40;
+        private float editHeigt = 60;
         private Rect location;
 
          private Color boxColor = new Color(.2f, .1f, .1f, .01f);
@@ -81,36 +81,35 @@ namespace CS7056_AIToolKit
                 HelperEditor.DrawColorBox(editboxBoarder, editboxColorBoarder, "");
                 HelperEditor.DrawColorBox(editbox, editboxColorBack, "");
 
-                GUILayout.BeginArea(new Rect(box.x + 2, box.y + 2, 40, 20));
+                // Name
+                GUILayout.BeginArea(new Rect(box.x + 2, box.y + 15, 40, 20));
                 GUILayout.Label("Name:");
                 GUILayout.EndArea();
-                GUILayout.BeginArea(new Rect(box.x + 40, box.y + 2, 80, 20));
+                GUILayout.BeginArea(new Rect(box.x + 65, box.y + 15, 105, 20));
                 eventName = GUILayout.TextField(eventName);
                 GUILayout.EndArea();
 
-                GUILayout.BeginArea(new Rect(box.x + 2, box.y + 22, 10, 20));
-                GUILayout.Label("[");
+                // Condition
+                GUILayout.BeginArea(new Rect(box.x + 2, box.y + 35, 65, 20));
+                GUILayout.Label("Condition:");
                 GUILayout.EndArea();
-                //
-                GUILayout.BeginArea(new Rect(box.x + 12, box.y + 22, 100, 20));
+                GUILayout.BeginArea(new Rect(box.x + 65, box.y + 35, 105, 20));
                 conditions = GUILayout.TextField(conditions);
                 GUILayout.EndArea();
 
-                GUILayout.BeginArea(new Rect(box.x + 115, box.y + 22, 10, 20));
-                GUILayout.Label("]");
+                // Action
+                GUILayout.BeginArea(new Rect(box.x + 2, box.y + 55, 65, 20));
+                GUILayout.Label("Action:");
                 GUILayout.EndArea();
-
-                GUILayout.BeginArea(new Rect(box.x + 2, box.y + 44, 10, 20));
-                GUILayout.Label("/");
-                GUILayout.EndArea();
-
-                GUILayout.BeginArea(new Rect(box.x + 12, box.y + 44, 100, 20));
+                GUILayout.BeginArea(new Rect(box.x + 65, box.y + 55, 105, 20));
                 actions = GUILayout.TextField(actions);
                 GUILayout.EndArea();
 
-                if (GUI.Button(new Rect(box.x + box.width - 10, box.y - 7, 20, 15), "-"))
+                GUIStyle btnStyle = new GUIStyle();
+                btnStyle.stretchHeight = true;
+                btnStyle.stretchWidth = true;
+                if (GUI.Button(new Rect(box.x + box.width - 15, box.y, 20, 15), (Texture2D)Resources.Load("Editor/close"), btnStyle))
                 {
-                    Debug.Log("delete");
                     markedForDeath = true;
                 }
             }

@@ -31,7 +31,7 @@ namespace CS7056_AIToolKit
 
         }
         public Object source;
-        public Texture arrow;
+        public Texture2D arrow;
         private int runCounter = 0;
 
         public StatePanel startStateSelected;
@@ -91,6 +91,7 @@ namespace CS7056_AIToolKit
         Vector2 atttributScroll = new Vector2(0, 100);
         private static bool justRecompiled;
 
+        GUIStyle btnStyle;
 
         //---------------------------------------------------------------------------------
         [MenuItem("Finite State Machine/Designer")]
@@ -113,10 +114,10 @@ namespace CS7056_AIToolKit
 
         //---------------------------------------------------------------------------------
         //for working in scene view
-        void OnSelectionChange()
-        {
-            Debug.Log("Selection Changed");
-        }
+//         void OnSelectionChange()
+//         {
+//             Debug.Log("Selection Changed");
+//         }
         //---------------------------------------------------------------------------------
 
 
@@ -125,7 +126,6 @@ namespace CS7056_AIToolKit
         void OnEnable()
         {
             //myDelegate=DoWindow;
-            Debug.Log("On enable");
             if (PlayerPrefs.HasKey("controllerName"))
             {
                 controllerName = PlayerPrefs.GetString("controllerName");
@@ -144,6 +144,71 @@ namespace CS7056_AIToolKit
             {
                 filename = PlayerPrefs.GetString("resourceFilename");
             }
+
+            btnStyle = new GUIStyle();
+            btnStyle.stretchHeight = true;
+            btnStyle.stretchWidth = true;
+        }
+        //*********************************************************************************
+        void OnGUI()
+        {
+            maxX = 0;
+            maxY = 0;
+            //	Debug.Log("scrollPosition ["+scrollPosition.x+", "+scrollPosition.y+"]");
+            scrollPosition = GUI.BeginScrollView(
+                new Rect(0, 0, position.width, position.height),
+                scrollPosition,
+                virtualWindow
+                );
+
+            GUI.Label(new Rect(position.width / 2 - 100, 5, 200, 20), "Double click to create new state.");
+
+            BeginWindows();
+            int count = 0;
+
+            foreach (StatePanel panel in states)
+            {
+                panel.screenRect = GUILayout.Window(count, panel.screenRect, OnCurrentState, "State " + count + ": " + panel.stateName);
+                if (panel.screenRect.x + panel.screenRect.width > maxX)
+                    maxX = panel.screenRect.x + panel.screenRect.width + 10;
+
+                if (panel.screenRect.y + panel.screenRect.height > maxY)
+                    maxY = panel.screenRect.y + panel.screenRect.height + 10;
+
+                panel.id = count;
+                panel.Show();
+                ++count;
+
+                if (panel.markedForDeath) dirty = true;
+
+                if (panel.selected == true) panel.ShowHighlight();
+
+                if (Application.isPlaying)
+                {
+                    if (currentState == panel.stateName)
+                        panel.ShowHighlight(HelperConstants.lightOrange);
+                    if (previousState == panel.stateName)
+                        panel.ShowHighlight(HelperConstants.darkRiceYellow);
+                }
+            }
+
+            virtualWindow.width = maxX;
+            virtualWindow.height = maxY;
+            EndWindows();
+
+            DrawLinks();
+
+            GUI.EndScrollView();
+
+            DrawLogoPanel();
+            DrawControlPanel();
+
+            if (!Application.isPlaying)
+            {
+                eventMouseMaker();
+            }
+            if (dirty) clean();
+            cleanEvents();
         }
         //---------------------------------------------------------------------------------
 
@@ -213,10 +278,10 @@ namespace CS7056_AIToolKit
 
 
         //----------------------------------------------------------------------------
-        public static void OnCompileScripts()
-        {
-            Debug.Log("OnCompileScripts");
-        }
+//         public static void OnCompileScripts()
+//         {
+//             Debug.Log("OnCompileScripts");
+//         }
         //----------------------------------------------------------------------------
 
 
@@ -234,30 +299,33 @@ namespace CS7056_AIToolKit
             //atttributScroll = EditorGUILayout.BeginScrollView(atttributScroll, true, true,  GUILayout.Width(frame.width),  GUILayout.Height(frame.height-30));  
             atttributScroll = GUI.BeginScrollView(new Rect(frame.x + 5, l1 + 10, frame.width - 10, 200),
                                                    atttributScroll, new Rect(frame.x + 5, 0, 0, lChunk * attributes.Count), false, false);
-            for (int i = 0; i < attributes.Count; i++)
+            for (int i = 0; i < attributes.Count; ++i)
             {
                 AttributePair attr = (AttributePair)attributes[i];
 
                 attr.label = GUI.TextField(new Rect(15, i * lChunk, width, 20), attr.label);
 
-                GUI.Label(new Rect(20 + width, i * lChunk, 20, 20), "=");
+                GUI.Label(new Rect(18 + width, i * lChunk, 20, 20), (Texture2D)Resources.Load("Editor/equal"), btnStyle);
+
                 if (!Application.isPlaying)
-                    attr.value = GUI.TextField(new Rect(15 + width + 25, i * lChunk, width / 1.5f, 20), attr.value);
-                else
-                    if (currentStateController != null)
-                    {
-                        GUI.TextField(new Rect(15 + width + 25, i * lChunk, width / 1.5f, 20), currentStateController.myStateMachine.getAtributeValue(attr.label));
-                    }
-                if (GUI.Button(new Rect(45 + width + width / 1.5f, i * lChunk, 20, 20), "-"))
                 {
-                    attributes.Remove(attr);
+                    if (GUI.Button(new Rect(45 + width + width / 1.5f, i * lChunk, 20, 20), (Texture2D)Resources.Load("Editor/close"), btnStyle))
+                    {
+                        attributes.Remove(attr);
+                    }
+                    attr.value = GUI.TextField(new Rect(15 + width + 25, i * lChunk, width / 1.5f, 20), attr.value);
+                }
+                else
+                {
+                    if (currentStateController != null)
+                        GUI.TextField(new Rect(15 + width + 25, i * lChunk, width / 1.5f, 20), currentStateController.myStateMachine.getAtributeValue(attr.label));
                 }
             }
             GUI.EndScrollView();
 
 
             GUILayout.BeginArea(new Rect(frame.x + 70, frame.y + frame.height - 20, 60, 20));
-            if (GUILayout.Button("NEW"))
+            if (GUILayout.Button("Add"))
             {
                 attributes.Add(new AttributePair("", ""));
             }
@@ -284,7 +352,7 @@ namespace CS7056_AIToolKit
         /// </summary>
         private void saveFSM()
         {
-            Debug.Log(("SAVE FSM " + Application.dataPath + resourcesDirectory));
+            //Debug.Log(("SAVE FSM " + Application.dataPath + resourcesDirectory));
             save();
             HelperFile.saveToFile(Application.dataPath + resourcesDirectory + "/" + filename + ".txt", getFSMString());
 
@@ -298,7 +366,7 @@ namespace CS7056_AIToolKit
         /// </summary>
         private void loadFSM()
         {
-            Debug.Log(("LOAD FSM " + Application.dataPath + resourcesDirectory));
+            //Debug.Log(("LOAD FSM " + Application.dataPath + resourcesDirectory));
             save();
             //HelperFile.saveToFile(Application.dataPath + resourcesDirectory+"/"+filename+".txt",getFSMString());
 
@@ -421,7 +489,7 @@ namespace CS7056_AIToolKit
                 filename = controllerName + "FSM";
                 saveFSM();
 
-                Debug.Log("Make Controller: " + Application.dataPath + "/" + controllerName);
+                //Debug.Log("Make Controller: " + Application.dataPath + "/" + controllerName);
                 save();
                 HelperFile.saveToFile(Application.dataPath + "/CS7056_AIToolKit/FiniteStateMachine/Controllers/" + controllerName + ".cs", HelperFormater.makeFileUsing(controllerName, filename, states));
 
@@ -593,61 +661,6 @@ namespace CS7056_AIToolKit
         }
         //---------------------------------------------------------------------------------
 
-        //*********************************************************************************
-        void OnGUI()
-        {
-            maxX = 0;
-            maxY = 0;
-            //	Debug.Log("scrollPosition ["+scrollPosition.x+", "+scrollPosition.y+"]");
-            scrollPosition = GUI.BeginScrollView(
-                new Rect(0, 0, position.width, position.height),
-                scrollPosition,
-                virtualWindow
-                );
-
-            GUI.Label(new Rect(position.width / 2 - 100, 5, 200, 20), "Double click to create new state.");
-
-            BeginWindows();
-            int count = 0;
-
-            foreach (StatePanel panel in states)
-            {
-                panel.screenRect = GUILayout.Window(count, panel.screenRect, OnCurrentState, "State " + count + ": " + panel.stateName);
-                if (panel.screenRect.x + panel.screenRect.width > maxX)
-                    maxX = panel.screenRect.x + panel.screenRect.width + 10;
-
-                if (panel.screenRect.y + panel.screenRect.height > maxY)
-                    maxY = panel.screenRect.y + panel.screenRect.height + 10;
-
-                panel.id = count;
-                panel.Show();
-                count++;
-
-                if (panel.selected == true) panel.ShowHighlight();
-            }
-
-            virtualWindow.width = maxX;
-            virtualWindow.height = maxY;
-            EndWindows();
-
-            DrawLinks();
-
-            foreach (StatePanel panel in states)
-            {
-                if (panel.markedForDeath)
-                    dirty = true;
-            }
-
-            GUI.EndScrollView();
-
-            DrawLogoPanel();
-            DrawControlPanel();
-
-            eventMouseMaker();
-
-            if (dirty) clean();
-            cleanEvents();
-        }
         //*********************************************************************************
         //---------------------------------------------------------------------------------
 
@@ -1105,30 +1118,32 @@ namespace CS7056_AIToolKit
             {
                 Handles.DrawBezier(startPos, endPos, startTan, endTan, shadowCol, null, (i + 3) * 5);
             }
-            float arrowSize = 17;
+            
+            float arrowSize = 18;
             Rect arrowRect = new Rect(endPos.x - arrowSize / 2, endPos.y - arrowSize / 2, arrowSize, arrowSize);
             if (currentNodeLocation == NodeLocation.bottom)
-                arrow = (Texture2D)Resources.Load("Editor/arrowDown", typeof(Texture2D));
+                arrow = (Texture2D)Resources.Load("Editor/arrowDown");
             else if (currentNodeLocation == NodeLocation.top)
-                arrow = (Texture2D)Resources.Load("Editor/arrowUp", typeof(Texture2D));
+                arrow = (Texture2D)Resources.Load("Editor/arrowUp");
             else if (currentNodeLocation == NodeLocation.left)
-                 arrow = (Texture2D)Resources.Load("Editor/arrowLeft", typeof(Texture2D));
+                 arrow = (Texture2D)Resources.Load("Editor/arrowLeft");
             else
-                 arrow = (Texture2D)Resources.Load("Editor/arrowRight", typeof(Texture2D));
+                 arrow = (Texture2D)Resources.Load("Editor/arrowRight");
 
 
             //Handles.color = Color.white;
 
             // Check the current state
             Color cureveColor = Color.white;
-            if (eventCon.from.stateName == previousState && eventCon.to.stateName == currentState)
+            if (Application.isPlaying && eventCon.from.stateName == previousState && eventCon.to.stateName == currentState)
             {
                 cureveColor = HelperConstants.lightOrange;
             }
 
             Handles.DrawBezier(startPos, endPos, startTan, endTan, cureveColor, null, 2);
             drawHandle(startPos);
-            GUI.DrawTexture(arrowRect, arrow);
+            
+            GUI.Label(arrowRect, arrow);
         }
         //----------------------------------------------------------------------------
 
@@ -1252,15 +1267,19 @@ namespace CS7056_AIToolKit
 
 
         //----------------------------------------------------------------------------
-        void OnCurrentState(int windowID)
+         void OnCurrentState(int windowID)
         {
-            if (GUI.Button(new Rect(180, 0, 20, 15), "-"))
+             // Draw Close button
+            if (!Application.isPlaying)
             {
-                //Debug.Log("Delete "+windowID);
-                states[windowID].markedForDeath = true;
-                dirty = true;
+                if (GUI.Button(new Rect(180, 0, 20, 15), (Texture2D)Resources.Load("Editor/close"), btnStyle))
+                {
+                    //Debug.Log("Delete "+windowID);
+                    states[windowID].markedForDeath = true;
+                    dirty = true;
+                }
             }
-
+            
             states[windowID].stateName = GUILayout.TextField(states[windowID].stateName);
             states[windowID].stateName = states[windowID].stateName.Replace(" ", "");
             states[windowID].stateName = states[windowID].stateName.Replace(".", "");
@@ -1272,20 +1291,21 @@ namespace CS7056_AIToolKit
             states[windowID].stateDiscription = GUILayout.TextArea(states[windowID].stateDiscription);
 
             // Draw the indicator
-            if (Application.isPlaying && currentState == states[windowID].stateName)
+            if (Application.isPlaying)
             {
-                ++runCounter;
-                int adjRC = runCounter % ((int)HelperConstants.StateWidth - 10);
-                int adjX = runCounter % ((int)HelperConstants.StateWidth - 25);
-                int adjY = runCounter % ((int)45);
-                HelperEditor.DrawColorBox(new Rect(5, HelperConstants.StateHeight - 15, 5 + adjRC, 10), HelperConstants.darkOrange);
-
-                //HelperEditor.DrawColorBox(new Rect(5+adjX-10,HelperConstants.StateHeight-20,25,15),Color.green);
+                if (currentState == states[windowID].stateName)
+                {
+                    ++runCounter;
+                    int adjRC = runCounter % ((int)HelperConstants.StateWidth - 10);
+                    int adjX = runCounter % ((int)HelperConstants.StateWidth - 25);
+                    int adjY = runCounter % ((int)45);
+                    HelperEditor.DrawColorBox(new Rect(5, HelperConstants.StateHeight - 15, 5 + adjRC, 10), HelperConstants.darkOrange);
+                }
             }
             else
             {
-                //runCounter=0;
-                // HelperEditor.DrawColorBox(new Rect(5,HelperConstants.StateHeight-10,HelperConstants.StateWidth-10,5),Color.gray);
+                runCounter=0;
+                //HelperEditor.DrawColorBox(new Rect(5,HelperConstants.StateHeight-10,HelperConstants.StateWidth-10,5),Color.gray);
             }
             //GUI.Box(,)
 

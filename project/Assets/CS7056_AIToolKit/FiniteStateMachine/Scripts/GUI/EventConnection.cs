@@ -15,9 +15,6 @@ namespace CS7056_AIToolKit
             from = start;
         }
 
-
-
-
         public StatePanel from;
         public StatePanel to;
 
@@ -47,7 +44,7 @@ namespace CS7056_AIToolKit
 
         public int fromToCount = 0;
 
-        public bool holdsPoint(Vector2 point)
+        public bool IsHoldingPoint(Vector2 point)
         {
             if (location == null) return false;
             return location.Contains(point);
@@ -56,7 +53,7 @@ namespace CS7056_AIToolKit
         /// <summary>
         /// Draw the connection box on the screen.
         /// </summary>
-        public void showSelected()
+        public void ShowSelected()
         {
 
             Vector2 center = HelperGraphics.quarterPoint(fromPT, toPT);
@@ -117,12 +114,11 @@ namespace CS7056_AIToolKit
             {
             }
 
-
         }
         /// <summary>
         /// Draw the connection box on the screen.
         /// </summary>
-        public void showNotSelected()
+        public void ShowNotSelected()
         {
 
             Vector2 center = HelperGraphics.quarterPoint(fromPT, toPT);
@@ -132,7 +128,6 @@ namespace CS7056_AIToolKit
                 //Debug.Log("from = too");
                 box = new Rect(center.x - width - 40, center.y - heigt + fromToCount * 40, width, heigt);
             }
-
 
             /*
             Rect    editbox         = new Rect(box.x,box.y,width,heigt+20);
@@ -152,18 +147,17 @@ namespace CS7056_AIToolKit
                 HelperEditor.DrawColorBox(box, boxColorBack, "");
 
                 if (conditions.Length > 0 && actions.Length > 0)
-                    HelperEditor.DrawColorBox(box2, boxColor, id + ": " + eventName, "\n[" + conditions + "]\n/" + actions);
+                    HelperEditor.DrawColorBox(box2, boxColor, "Event " + id + " : " + eventName, "\n[" + conditions + "]\n/" + actions);
 
                 if (conditions.Length == 0 && actions.Length > 0)
-                    HelperEditor.DrawColorBox(box2, boxColor, id + ": " + eventName, "\n/" + actions);
+                    HelperEditor.DrawColorBox(box2, boxColor, "Event " + id + " : " + eventName, "\n/" + actions);
 
                 if (conditions.Length > 0 && actions.Length == 0)
-                    HelperEditor.DrawColorBox(box2, boxColor, id + ": " + eventName, "\n[" + conditions + "]");
+                    HelperEditor.DrawColorBox(box2, boxColor, "Event " + id + " : " + eventName, "\n[" + conditions + "]");
 
                 if (conditions.Length == 0 && actions.Length == 0)
-                    HelperEditor.DrawColorBox(box2, boxColor, id + ": " + eventName);
+                    HelperEditor.DrawColorBox(box2, boxColor, "Event " + id + " : " + eventName);
             }
-
 
         }
     }

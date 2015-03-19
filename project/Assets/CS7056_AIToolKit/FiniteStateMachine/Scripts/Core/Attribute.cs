@@ -12,7 +12,6 @@ namespace CS7056_AIToolKit
         public string value;
 
 
-
         /// <summary>
         /// Initializes a new instance of the <see cref="CS7056_AIToolKit.Attribute"/> class.
         /// </summary>

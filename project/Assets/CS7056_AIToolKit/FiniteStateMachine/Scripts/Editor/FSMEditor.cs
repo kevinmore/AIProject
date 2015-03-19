@@ -18,10 +18,9 @@ namespace CS7056_AIToolKit
     public class FSMEditor : EditorWindow
     {
         //Rect windowRect =new Rect (100,100,200,200);
-        List<StatePanel> states = new List<StatePanel>();
+        List<StatePanel> statesPanels = new List<StatePanel>();
         List<EventConnection> events = new List<EventConnection>();
         List<AttributePair> attributes = new List<AttributePair>();
-        private static bool needUpdate = false;
         private bool needToAddControllerScript = false;
 
         static FSMEditor()
@@ -30,7 +29,7 @@ namespace CS7056_AIToolKit
             //Debug.Log("test");
 
         }
-        public Object source;
+        public Object target;
         public Texture2D arrow;
         private int runCounter = 0;
 
@@ -137,7 +136,7 @@ namespace CS7056_AIToolKit
                 GameObject o = GameObject.Find(targetName);
 
                 if (o != null)
-                    source = GameObject.Find(targetName);
+                    target = GameObject.Find(targetName);
 
             }
             if (PlayerPrefs.HasKey("resourceFilename"))
@@ -161,12 +160,15 @@ namespace CS7056_AIToolKit
                 virtualWindow
                 );
 
-            GUI.Label(new Rect(position.width / 2 - 100, 5, 200, 20), "Double click to create new state.");
+            if (Application.isPlaying)
+                GUI.Label(new Rect(position.width / 2 - 100, 5, 210, 20), "State Machine In Operation.");
+            else
+                GUI.Label(new Rect(position.width / 2 - 100, 5, 210, 20), "Double Click to Create a New State.");
 
             BeginWindows();
             int count = 0;
 
-            foreach (StatePanel panel in states)
+            foreach (StatePanel panel in statesPanels)
             {
                 panel.screenRect = GUILayout.Window(count, panel.screenRect, OnCurrentState, "State " + count + ": " + panel.stateName);
                 if (panel.screenRect.x + panel.screenRect.width > maxX)
@@ -201,23 +203,22 @@ namespace CS7056_AIToolKit
             GUI.EndScrollView();
 
             DrawLogoPanel();
-            DrawControlPanel();
+            DrawControlPanels();
 
             if (!Application.isPlaying)
             {
-                eventMouseMaker();
+                OnMouseEvent();
             }
-            if (dirty) clean();
-            cleanEvents();
+            if (dirty) Clear();
+            ClearEvents();
         }
         //---------------------------------------------------------------------------------
 
 
 
         //----------------------------------------------------------------------------
-        float getChunk(Rect frame, int l, float size)
+        float GetChunk(Rect frame, int l, float size)
         {
-
             return frame.y + 15 + size * l;
         }
         //----------------------------------------------------------------------------
@@ -225,7 +226,7 @@ namespace CS7056_AIToolKit
 
 
         //----------------------------------------------------------------------------
-        float getChunk(Rect frame, int l)
+        float GetChunk(Rect frame, int l)
         {
             float lChunk = 50;
             return frame.y + 15 + lChunk * l;
@@ -241,20 +242,19 @@ namespace CS7056_AIToolKit
             if (justRecompiled)
             {
                 justRecompiled = false;
-                needUpdate = false;
-                loadFSM(HelperFile.getTextFileFromResource(filename));
+                LoadFSM(HelperFile.getTextFileFromResource(filename));
 
                 if (needToAddControllerScript)
                 {
                     needToAddControllerScript = false;
-                    GameObject o = (GameObject)source;
+                    GameObject o = (GameObject)target;
                     o.AddComponent(controllerName);
                 }
             }
 
-            if (source != null && Application.isPlaying)
+            if (target != null && Application.isPlaying)
             {
-                GameObject sco = (GameObject)source;
+                GameObject sco = (GameObject)target;
                 if (sco != null)
                 {
                     StateController sc = sco.GetComponent<StateController>();
@@ -287,7 +287,7 @@ namespace CS7056_AIToolKit
 
 
         //----------------------------------------------------------------------------
-        void attributeInputBox(Rect frame, float boarder)
+        void DrawAttributesPanel(Rect frame, float boarder)
         {
             HelperEditor.DrawColorBox(new Rect(frame.x - boarder, frame.y - boarder, frame.width + boarder * 2, frame.height + boarder * 2), Color.gray, "");
             HelperEditor.DrawColorBox(frame, new Color(.15f, .15f, .15f), "Attributes");
@@ -336,25 +336,25 @@ namespace CS7056_AIToolKit
 
 
         //----------------------------------------------------------------------------	
-        private void addState()
+        private void AddStatePanel()
         {
-            StatePanel newState = new StatePanel(new Rect(startPos.x - HelperConstants.StateWidth / 2, startPos.y - HelperConstants.StateHeight / 2,
+            StatePanel newStatePanel = new StatePanel(new Rect(startPos.x - HelperConstants.StateWidth / 2, startPos.y - HelperConstants.StateHeight / 2,
                                                       HelperConstants.StateWidth,
                                                       HelperConstants.StateHeight), stateName);
-            newState.stateDiscription = stateDiscription;
-            newState.id = states.Count;
-            states.Add(newState);
+            newStatePanel.stateDiscription = stateDiscription;
+            newStatePanel.id = statesPanels.Count;
+            statesPanels.Add(newStatePanel);
         }
         //----------------------------------------------------------------------------
 
         /// <summary>
         /// Save the FSM to a text file
         /// </summary>
-        private void saveFSM()
+        private void SaveFSM()
         {
             //Debug.Log(("SAVE FSM " + Application.dataPath + resourcesDirectory));
             save();
-            HelperFile.saveToFile(Application.dataPath + resourcesDirectory + "/" + filename + ".txt", getFSMString());
+            HelperFile.saveToFile(Application.dataPath + resourcesDirectory + "/" + filename + ".txt", GetFSMString());
 
             //AssetDatabase.ImportAsset(Application.dataPath + resourcesDirectory+"/"+filename+".txt");
             //loadFSM(HelperFile.getTextFileFromResource(filename));
@@ -364,7 +364,7 @@ namespace CS7056_AIToolKit
         /// <summary>
         /// Load the FSM from a text file
         /// </summary>
-        private void loadFSM()
+        private void LoadFSM()
         {
             //Debug.Log(("LOAD FSM " + Application.dataPath + resourcesDirectory));
             save();
@@ -375,7 +375,7 @@ namespace CS7056_AIToolKit
 
 
             if (filestring.Length > 3)
-                loadFSM(filestring);
+                LoadFSM(filestring);
         }
 
         //----------------------------------------------------------------------------
@@ -386,8 +386,8 @@ namespace CS7056_AIToolKit
         {
             PlayerPrefs.SetString("resourceFilename", filename);
             PlayerPrefs.SetString("controllerName", controllerName);
-            if (source != null)
-                PlayerPrefs.SetString("target", source.name);
+            if (target != null)
+                PlayerPrefs.SetString("target", target.name);
 
             PlayerPrefs.Save();
         }
@@ -415,10 +415,11 @@ namespace CS7056_AIToolKit
 
 
         //----------------------------------------------------------------------------
-        void fileControlPanel(Vector2 point)
+        void DrawFilePanel(Rect rect)
         {
-            HelperEditor.DrawColorBox(new Rect(point.x - 7, point.y - 7, 204, 124), Color.gray);
-            HelperEditor.DrawColorBox(new Rect(point.x - 5, point.y - 5, 200, 120), new Color(.15f, .15f, .15f));
+            Vector2 point = new Vector2(rect.x, rect.y);
+            HelperEditor.DrawColorBox(new Rect(point.x - 7, point.y - 7, rect.width + 4, rect.height + 4), Color.gray);
+            HelperEditor.DrawColorBox(new Rect(point.x - 5, point.y - 5, rect.width, rect.height), new Color(.15f, .15f, .15f));
 
 //             GUI.Label(new Rect(point.x, point.y, 150, 20), "Resource Directory");
 //             resourcesDirectory = GUI.TextField(new Rect(point.x, point.y + 20, 180, 20), resourcesDirectory);
@@ -443,25 +444,25 @@ namespace CS7056_AIToolKit
 
 
             string beforeSource = "";
-            if (source != null)
+            if (target != null)
             {
-                beforeSource = source.name;
+                beforeSource = target.name;
             }
             GUI.Label(new Rect(point.x, point.y + 10, 155, 20), "Target");
             GUILayout.BeginArea(new Rect(point.x + 50, point.y + 10, 135, 50));
-            source = EditorGUILayout.ObjectField(source, typeof(GameObject), true);
+            target = EditorGUILayout.ObjectField(target, typeof(GameObject), true);
             GUILayout.EndArea();
-            if (source != null && source.name != beforeSource)
+            if (target != null && target.name != beforeSource)
             {
-                PlayerPrefs.SetString("target", source.name);
+                PlayerPrefs.SetString("target", target.name);
                 PlayerPrefs.Save();
-                GameObject o = (GameObject)source;
+                GameObject o = (GameObject)target;
                 StateController tempSC = o.GetComponent<StateController>();
                 if (tempSC != null)
                 {
-                    controllerName = getShortName(tempSC.ToString());
+                    controllerName = GetShortName(tempSC.ToString());
                     filename = controllerName + "FSM";
-                    loadFSM();
+                    LoadFSM();
                     PlayerPrefs.SetString("controllerName", controllerName);
                     PlayerPrefs.Save();
                 }
@@ -469,7 +470,7 @@ namespace CS7056_AIToolKit
                 {
                     controllerName = "";
                     filename = "";
-                    reset();
+                    Reset();
                 }
             }
 
@@ -482,27 +483,27 @@ namespace CS7056_AIToolKit
             if (GUILayout.Button("Build"))
             {
                 if (controllerName == "StateController") controllerName = controllerName + "1";
-                if (controllerName.Length == 0 && source != null)
+                if (controllerName.Length == 0 && target != null)
                 {
-                    controllerName = source.name + "Controller";
+                    controllerName = target.name + "Controller";
                 }
                 filename = controllerName + "FSM";
-                saveFSM();
+                SaveFSM();
 
                 //Debug.Log("Make Controller: " + Application.dataPath + "/" + controllerName);
                 save();
-                HelperFile.saveToFile(Application.dataPath + "/CS7056_AIToolKit/FiniteStateMachine/Controllers/" + controllerName + ".cs", HelperFormater.makeFileUsing(controllerName, filename, states));
+                HelperFile.saveToFile(Application.dataPath + "/CS7056_AIToolKit/FiniteStateMachine/Controllers/" + controllerName + ".cs", HelperFormater.makeFileUsing(controllerName, filename, statesPanels));
 
                 //AssetDatabase.ImportAsset(Application.dataPath+"/"+controllerName+".cs");
                 //loadFSM(HelperFile.getTextFileFromResource(filename));
 
                 //if(currentStateController == null)
-                if (source == null)
+                if (target == null)
                 {
                     Debug.Log("No controller selected");
                     GameObject o = new GameObject();
                     o.name = controllerName;
-                    source = o;
+                    target = o;
                     needToAddControllerScript = true;
                     AssetDatabase.Refresh();//
                     //GameObject go = (GameObject)Instantiate(o);
@@ -510,7 +511,7 @@ namespace CS7056_AIToolKit
                 }
                 else
                 {
-                    GameObject so = (GameObject)source;
+                    GameObject so = (GameObject)target;
                     object testO = so.GetComponent(controllerName);
                     if (testO == null)
                     {
@@ -522,19 +523,25 @@ namespace CS7056_AIToolKit
                 Repaint();
             }
             GUILayout.EndArea();
-            
 
             GUILayout.BeginArea(new Rect(point.x + 100, point.y + 90, 80, 50));
+            if (GUILayout.Button("Reload"))
+            {
+                LoadFSM();
+            }
+            GUILayout.EndArea();
+
+            GUILayout.BeginArea(new Rect(point.x, point.y + 120, 180, 50));
             if (GUILayout.Button("Clear"))
             {
-                reset();
+                Reset();
             }
             GUILayout.EndArea();
 
         }
         //-----------------------------------------------------------------------------
 
-        private string getShortName(string name)
+        private string GetShortName(string name)
         {
             string[] s = name.Split('(');
             return s[1].Replace(")", "");
@@ -542,21 +549,21 @@ namespace CS7056_AIToolKit
         }
 
         //-----------------------------------------------------------------------------
-        void DrawControlPanel()
+        void DrawControlPanels()
         {
-            fileControlPanel(new Vector2(10, 110));
+            DrawFilePanel(new Rect(10, 110, 200, 150));
 
             //stateInputBox(new Rect(10,10, 200, 180),2);
             //eventInputBox(new Rect(10,200, 200, 300),2);
 
-            attributeInputBox(new Rect(5, 233, 200, 280), 2);
+            DrawAttributesPanel(new Rect(5, 263, 200, 280), 2);
         }
         //----------------------------------------------------------------------------
 
 
 
         //----------------------------------------------------------------------------
-        void cleanEvents()
+        void ClearEvents()
         {
             for (int i = events.Count - 1; i >= 0; i--)
             {
@@ -570,7 +577,7 @@ namespace CS7056_AIToolKit
             int count = 1;
             foreach (EventConnection ec in events)
             {
-                ec.fromToCount = getNumberEvents(ec.from, ec.to, count);
+                ec.fromToCount = GetEventsCount(ec.from, ec.to, count);
                 ec.id = count - 1;
                 count++;
             }
@@ -580,7 +587,7 @@ namespace CS7056_AIToolKit
 
 
         //----------------------------------------------------------------------------
-        int getNumberEvents(StatePanel from, StatePanel to, int startIndex)
+        int GetEventsCount(StatePanel from, StatePanel to, int startIndex)
         {
             int sum = 0;
             for (int i = startIndex; i < events.Count; i++)
@@ -598,20 +605,17 @@ namespace CS7056_AIToolKit
 
 
         //----------------------------------------------------------------------------
-        void clean()
+        void Clear()
         {//
-
             dirty = false;
-            for (int i = states.Count - 1; i >= 0; i--)
+            for (int i = statesPanels.Count - 1; i >= 0; i--)
             {
-                if (states[i].markedForDeath)
+                if (statesPanels[i].markedForDeath)
                 {
-                    states[i].selected = false;
-                    deleteState(states[i]);
+                    statesPanels[i].selected = false;
+                    DeleteState(statesPanels[i]);
                 }
-
             }
-
         }
         //---------------------------------------------------------------------------------
 
@@ -680,7 +684,7 @@ namespace CS7056_AIToolKit
             */
 
         //----------------------------------------------------------------------------
-        private void eventMouseMaker()
+        private void OnMouseEvent()
         {//...................................................................
             if (mouseUp)
             {
@@ -692,7 +696,7 @@ namespace CS7056_AIToolKit
                 if (clicked)
                 {
                     clickCounter++;
-                    selectEvent(startPos);
+                    SelectEvent(startPos);
                     //Debug.Log("Clicked" + clickCounter + "  " + Vector2.Distance(stopMousePos, lastClick));
                     if (selectedEvent == null && clickCounter > 1)
                     {
@@ -700,7 +704,7 @@ namespace CS7056_AIToolKit
                         if (Vector2.Distance(stopMousePos, lastClick) < .9f)
                         {
                             clickCounter = 0;
-                            addState();
+                            AddStatePanel();
                             Repaint();
                             return;
                         }
@@ -713,7 +717,7 @@ namespace CS7056_AIToolKit
                 else
                     clickCounter = 0;
 
-                StatePanel sp = getStateForPoint(stopMousePos);
+                StatePanel sp = GetStateForPoint(stopMousePos);
 
                 if (sp != null && startStateSelected != null && eventConDrag != null)
                 {
@@ -734,7 +738,7 @@ namespace CS7056_AIToolKit
 
                 //getConnection(stopMousePos);
 
-                selectStateReset();
+                SelectStateReset();
                 Repaint();
             }
             //...................................................................
@@ -743,7 +747,7 @@ namespace CS7056_AIToolKit
                 startPos = Event.current.mousePosition;
                 Vector2 startMousePos = Event.current.mousePosition;
 
-                StatePanel sp = getStateHandleForPoint(startMousePos);
+                StatePanel sp = GetStateHandleForPoint(startMousePos);
                 if (sp != null)
                 {
                     startStateSelected = sp;
@@ -770,28 +774,21 @@ namespace CS7056_AIToolKit
                         eventConDrag.to.screenRect.x = mousePos.x;
                         eventConDrag.to.screenRect.y = mousePos.y;
 
-
-                        selectState(mousePos);
-                        //}
+                        SelectState(mousePos);
 
                         Repaint();
                     }
-
-
                 }
-
-
-
             }
         }
         //----------------------------------------------------------------------------
 
         //----------------------------------------------------------------------------
-        private void selectState(Vector2 point)
+        private void SelectState(Vector2 point)
         {
-            foreach (StatePanel sp in states)
+            foreach (StatePanel sp in statesPanels)
             {
-                if (sp.stateHolds(point))
+                if (sp.IsHolding(point))
                 {
                     sp.selected = true;
                 }
@@ -801,13 +798,13 @@ namespace CS7056_AIToolKit
         //----------------------------------------------------------------------------
 
         //----------------------------------------------------------------------------
-        private void selectEvent(Vector2 point)
+        private void SelectEvent(Vector2 point)
         {
             selectedEvent = null;
             Vector2 pmod = new Vector2(point.x + scrollPosition.x, point.y + scrollPosition.y);
             foreach (EventConnection ec in events)
             {
-                if (ec.holdsPoint(pmod))
+                if (ec.IsHoldingPoint(pmod))
                 {
                     ec.selected = true;
                     selectedEvent = ec;
@@ -825,7 +822,7 @@ namespace CS7056_AIToolKit
 
 
         //----------------------------------------------------------------------------
-        private void resetEvent(Vector2 point)
+        private void ResetEvent(Vector2 point)
         {
             foreach (EventConnection ec in events)
             {
@@ -836,9 +833,9 @@ namespace CS7056_AIToolKit
         //----------------------------------------------------------------------------
 
         //----------------------------------------------------------------------------
-        private void selectStateReset()
+        private void SelectStateReset()
         {
-            foreach (StatePanel sp in states)
+            foreach (StatePanel sp in statesPanels)
             {
                 sp.selected = false;
             }
@@ -847,26 +844,26 @@ namespace CS7056_AIToolKit
         //----------------------------------------------------------------------------
 
         //----------------------------------------------------------------------------
-        private StatePanel getStateHandleForPoint(Vector2 point)
+        private StatePanel GetStateHandleForPoint(Vector2 point)
         {
             Vector2 pmod = new Vector2(point.x + scrollPosition.x, point.y + scrollPosition.y);
 
-            foreach (StatePanel sp in states)
+            foreach (StatePanel sp in statesPanels)
             {
-                if (sp.handleHolds(pmod)) return sp;
+                if (sp.IsHandlerHolding(pmod)) return sp;
             }
             return null;
         }
         //----------------------------------------------------------------------------
 
         //----------------------------------------------------------------------------
-        private StatePanel getStateForPoint(Vector2 point)
+        private StatePanel GetStateForPoint(Vector2 point)
         {
             Vector2 pmod = new Vector2(point.x + scrollPosition.x, point.y + scrollPosition.y);
 
-            foreach (StatePanel sp in states)
+            foreach (StatePanel sp in statesPanels)
             {
-                if (sp.stateHolds(pmod)) return sp;
+                if (sp.IsHolding(pmod)) return sp;
             }
             return null;
         }
@@ -899,43 +896,23 @@ namespace CS7056_AIToolKit
             {
                 if (eventConDrag.to != null)
                 {
-
                     Handles.BeginGUI();
                     DrawEventCurve(eventConDrag.from.screenRect, eventConDrag.to.screenRect, eventConDrag);
                     Handles.EndGUI();
-
                 }
-
             }
 
             foreach (EventConnection ec in events)
             {
-                ec.showNotSelected();
-            }
-            foreach (EventConnection ec in events)
-            {
-                ec.showSelected();
+                ec.ShowNotSelected();
+                ec.ShowSelected();
             }
 
         }
         //----------------------------------------------------------------------------
 
-
         //----------------------------------------------------------------------------
-        public enum NodeLocation
-        {
-            right,
-            bottom,
-            left,
-            top
-
-        }
-        //----------------------------------------------------------------------------
-
-
-
-        //----------------------------------------------------------------------------
-        NodeLocation getNodeLocation(float angle)
+        NodeLocation GetNodeLocation(float angle)
         {
             if (angle >= -45 && angle < 45) return NodeLocation.right;
             if (angle >= 45 && angle < 135) return NodeLocation.top;
@@ -948,40 +925,29 @@ namespace CS7056_AIToolKit
 
 
         //----------------------------------------------------------------------------
-        NodeLocation getNodeLocation(Rect start, Rect end)
+        NodeLocation GetNodeLocation(Rect start, Rect end)
         {
-            return getNodeLocation(HelperGraphics.angle(start.center, end.center));
+            return GetNodeLocation(HelperGraphics.angle(start.center, end.center));
         }
         //----------------------------------------------------------------------------
 
 
         //----------------------------------------------------------------------------	
-        Vector3 getStartPos(Rect start, Rect end, NodeLocation currentNodeLocation, int repeatCount)
+        Vector3 GetStartPos(Rect start, Rect end, NodeLocation currentNodeLocation, int repeatCount)
         {
             float adj = 0;
             if (start == end) adj = -60.0f;
             float boxAdjust = 2;
 
             if (currentNodeLocation == NodeLocation.right)
-            {
                 return new Vector3(start.x + start.width + boxAdjust, start.y + start.height / 3 + repeatCount * 10 + adj, 0);
-
-            }
             if (currentNodeLocation == NodeLocation.left)
-            {
                 return new Vector3(start.x - boxAdjust, start.y + start.height / 3 + repeatCount * 10 + adj, 0);
-
-            }
             if (currentNodeLocation == NodeLocation.top)
-            {
                 return new Vector3(start.x + start.width / 3 + repeatCount * 10 + adj, start.y - boxAdjust, 0);
-
-            }
             if (currentNodeLocation == NodeLocation.bottom)
-            {
                 return new Vector3(start.x + start.width / 3 + repeatCount * 10 + adj, start.y + start.height + boxAdjust, 0);
-
-            }
+            
             return new Vector3(start.x + start.width, start.y + start.height / 2, 0);
         }
         //----------------------------------------------------------------------------
@@ -989,32 +955,21 @@ namespace CS7056_AIToolKit
 
         //----------------------------------------------------------------------------
         //new Vector3(end.x, end.y + end.height / 2, 0);
-        Vector3 getEndPos(Rect start, Rect end, NodeLocation currentNodeLocation, int repeatCount)
+        Vector3 GetEndPos(Rect start, Rect end, NodeLocation currentNodeLocation, int repeatCount)
         {
             float adj = 10;
             float adj2 = 0;
             if (start == end) adj2 = 60.0f;
 
             if (currentNodeLocation == NodeLocation.right)
-            {
                 return new Vector3(end.x - adj, end.y + end.height / 1.5f + repeatCount * 10 + adj2, 0);
-
-            }
             if (currentNodeLocation == NodeLocation.left)
-            {
                 return new Vector3(end.x + end.width + adj, end.y + end.height / 1.5f + repeatCount * 10 + adj2, 0);
-
-            }
             if (currentNodeLocation == NodeLocation.top)
-            {
                 return new Vector3(end.x + end.width / 1.5f + repeatCount * 10 + adj2, end.y + end.height + adj, 0);
-
-            }
             if (currentNodeLocation == NodeLocation.bottom)
-            {
                 return new Vector3(end.x + end.width / 1.5f + repeatCount * 10 + adj2, end.y - adj, 0);
-
-            }
+            
             return new Vector3(end.x, end.y + end.height / 1.5f, 0);
         }
         //----------------------------------------------------------------------------
@@ -1022,28 +977,17 @@ namespace CS7056_AIToolKit
 
 
         //----------------------------------------------------------------------------
-        Vector3 getStartTan(NodeLocation currentNodeLocation, float chunk, Vector3 startPos)
+        Vector3 GetStartTan(NodeLocation currentNodeLocation, float chunk, Vector3 startPos)
         {
             if (currentNodeLocation == NodeLocation.right)
-            {
                 return startPos + chunk * Vector3.right;
-
-            }
             if (currentNodeLocation == NodeLocation.left)
-            {
                 return startPos + chunk * Vector3.left;
-
-            }
             if (currentNodeLocation == NodeLocation.top)
-            {
                 return startPos + chunk * Vector3.down;
-
-            }
             if (currentNodeLocation == NodeLocation.bottom)
-            {
                 return startPos + chunk * Vector3.up;
 
-            }
             return startPos + chunk * Vector3.right;
         }
         //----------------------------------------------------------------------------
@@ -1051,35 +995,24 @@ namespace CS7056_AIToolKit
 
 
         //----------------------------------------------------------------------------
-        Vector3 getEndTan(NodeLocation currentNodeLocation, float chunk, Vector3 endPos)
+        Vector3 GetEndTan(NodeLocation currentNodeLocation, float chunk, Vector3 endPos)
         {
             if (currentNodeLocation == NodeLocation.right)
-            {
                 return endPos + chunk * Vector3.left;
-
-            }
             if (currentNodeLocation == NodeLocation.left)
-            {
                 return endPos + chunk * Vector3.right;
-
-            }
             if (currentNodeLocation == NodeLocation.top)
-            {
                 return endPos + chunk * Vector3.up;
-
-            }
             if (currentNodeLocation == NodeLocation.bottom)
-            {
                 return endPos + chunk * Vector3.down;
 
-            }
             return endPos + chunk * Vector3.right;
         }
         //----------------------------------------------------------------------------
 
 
         //----------------------------------------------------------------------------
-        void drawHandle(Vector3 point)
+        void DrawHandler(Vector3 point)
         {
             float boarder = 1;
             float size = 4;
@@ -1096,19 +1029,18 @@ namespace CS7056_AIToolKit
         //----------------------------------------------------------------------------
         void DrawEventCurve(Rect start, Rect end, EventConnection eventCon)
         {
+            NodeLocation currentNodeLocation = GetNodeLocation(start, end);
 
-            NodeLocation currentNodeLocation = getNodeLocation(start, end);
-
-            Vector3 startPos = getStartPos(start, end, currentNodeLocation, eventCon.fromToCount);
-            Vector3 endPos = getEndPos(start, end, currentNodeLocation, eventCon.fromToCount);
+            Vector3 startPos = GetStartPos(start, end, currentNodeLocation, eventCon.fromToCount);
+            Vector3 endPos = GetEndPos(start, end, currentNodeLocation, eventCon.fromToCount);
 
             eventCon.fromPT = startPos;
             eventCon.toPT = endPos;
 
             float chunk = Vector3.Distance(startPos, endPos) / 2.5f;
 
-            Vector3 startTan = getStartTan(currentNodeLocation, chunk, startPos);
-            Vector3 endTan = getEndTan(currentNodeLocation, chunk, endPos);//endPos +  chunk*Vector3.left;;
+            Vector3 startTan = GetStartTan(currentNodeLocation, chunk, startPos);
+            Vector3 endTan = GetEndTan(currentNodeLocation, chunk, endPos);//endPos +  chunk*Vector3.left;;
 
             Color shadowCol = new Color(0, 0, 0, 0.06f);
             Vector3 end3=new Vector3(endPos.x-(endPos.x- startPos.x)/45,endPos.y-(endPos.y- startPos.y)/45,0);
@@ -1141,7 +1073,7 @@ namespace CS7056_AIToolKit
             }
 
             Handles.DrawBezier(startPos, endPos, startTan, endTan, cureveColor, null, 2);
-            drawHandle(startPos);
+            DrawHandler(startPos);
             
             GUI.Label(arrowRect, arrow);
         }
@@ -1149,12 +1081,11 @@ namespace CS7056_AIToolKit
 
 
         //---------------------------------------------------------------------------------
-        StatePanel getPanelAtClick(Vector2 clickedAt)
+        StatePanel GetPanelAtClick(Vector2 clickedAt)
         {
-
-            foreach (StatePanel state_ in states)
+            foreach (StatePanel sp in statesPanels)
             {
-                if (state_.screenRect.Contains(clickedAt)) return state_;
+                if (sp.screenRect.Contains(clickedAt)) return sp;
             }
             return null;
         }
@@ -1162,14 +1093,13 @@ namespace CS7056_AIToolKit
 
 
         //----------------------------------------------------------------------------
-        void deleteState(StatePanel target_)
+        void DeleteState(StatePanel sp)
         {
-            states.Remove(target_);
-
+            statesPanels.Remove(sp);
 
             for (int i = events.Count - 1; i >= 0; i--)
             {
-                if (events[i].from == target_ || events[i].to == target_)
+                if (events[i].from == sp || events[i].to == sp)
                 {
                     EventConnection ec = (EventConnection)events[i];
                     events.Remove(ec);
@@ -1179,19 +1109,17 @@ namespace CS7056_AIToolKit
             {
                 events[i].id = i;
             }
-
         }
         //----------------------------------------------------------------------------
 
 
         //----------------------------------------------------------------------------
-        private string getLinkedEvents(StatePanel state)
+        private string GetLinkedEvents(StatePanel state)
         {
             List<string> links = new List<string>();
             foreach (EventConnection ec in events)
             {
                 if (ec.from == state) links.Add(ec.id.ToString());
-
             }
 
             string outString = "";
@@ -1199,7 +1127,6 @@ namespace CS7056_AIToolKit
             {
                 if (i > 0) outString = outString + ":" + links[i];
                 else outString = links[i];
-
             }
 
             return outString;
@@ -1208,7 +1135,7 @@ namespace CS7056_AIToolKit
 
 
         //----------------------------------------------------------------------------
-        private string getAttributeString()
+        private string GetAttributeString()
         {
             string line = "";
             for (int i = 0; i < attributes.Count; i++)
@@ -1224,16 +1151,16 @@ namespace CS7056_AIToolKit
 
 
         //----------------------------------------------------------------------------
-        private string getStateString()
+        private string GetStateString()
         {
             string line1 = "//STATES   ID,   EVENTS\n";
             int i = 0;
-            foreach (StatePanel sp in states)
+            foreach (StatePanel sp in statesPanels)
             {
-                if (i < states.Count - 1)
-                    line1 = line1 + sp.stateName + "," + sp.id + "," + getLinkedEvents(sp) + "," + sp.screenRect.x + "," + sp.screenRect.y + "," + sp.stateDiscription + ";\n";
+                if (i < statesPanels.Count - 1)
+                    line1 = line1 + sp.stateName + "," + sp.id + "," + GetLinkedEvents(sp) + "," + sp.screenRect.x + "," + sp.screenRect.y + "," + sp.stateDiscription + ";\n";
                 else
-                    line1 = line1 + sp.stateName + "," + sp.id + "," + getLinkedEvents(sp) + "," + sp.screenRect.x + "," + sp.screenRect.y + "," + sp.stateDiscription + "\n";
+                    line1 = line1 + sp.stateName + "," + sp.id + "," + GetLinkedEvents(sp) + "," + sp.screenRect.x + "," + sp.screenRect.y + "," + sp.stateDiscription + "\n";
                 i++;
             }
 
@@ -1243,15 +1170,15 @@ namespace CS7056_AIToolKit
 
 
         //----------------------------------------------------------------------------
-        private string getFSMString()
+        private string GetFSMString()
         {
-            return getStateString() + getAttributeString() + getEventsString();
+            return GetStateString() + GetAttributeString() + GetEventsString();
         }
         //----------------------------------------------------------------------------
 
 
         //---------------------------------------------------------------------------
-        private string getEventsString()
+        private string GetEventsString()
         {
             string line = "";
             for (int i = 0; i < events.Count; i++)
@@ -1275,25 +1202,25 @@ namespace CS7056_AIToolKit
                 if (GUI.Button(new Rect(180, 0, 20, 15), (Texture2D)Resources.Load("Editor/close"), btnStyle))
                 {
                     //Debug.Log("Delete "+windowID);
-                    states[windowID].markedForDeath = true;
+                    statesPanels[windowID].markedForDeath = true;
                     dirty = true;
                 }
             }
             
-            states[windowID].stateName = GUILayout.TextField(states[windowID].stateName);
-            states[windowID].stateName = states[windowID].stateName.Replace(" ", "");
-            states[windowID].stateName = states[windowID].stateName.Replace(".", "");
-            states[windowID].stateName = states[windowID].stateName.Replace(",", "");
-            states[windowID].stateName = states[windowID].stateName.Replace("/", "");
-            states[windowID].stateName = states[windowID].stateName.Replace("\"", "");
-            states[windowID].stateName = states[windowID].stateName.Replace(";", "");
-            states[windowID].stateName = states[windowID].stateName.Replace(":", "");
-            states[windowID].stateDiscription = GUILayout.TextArea(states[windowID].stateDiscription);
+            statesPanels[windowID].stateName = GUILayout.TextField(statesPanels[windowID].stateName);
+            statesPanels[windowID].stateName = statesPanels[windowID].stateName.Replace(" ", "");
+            statesPanels[windowID].stateName = statesPanels[windowID].stateName.Replace(".", "");
+            statesPanels[windowID].stateName = statesPanels[windowID].stateName.Replace(",", "");
+            statesPanels[windowID].stateName = statesPanels[windowID].stateName.Replace("/", "");
+            statesPanels[windowID].stateName = statesPanels[windowID].stateName.Replace("\"", "");
+            statesPanels[windowID].stateName = statesPanels[windowID].stateName.Replace(";", "");
+            statesPanels[windowID].stateName = statesPanels[windowID].stateName.Replace(":", "");
+            statesPanels[windowID].stateDiscription = GUILayout.TextArea(statesPanels[windowID].stateDiscription);
 
             // Draw the indicator
             if (Application.isPlaying)
             {
-                if (currentState == states[windowID].stateName)
+                if (currentState == statesPanels[windowID].stateName)
                 {
                     ++runCounter;
                     int adjRC = runCounter % ((int)HelperConstants.StateWidth - 10);
@@ -1314,18 +1241,18 @@ namespace CS7056_AIToolKit
         }
         //----------------------------------------------------------------------------
 
-        private StatePanel getStateFrom(int id)
+        private StatePanel GetStateFrom(int id)
         {
-            foreach (StatePanel sp in states)
+            foreach (StatePanel sp in statesPanels)
             {
                 if (sp.eventsList.Contains(id)) return sp;
             }
             return null;
         }
 
-        private void loadFSM(string FSM)
+        private void LoadFSM(string FSM)
         {
-            reset();
+            Reset();
             //string line = FSM.Replace(" ","");
             string line = HelperFormater.stripComments(FSM.Split('\n'));
             if (line.Length == 0) return;
@@ -1338,7 +1265,7 @@ namespace CS7056_AIToolKit
 
             for (int i = 0; i < stateParts.Length; i++)
             {
-                states.Add(new StatePanel(stateParts[i]));
+                statesPanels.Add(new StatePanel(stateParts[i]));
             }
 
 
@@ -1359,8 +1286,8 @@ namespace CS7056_AIToolKit
                     //Debug.Log("EVENT="+eventParts[i]);
                     int id_ = int.Parse(s[1]);
                     string name_ = s[0];
-                    StatePanel from_ = getStateFrom(id_);
-                    StatePanel to_ = states[int.Parse(s[2])];
+                    StatePanel from_ = GetStateFrom(id_);
+                    StatePanel to_ = statesPanels[int.Parse(s[2])];
 
                     EventConnection ec = new EventConnection(from_, to_);
                     ec.eventName = name_;
@@ -1374,10 +1301,10 @@ namespace CS7056_AIToolKit
 
         }
 
-        private void reset()
+        private void Reset()
         {
             //source = null;
-            states.Clear();
+            statesPanels.Clear();
             events.Clear();
             attributes.Clear();
             clickCounter = 0;

@@ -5,6 +5,14 @@ using UnityEditor;
 
 namespace CS7056_AIToolKit
 {
+    public enum NodeLocation
+    {
+        right,
+        bottom,
+        left,
+        top
+    }
+
     public class EndPoint
     {
         public Rect location;
@@ -66,13 +74,13 @@ namespace CS7056_AIToolKit
         }
         //---------------------------------------------------------------------------------
 
-        public bool handleHolds(Vector2 point)
+        public bool IsHandlerHolding(Vector2 point)
         {
             if (activeEndPoint == null) return false;
             return activeEndPoint.location.Contains(point);
         }
 
-        public bool stateHolds(Vector2 point)
+        public bool IsHolding(Vector2 point)
         {
             return screenRect.Contains(point);
         }
@@ -104,7 +112,7 @@ namespace CS7056_AIToolKit
             back.y -= boarder / 2.0f;
 
 
-            Rect pt = new Rect(screenRect.position.x, screenRect.position.y + screenRect.height + 2, 10, 10);
+            Rect pt = new Rect(screenRect.position.x + screenRect.width - 12, screenRect.position.y + screenRect.height + 2, 10, 10);
             EndPoint ep = new EndPoint(pt);
             Rect resized = new Rect(ep.location.x - 1, ep.location.y - 1, ep.location.width + 2, ep.location.height + 2);
 

@@ -101,11 +101,11 @@ namespace CS7056_AIToolKit
             {
                 if (i < actions.Count - 1)
                 {
-                    line = line + actions[i].getSaveString() + ":";
+                    line = line + actions[i].GetSaveString() + ":";
                 }
                 else
                 {
-                    line = line + actions[i].getSaveString();
+                    line = line + actions[i].GetSaveString();
                 }
 
             }
@@ -123,12 +123,11 @@ namespace CS7056_AIToolKit
         public void takeActions(string custAction)
         {
             Action act = new Action(custAction, attributes);
-            act.takeAction();
+            act.TakeAction();
 
             foreach (Action a in actions)
             {
-                a.takeAction();
-
+                a.TakeAction();
             }
 
         }
@@ -144,13 +143,13 @@ namespace CS7056_AIToolKit
         public void takeActions(string custAction1, string custAction2)
         {
             Action a1 = new Action(custAction1, attributes);
-            a1.takeAction();
+            a1.TakeAction();
             Action a2 = new Action(custAction2, attributes);
-            a2.takeAction();
+            a2.TakeAction();
 
             foreach (Action a in actions)
             {
-                a.takeAction();
+                a.TakeAction();
 
             }
 
@@ -167,7 +166,7 @@ namespace CS7056_AIToolKit
         {
             foreach (Action a in actions)
             {
-                a.takeAction();
+                a.TakeAction();
 
             }
         }

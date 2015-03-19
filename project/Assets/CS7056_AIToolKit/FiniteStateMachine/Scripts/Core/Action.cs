@@ -7,8 +7,6 @@ namespace CS7056_AIToolKit
 {
     public class Action : object
     {
-
-
         private string leftValue;
         private string rightValue;
         private string operand;
@@ -96,7 +94,7 @@ namespace CS7056_AIToolKit
         /// Gets the save string.
         /// </summary>
         /// <returns>The save string.</returns>
-        public string getSaveString()
+        public string GetSaveString()
         {
             return line;
         }
@@ -107,13 +105,13 @@ namespace CS7056_AIToolKit
         /// <summary>
         /// Takes the action.
         /// </summary>
-        public void takeAction()
+        public void TakeAction()
         {
-            Attribute target = getAttribute(name);
+            Attribute target = GetAttribute(name);
             if (target == null) return;
 
-            string left = getValue(leftValue);
-            string right = getValue(rightValue);
+            string left = GetValue(leftValue);
+            string right = GetValue(rightValue);
 
             if (operand == "=")
             {
@@ -151,7 +149,7 @@ namespace CS7056_AIToolKit
         /// </summary>
         /// <returns>The value.</returns>
         /// <param name="val">Value.</param>
-        string getValue(string val)
+        string GetValue(string val)
         {
             foreach (Attribute a in attributes)
             {
@@ -170,7 +168,7 @@ namespace CS7056_AIToolKit
         /// </summary>
         /// <returns>The value.</returns>
         /// <param name="val">Value.</param>
-        public Attribute getAttribute(string val)
+        public Attribute GetAttribute(string val)
         {
             foreach (Attribute a in attributes)
             {

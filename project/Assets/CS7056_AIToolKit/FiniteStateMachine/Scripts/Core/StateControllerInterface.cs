@@ -4,7 +4,7 @@ using System.Collections;
 
 public interface StateControllerInterface 
 {
-    void enteredState(string stateName);
-	void leftState(string stateName);
-	void tickFired();
+    void EnteredState(string stateName);
+	void LeftState(string stateName);
+	void TickFired();
 }

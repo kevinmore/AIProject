@@ -67,6 +67,7 @@
     <Compile Include="Assets\CS7056_AIToolKit\FiniteStateMachine\Controllers\gameController.cs" />
     <Compile Include="Assets\CS7056_AIToolKit\FiniteStateMachine\Controllers\lightController.cs" />
     <Compile Include="Assets\CS7056_AIToolKit\FiniteStateMachine\Controllers\myTestController.cs" />
+    <Compile Include="Assets\CS7056_AIToolKit\FiniteStateMachine\Controllers\ooo.cs" />
     <Compile Include="Assets\CS7056_AIToolKit\FiniteStateMachine\Controllers\testController.cs" />
     <Compile Include="Assets\CS7056_AIToolKit\FiniteStateMachine\Controllers\walkerController.cs" />
     <Compile Include="Assets\CS7056_AIToolKit\FiniteStateMachine\Examples\Scripts\clickHandler.cs" />
@@ -119,6 +120,7 @@
     <None Include="Assets\CS7056_AIToolKit\Resources\FSM\carFSM.txt" />
     <None Include="Assets\CS7056_AIToolKit\Resources\FSM\gameControllerFSM.txt" />
     <None Include="Assets\CS7056_AIToolKit\Resources\FSM\lightFSM.txt" />
+    <None Include="Assets\CS7056_AIToolKit\Resources\FSM\oooFSM.txt" />
     <None Include="Assets\CS7056_AIToolKit\Resources\FSM\testControllerFSM.txt" />
     <None Include="Assets\CS7056_AIToolKit\Resources\FSM\walkerFSM.txt" />
     <None Include="Assets\CS7056_AIToolKit\Standard Assets\Water (Basic)\Sources\Shaders\FX-Water Simple.shader" />

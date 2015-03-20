@@ -32,7 +32,7 @@ namespace CS7056_AIToolKit
         /// Gets the save string.
         /// </summary>
         /// <returns>The save string.</returns>
-        public string getSaveString()
+        public string GetSaveString()
         {
             string line = leftValue + operand + rightValue;
             return line;
@@ -110,7 +110,7 @@ namespace CS7056_AIToolKit
         /// </summary>
         /// <returns>The value.</returns>
         /// <param name="val">Value.</param>
-        string getValue(string val)
+        string GetValue(string val)
         {
             foreach (Attribute a in attributes)
             {
@@ -134,27 +134,27 @@ namespace CS7056_AIToolKit
 
                 if (operand == "=")
                 {
-                    return (getValue(leftValue) == getValue(rightValue));
+                    return (GetValue(leftValue) == GetValue(rightValue));
                 }
                 if (operand == "!=")
                 {
-                    return (getValue(leftValue) != getValue(rightValue));
+                    return (GetValue(leftValue) != GetValue(rightValue));
                 }
                 if (operand == "<")
                 {
-                    return (float.Parse(getValue(leftValue)) < float.Parse(getValue(rightValue)));
+                    return (float.Parse(GetValue(leftValue)) < float.Parse(GetValue(rightValue)));
                 }
                 if (operand == "<=")
                 {
-                    return (float.Parse(getValue(leftValue)) <= float.Parse(getValue(rightValue)));
+                    return (float.Parse(GetValue(leftValue)) <= float.Parse(GetValue(rightValue)));
                 }
                 if (operand == ">")
                 {
-                    return (float.Parse(getValue(leftValue)) > float.Parse(getValue(rightValue)));
+                    return (float.Parse(GetValue(leftValue)) > float.Parse(GetValue(rightValue)));
                 }
                 if (operand == ">=")
                 {
-                    return (float.Parse(getValue(leftValue)) >= float.Parse(getValue(rightValue)));
+                    return (float.Parse(GetValue(leftValue)) >= float.Parse(GetValue(rightValue)));
                 }
 
                 return false;

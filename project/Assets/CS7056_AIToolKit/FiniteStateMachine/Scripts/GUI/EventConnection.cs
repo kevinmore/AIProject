@@ -56,7 +56,7 @@ namespace CS7056_AIToolKit
         public void ShowSelected()
         {
 
-            Vector2 center = HelperGraphics.quarterPoint(fromPT, toPT);
+            Vector2 center = HelperGraphics.QuarterPoint(fromPT, toPT);
             Rect box = new Rect(center.x - width / 2, center.y - editHeigt / 2 + fromToCount * 40, width, editHeigt);
             if (from == to)
             {
@@ -121,7 +121,7 @@ namespace CS7056_AIToolKit
         public void ShowNotSelected()
         {
 
-            Vector2 center = HelperGraphics.quarterPoint(fromPT, toPT);
+            Vector2 center = HelperGraphics.QuarterPoint(fromPT, toPT);
             Rect box = new Rect(center.x - width / 2, center.y - heigt / 2 + fromToCount * 40, width, heigt);
             if (from == to)
             {

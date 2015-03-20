@@ -77,7 +77,7 @@ namespace CS7056_AIToolKit
         /// Gets the save string.
         /// </summary>
         /// <returns>The save string.</returns>
-        public string getSaveString()
+        public string GetSaveString()
         {
             return this.name + "=" + value;
         }

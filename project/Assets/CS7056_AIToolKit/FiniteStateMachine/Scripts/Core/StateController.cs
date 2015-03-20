@@ -15,7 +15,7 @@ namespace CS7056_AIToolKit
         public string tickerEventName = "tick";
         public float totalTimeInSeconds = 1;
         public int startStateID = 0;
-        public abstract void tickFired();
+        public abstract void TickFired();
 
 
 
@@ -23,7 +23,7 @@ namespace CS7056_AIToolKit
         /// <summary>
         /// Turns the timer on.
         /// </summary>
-        public void turnOn()
+        public void TurnOn()
         {
             timeLeft = totalTimeInSeconds;
             tickerOn = true;
@@ -34,7 +34,7 @@ namespace CS7056_AIToolKit
         /// <summary>
         /// Turns the timer off.
         /// </summary>
-        public void turnOff()
+        public void TurnOff()
         {
             tickerOn = false;
         }//----------------------------------------
@@ -47,11 +47,11 @@ namespace CS7056_AIToolKit
         /// <param name="theTarget">The target.</param>
         /// <param name="theTargetMethod">The target method.</param>
         /// <param name="length">Length.</param>
-        public void startNewRepeatingTimer(GameObject theTarget, string theTargetMethod, float length)
+        public void StartNewRepeatingTimer(GameObject theTarget, string theTargetMethod, float length)
         {
             repeating = true;
             totalTimeInSeconds = length;
-            turnOn();
+            TurnOn();
         }//----------------------------------------	
 
 
@@ -62,19 +62,19 @@ namespace CS7056_AIToolKit
         /// <param name="theTarget">The target.</param>
         /// <param name="theTargetMethod">The target method.</param>
         /// <param name="length">Length.</param>
-        public void startNewTimer(GameObject theTarget, string theTargetMethod, float length)
+        public void StartNewTimer(GameObject theTarget, string theTargetMethod, float length)
         {
             totalTimeInSeconds = length;
-            turnOn();
+            TurnOn();
         }//----------------------------------------
 
         //----------------------------------------
         /// <summary>
         /// update from the extended class.
         /// </summary>
-        public void superUpdate()
+        public void SuperUpdate()
         {
-            fireTimer();
+            FireTimer();
         }//----------------------------------------
 
 
@@ -82,7 +82,7 @@ namespace CS7056_AIToolKit
         /// <summary>
         /// Fires the timer.
         /// </summary>
-        private void fireTimer()
+        private void FireTimer()
         {
 
             if (tickerOn)
@@ -94,12 +94,12 @@ namespace CS7056_AIToolKit
                 {
                     timeLeft = totalTimeInSeconds;
                     eventToFSM = "tick";
-                    tickFired();
+                    TickFired();
 
-                    if (repeating) turnOn();
+                    if (repeating) TurnOn();
                     else
                     {
-                        turnOff();
+                        TurnOff();
                         GameObject.DestroyImmediate(gameObject);
                     }
                 }
@@ -113,7 +113,7 @@ namespace CS7056_AIToolKit
         /// <summary>
         /// state transition callback
         /// </summary>
-        public void enteredState(string stateName)
+        public void EnteredState(string stateName)
         {
             currentState = stateName;
             Invoke("Entered_State_" + stateName, 0.0f);
@@ -126,7 +126,7 @@ namespace CS7056_AIToolKit
         /// Leaves the state.
         /// </summary>
         /// <param name="stateName">State name.</param>
-        public void leftState(string stateName)
+        public void LeftState(string stateName)
         {
             previousState = stateName;
             Invoke("Left_State_" + stateName, 0.0f);
@@ -137,10 +137,10 @@ namespace CS7056_AIToolKit
         /// Recieves the event.
         /// </summary>
         /// <param name="event_">Event_.</param>
-        public void recieveEvent(string event_)
+        public void RecieveEvent(string event_)
         {
             //Debug.Log("clicked "+event_);
-            myStateMachine.event_(event_);
+            myStateMachine.OnEvent(event_);
         }//----------------------------------------
 
         //-----------------------------------------------------------
@@ -152,12 +152,12 @@ namespace CS7056_AIToolKit
         {
             set
             {
-                myStateMachine.event_(value);
+                myStateMachine.OnEvent(value);
             }
         }
         //-----------------------------------------------------------
 
-        public void timerFired()
+        public void TimerFired()
         {
             eventToFSM = tickerEventName;
         }

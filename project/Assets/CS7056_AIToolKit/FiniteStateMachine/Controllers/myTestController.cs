@@ -6,23 +6,23 @@ public class myTestController : StateController, StateControllerInterface
 {
 void Start ()
   {
-    string pushString = HelperFile.getTextFileFromResource("myTestControllerFSM");
+    string pushString = HelperFile.GetTextFileFromResource("myTestControllerFSM");
     myStateMachine = new FSM(pushString,this);
 
-myStateMachine.jumpToState(startStateID);
+myStateMachine.JumpToState(startStateID);
    }
 
 void Update () 
   {
 //Your code here
 
-superUpdate();
+SuperUpdate();
 
   }
 
 
 
-public override void tickFired(){
+public override void TickFired(){
 
 }
 

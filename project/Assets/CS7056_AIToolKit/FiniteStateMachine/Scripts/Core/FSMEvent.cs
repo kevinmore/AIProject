@@ -79,7 +79,7 @@ namespace CS7056_AIToolKit
         /// Gets the save string.
         /// </summary>
         /// <returns>The save string.</returns>
-        public string getSaveString()
+        public string GetSaveString()
         {
             string line = name + "," + id + "," + toStateID + ",";
 
@@ -88,11 +88,11 @@ namespace CS7056_AIToolKit
             {
                 if (i < conditions.Count - 1)
                 {
-                    line = line + conditions[i].getSaveString() + ":";
+                    line = line + conditions[i].GetSaveString() + ":";
                 }
                 else
                 {
-                    line = line + conditions[i].getSaveString() + ",";
+                    line = line + conditions[i].GetSaveString() + ",";
                 }
 
             }
@@ -120,7 +120,7 @@ namespace CS7056_AIToolKit
         /// Takes the actions.
         /// </summary>
         /// <param name="custAction">Cust action.</param>
-        public void takeActions(string custAction)
+        public void TakeActions(string custAction)
         {
             Action act = new Action(custAction, attributes);
             act.TakeAction();
@@ -140,7 +140,7 @@ namespace CS7056_AIToolKit
         /// </summary>
         /// <param name="custAction1">Cust action1.</param>
         /// <param name="custAction2">Cust action2.</param>
-        public void takeActions(string custAction1, string custAction2)
+        public void TakeActions(string custAction1, string custAction2)
         {
             Action a1 = new Action(custAction1, attributes);
             a1.TakeAction();
@@ -162,7 +162,7 @@ namespace CS7056_AIToolKit
         /// <summary>
         /// Takes all actions.
         /// </summary>
-        public void takeActions()
+        public void TakeActions()
         {
             foreach (Action a in actions)
             {

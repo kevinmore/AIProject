@@ -51,7 +51,7 @@ namespace CS7056_AIToolKit
         /// Gets the save string.
         /// </summary>
         /// <returns>The save string.</returns>
-        public string getSaveString()
+        public string GetSaveString()
         {
             string line = name + "," + id + ",";
             for (int i = 0; i < events.Count; i++)
@@ -91,7 +91,7 @@ namespace CS7056_AIToolKit
         /// </summary>
         /// <returns><c>true</c>, if action was hased, <c>false</c> otherwise.</returns>
         /// <param name="actionID">Action I.</param>
-        public bool hasEvent(int eventID)
+        public bool HasEvent(int eventID)
         {
             return events.Contains(eventID);
         }
@@ -99,7 +99,7 @@ namespace CS7056_AIToolKit
 
 
         //-----------------------------------------------------------------------------
-        public void addEvent(int eventID)
+        public void AddEvent(int eventID)
         {
             events.Add(eventID);
         }

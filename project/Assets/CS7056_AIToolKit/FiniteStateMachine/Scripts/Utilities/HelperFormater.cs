@@ -6,13 +6,14 @@ namespace CS7056_AIToolKit
 {
     public static class HelperFormater : object
     {
+        static private string indent = "   ";
         //----------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// header section
         /// </summary>
         /// <returns>The header.</returns>
         /// <param name="controllerName">Controller name.</param>
-        public static string sectionHeader(string controllerName)
+        public static string SectionHeader(string controllerName)
         {
             string line0 = "using UnityEngine;\n";
             string line1 = "using System.Collections;\n";
@@ -20,7 +21,6 @@ namespace CS7056_AIToolKit
             string line3 = "public class " + controllerName + " : StateController, StateControllerInterface \n{\n";
 
             return line0 + line1 + line2 + line3;
-
         }
         //----------------------------------------------------------------------------------------------------------------
 
@@ -30,10 +30,10 @@ namespace CS7056_AIToolKit
 
 
         //----------------------------------------------------------------------------------------------------------------		
-        public static string sectionLoadFSM(string definationFile)
+        public static string SectionLoadFSM(string definationFile)
         {
-            string line1 = "    string pushString = HelperFile.getTextFileFromResource(\"" + definationFile + "\");\n";
-            string line2 = "    myStateMachine = new FSM(pushString,this);\n";
+            string line1 = indent + indent + "string pushString = HelperFile.GetTextFileFromResource(\"" + definationFile + "\");\n";
+            string line2 = indent + indent + "myStateMachine = new FSM(pushString,this);\n";
             return line1 + line2;
         }
 
@@ -43,18 +43,19 @@ namespace CS7056_AIToolKit
         /// </summary>
         /// <returns>The start and update.</returns>
         /// <param name="definationFile">Defination file.</param>
-        public static string sectionStartAndUpdate(string definationFile)
+        public static string SectionStartAndUpdate(string definationFile)
         {
-            string line1 = "void Start ()\n" +
-                          "  {\n" +
-                               sectionLoadFSM(definationFile) +
-                        "\nmyStateMachine.jumpToState(startStateID);\n " +
-                         "  }\n\n";
-            string line2 = "void Update () \n  {\n//Your code here\n\n" +
-                    "superUpdate();\n" + "\n  }\n\n";
+            string line1 = indent + "void Start ()\n" +
+                          indent + "{\n" +
+                               SectionLoadFSM(definationFile) +
+                        "\n" + indent + indent + "myStateMachine.JumpToState(startStateID);\n " +
+                         indent + "}\n\n";
+            string line2 = indent + "void Update () \n" +
+                            indent + "{\n" + indent + indent + "//Your code here\n\n" +
+                    indent + indent + "SuperUpdate();\n" + indent + "}\n\n";
 
 
-            string line3 = "\n\npublic override void tickFired(){\n\n}\n\n";
+            string line3 = "\n\n" + indent + "public override void TickFired(){}\n\n";
             return line1 + line2 + line3;
         }
         //----------------------------------------------------------------------------------------------------------------
@@ -66,19 +67,24 @@ namespace CS7056_AIToolKit
         /// </summary>
         /// <returns>The state call backs.</returns>
         /// <param name="states">States.</param>
-        public static string sectionStateCallBacks(List<StatePanel> states)
+        public static string SectionStateCallBacks(List<StatePanel> states)
         {
             string line = "";
             string devider = "//.......................................................................\n";
 
             foreach (StatePanel sp in states)
             {
-                line = line + devider + "//" + sp.stateDiscription +
-                    "\nprivate void Entered_State_" + sp.stateName + " ()\n  {\n Debug.Log(\"Entered State " + sp.stateName + "\");  \n   //state entered handling code goes here\n\n  }\n" + devider + "\n\n\n";
+                line = line + devider + indent + "//" + sp.stateDiscription + "\n" + 
+                    indent + "private void Entered_State_" + sp.stateName + " ()\n" +
+                    indent + "{\n" + indent + indent + "Debug.Log(\"Entered State " + sp.stateName + "\");\n" +
+                    indent + indent + "//state entered handling code goes here\n\n" + 
+                    indent + "}\n" + devider + "\n\n\n";
 
-                line = line + devider + "//" + sp.stateDiscription +
-                    "\nprivate void Left_State_" + sp.stateName + " ()\n  {\n Debug.Log(\"Left State " + sp.stateName + "\");  \n   //state left handling code goes here\n\n  }\n" + devider + "\n\n\n";
-
+                line = line + devider + indent + "//" + sp.stateDiscription + "\n" +
+                    indent + "private void Left_State_" + sp.stateName + " ()\n" +
+                    indent + "{\n" + indent + indent + "Debug.Log(\"Left State " + sp.stateName + "\");\n" +
+                    indent + indent + "//state left handling code goes here\n\n" +
+                    indent + "}\n" + devider + "\n\n\n";
             }
 
 
@@ -93,9 +99,9 @@ namespace CS7056_AIToolKit
         /// Section end.
         /// </summary>
         /// <returns>The end.</returns>
-        public static string sectionEnd()
+        public static string SectionEnd()
         {
-            return "\n\n  }\n\n";
+            return "\n\n}\n\n";
         }
         //----------------------------------------------------------------------------------------------------------------
 
@@ -108,12 +114,12 @@ namespace CS7056_AIToolKit
         /// <param name="controllerName">Controller name.</param>
         /// <param name="definitionFileName">Definition file name.</param>
         /// <param name="states">States.</param>
-        public static string makeFileUsing(string controllerName, string definitionFileName, List<StatePanel> states)
+        public static string GenerateControllerFile(string controllerName, string definitionFileName, List<StatePanel> states)
         {
-            return sectionHeader(controllerName) +
-                   sectionStartAndUpdate(definitionFileName) +
-                   sectionStateCallBacks(states) +
-                   sectionEnd();
+            return SectionHeader(controllerName) +
+                   SectionStartAndUpdate(definitionFileName) +
+                   SectionStateCallBacks(states) +
+                   SectionEnd();
         }
         //----------------------------------------------------------------------------------------------------------------
 
@@ -124,7 +130,7 @@ namespace CS7056_AIToolKit
         /// </summary>
         /// <returns>The comments.</returns>
         /// <param name="lines">Lines.</param>
-        public static string stripComments(string[] lines)
+        public static string StripComments(string[] lines)
         {
             string outstring = "";
             foreach (string line in lines)

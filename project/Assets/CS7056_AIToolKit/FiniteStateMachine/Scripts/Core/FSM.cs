@@ -30,9 +30,9 @@ namespace CS7056_AIToolKit
 
             //get rid of extra formating used to make human readable text file
             line = line.Replace(" ", "");
-            line = stripComments(line.Split('\n'));
+            line = StripComments(line.Split('\n'));
 
-            loadStateMachine(line);
+            LoadStateMachine(line);
             state = states[0];
         }
         //------------------------------------------------------------------
@@ -64,9 +64,9 @@ namespace CS7056_AIToolKit
 
             target = target_;
             line = line.Replace(" ", "");
-            line = stripComments(line.Split('\n'));
+            line = StripComments(line.Split('\n'));
 
-            loadStateMachine(line);
+            LoadStateMachine(line);
             state = states[0];
 
         }
@@ -84,8 +84,8 @@ namespace CS7056_AIToolKit
         {
             target = target_;
             line = line.Replace(" ", "");
-            loadStateMachine(line);
-            state = getState(currentStateID);
+            LoadStateMachine(line);
+            state = GetState(currentStateID);
         }
         //-----------------------------------------------------------------	
 
@@ -96,7 +96,7 @@ namespace CS7056_AIToolKit
         /// </summary>
         /// <returns>The comments.</returns>
         /// <param name="lines">Lines.</param>
-        private string stripComments(string[] lines)
+        private string StripComments(string[] lines)
         {
             string outstring = "";
             foreach (string line in lines)
@@ -121,11 +121,11 @@ namespace CS7056_AIToolKit
         /// Serielizes the State Machine. 
         /// </summary>
         /// <returns>The FS.</returns>
-        public string serielizeFSM()
+        public string SerielizeFSM()
         {
-            string statesString = getStatesString();
-            string attributesString = getAttributesString();
-            string eventsString = getEventsString();
+            string statesString = GetStatesString();
+            string attributesString = GetAttributesString();
+            string eventsString = GetEventsString();
             string line = statesString + "|" + attributesString + "|" + eventsString;
 
             return line;
@@ -138,21 +138,21 @@ namespace CS7056_AIToolKit
         /// Gets the states string.
         /// </summary>
         /// <returns>The states string.</returns>
-        private string getStatesString()
+        private string GetStatesString()
         {
             string s = "";
-            s = currentState.getSaveString() + ";";
+            s = currentState.GetSaveString() + ";";
             for (int i = 0; i < states.Count; i++)
             {
                 if (states[i] != currentState)
                 {
                     if (i < states.Count - 1)
                     {
-                        s = s + states[i].getSaveString() + ";";
+                        s = s + states[i].GetSaveString() + ";";
                     }
                     else
                     {
-                        s = s + states[i].getSaveString();
+                        s = s + states[i].GetSaveString();
                     }
 
                 }
@@ -167,20 +167,18 @@ namespace CS7056_AIToolKit
         /// Gets the attributes string.
         /// </summary>
         /// <returns>The attributes string.</returns>
-        private string getAttributesString()
+        private string GetAttributesString()
         {
             string s = "";
             for (int i = 0; i < attributes.Count; i++)
             {
                 if (i < attributes.Count - 1)
                 {
-
-                    s = s + attributes[i].getSaveString() + ";";
+                    s = s + attributes[i].GetSaveString() + ";";
                 }
                 else
                 {
-                    s = s + attributes[i].getSaveString();
-
+                    s = s + attributes[i].GetSaveString();
                 }
 
             }
@@ -194,7 +192,7 @@ namespace CS7056_AIToolKit
         /// Gets the events string.
         /// </summary>
         /// <returns>The events string.</returns>
-        private string getEventsString()
+        private string GetEventsString()
         {
             string s = "";
             for (int i = 0; i < events.Count; i++)
@@ -202,11 +200,11 @@ namespace CS7056_AIToolKit
                 if (i < events.Count - 1)
                 {
 
-                    s = s + events[i].getSaveString() + ";";
+                    s = s + events[i].GetSaveString() + ";";
                 }
                 else
                 {
-                    s = s + events[i].getSaveString();
+                    s = s + events[i].GetSaveString();
 
                 }
             }
@@ -219,10 +217,10 @@ namespace CS7056_AIToolKit
         /// <summary>
         /// Sends event to the statecontroller that FSM just left a specified state
         /// </summary>
-        private void fireStateLeft()
+        private void FireStateLeft()
         {
             if (target == null) return;
-            target.leftState(state.name);
+            target.LeftState(state.name);
         }
         //------------------------------------------------------------------	
 
@@ -232,11 +230,11 @@ namespace CS7056_AIToolKit
         /// <summary>
         /// Sends even to the statecontroller that FSM just entered a specified state. This the main even used in the controller to control the event flow
         /// </summary>
-        private void fireStateEntered()
+        private void FireStateEntered()
         {
             //Debug.Log("fireStateEntered");
             if (target == null) return;
-            target.enteredState(state.name);
+            target.EnteredState(state.name);
         }
         //------------------------------------------------------------
 
@@ -265,14 +263,14 @@ namespace CS7056_AIToolKit
         /// </summary>
         /// <param name="theAction">The action.</param>
         //------------------------------------------------------------
-        public void event_(string theEvent)
+        public void OnEvent(string theEvent)
         {
-            if (!isEventAvailable(theEvent))
+            if (!IsEventAvailable(theEvent))
             {
                 return;
             }
 
-            FSMEvent thisEvent = getEvent(theEvent);
+            FSMEvent thisEvent = GetEvent(theEvent);
 
             if (thisEvent == null)
             {
@@ -280,20 +278,19 @@ namespace CS7056_AIToolKit
             }
 
             //process actions if any
-            thisEvent.takeActions();
+            thisEvent.TakeActions();
 
             State newState = thisEvent.toState;//  getState(thisEvent.toStateID );
 
             if (state != newState)
             {
                 //sends message to target in-case it cares
-                fireStateLeft();
+                FireStateLeft();
 
                 //update current state
                 state = newState;
 
-                fireStateEntered();
-
+                FireStateEntered();
             }
         }
         //------------------------------------------------------------
@@ -308,18 +305,18 @@ namespace CS7056_AIToolKit
         /// <param name="theEvent">The event.</param>
         /// <param name="actionString1">Action string1.</param>
         /// <param name="actionString2">Action string2.</param>
-        public void event_(string theEvent, string actionString1, string actionString2)
+        public void OnEvent(string theEvent, string actionString1, string actionString2)
         {
-            if (!isEventAvailable(theEvent))
+            if (!IsEventAvailable(theEvent))
                 return;
 
-            FSMEvent thisEvent = getEvent(theEvent);
+            FSMEvent thisEvent = GetEvent(theEvent);
 
             if (thisEvent == null)
                 return;
 
             //process actions if any
-            thisEvent.takeActions(actionString1, actionString2);
+            thisEvent.TakeActions(actionString1, actionString2);
 
 
             State newState = thisEvent.toState;//  getState(thisEvent.targetState );
@@ -327,12 +324,12 @@ namespace CS7056_AIToolKit
             if (state != newState)
             {
                 //sends message to target in-case it cares
-                fireStateLeft();
+                FireStateLeft();
 
                 //update current state
                 state = newState;
 
-                fireStateEntered();
+                FireStateEntered();
 
             }
 
@@ -345,30 +342,30 @@ namespace CS7056_AIToolKit
         /// </summary>
         /// <param name="theEvent">The event.</param>
         /// <param name="actionString">Action string.</param>
-        public void event_(string theEvent, string actionString)
+        public void OnEvent(string theEvent, string actionString)
         {
             //if(!isEventAvailable(theEvent))return;
 
-            FSMEvent thisEvent = getEvent(theEvent);
+            FSMEvent thisEvent = GetEvent(theEvent);
 
             if (thisEvent == null)
                 return;
 
             //process actions if any]
 
-            thisEvent.takeActions(actionString);
+            thisEvent.TakeActions(actionString);
 
             State newState = thisEvent.toState;//  getState(thisEvent.targetState );
 
             if (state != newState)
             {
                 //sends message to target in-case it cares
-                fireStateLeft();
+                FireStateLeft();
 
                 //update current state
                 state = newState;
 
-                fireStateEntered();
+                FireStateEntered();
 
             }
 
@@ -383,7 +380,7 @@ namespace CS7056_AIToolKit
         /// </summary>
         /// <returns>The action.</returns>
         /// <param name="action">Action.</param>
-        public FSMEvent getEvent(string event_)
+        public FSMEvent GetEvent(string event_)
         {
 
             foreach (FSMEvent e in state.eventBucket)
@@ -417,13 +414,13 @@ namespace CS7056_AIToolKit
         /// </summary>
         /// <returns>The action.</returns>
         /// <param name="action">Action.</param>
-        private FSMEvent getEvent(State s, int event_)
+        private FSMEvent GetEvent(State s, int event_)
         {
             foreach (int e in s.events)
             {
                 if (e == event_)
                 {
-                    return getEvent(e);
+                    return GetEvent(e);
                 }
             }
             return null;
@@ -438,7 +435,7 @@ namespace CS7056_AIToolKit
         /// </summary>
         /// <returns>The event.</returns>
         /// <param name="event_">Event_.</param>
-        private FSMEvent getEvent(int event_)
+        private FSMEvent GetEvent(int event_)
         {
 
             foreach (FSMEvent e in events)
@@ -504,12 +501,12 @@ namespace CS7056_AIToolKit
         /// </summary>
         /// <returns><c>true</c>, if event available was ised, <c>false</c> otherwise.</returns>
         /// <param name="event_">Event_.</param>
-        public bool isEventAvailable(string event_)
+        public bool IsEventAvailable(string event_)
         {
             ArrayList eventSet = getEvents(event_);
             foreach (FSMEvent e in eventSet)
             {
-                if (state.hasEvent(e.id))
+                if (state.HasEvent(e.id))
                 {
                     return true;
                 }
@@ -526,7 +523,7 @@ namespace CS7056_AIToolKit
         /// Loads the state machine.
         /// </summary>
         /// <param name="sm">Sm.</param>
-        public void loadStateMachine(string sm)
+        public void LoadStateMachine(string sm)
         {
             states = new List<State>();
             events = new List<FSMEvent>();
@@ -574,7 +571,7 @@ namespace CS7056_AIToolKit
             {
                 foreach (int eventID in theState.events)
                 {
-                    FSMEvent e = getEvent(eventID);
+                    FSMEvent e = GetEvent(eventID);
                     if (e != null)
                         theState.eventBucket.Add(e);
                 }
@@ -583,7 +580,7 @@ namespace CS7056_AIToolKit
             //load target state to event
             foreach (FSMEvent e in events)
             {
-                e.toState = getState(e.toStateID);
+                e.toState = GetState(e.toStateID);
 
             }
         }//------------------------------------------------------------
@@ -596,7 +593,7 @@ namespace CS7056_AIToolKit
         /// </summary>
         /// <returns>The state.</returns>
         /// <param name="mystate">Mystate.</param>
-        private State getState(int mystate)
+        private State GetState(int mystate)
         {
             foreach (State s in states)
             {
@@ -629,7 +626,7 @@ namespace CS7056_AIToolKit
         /// <summary>
         /// Prints attributes for testing purposes.
         /// </summary>
-        public void printAttributes()
+        public void PrintAttributes()
         {
             foreach (Attribute a in attributes)
             {
@@ -644,7 +641,7 @@ namespace CS7056_AIToolKit
         /// </summary>
         /// <param name="name">Name.</param>
         /// <param name="val">Value.</param>
-        public void setAttribute(string name, int val)
+        public void SetAttribute(string name, int val)
         {
             foreach (Attribute a in attributes)
             {
@@ -664,26 +661,7 @@ namespace CS7056_AIToolKit
         /// </summary>
         /// <param name="name">Name.</param>
         /// <param name="val">Value.</param>
-        public void setAttribute(string name, float val)
-        {
-            foreach (Attribute a in attributes)
-            {
-                if (a.name.ToLower() == name.ToLower())
-                {
-                    a.setAttribute(val + "");
-                    return;
-                }
-            }
-        }
-        //------------------------------------------------------------	
-
-        //------------------------------------------------------------
-        /// <summary>
-        /// Sets the attribute.
-        /// </summary>
-        /// <param name="name">Name.</param>
-        /// <param name="val">Value.</param>
-        public void setAttribute(string name, bool val)
+        public void SetAttribute(string name, float val)
         {
             foreach (Attribute a in attributes)
             {
@@ -702,7 +680,7 @@ namespace CS7056_AIToolKit
         /// </summary>
         /// <param name="name">Name.</param>
         /// <param name="val">Value.</param>
-        public void setAttribute(string name, long val)
+        public void SetAttribute(string name, bool val)
         {
             foreach (Attribute a in attributes)
             {
@@ -721,7 +699,26 @@ namespace CS7056_AIToolKit
         /// </summary>
         /// <param name="name">Name.</param>
         /// <param name="val">Value.</param>
-        public void setAttribute(string name, string val)
+        public void SetAttribute(string name, long val)
+        {
+            foreach (Attribute a in attributes)
+            {
+                if (a.name.ToLower() == name.ToLower())
+                {
+                    a.setAttribute(val + "");
+                    return;
+                }
+            }
+        }
+        //------------------------------------------------------------	
+
+        //------------------------------------------------------------
+        /// <summary>
+        /// Sets the attribute.
+        /// </summary>
+        /// <param name="name">Name.</param>
+        /// <param name="val">Value.</param>
+        public void SetAttribute(string name, string val)
         {
             foreach (Attribute a in attributes)
             {
@@ -741,7 +738,7 @@ namespace CS7056_AIToolKit
         /// </summary>
         /// <returns>The atribute value.</returns>
         /// <param name="name">Name.</param>
-        public string getAtributeValue(string name)
+        public string GetAtributeValue(string name)
         {
 
             foreach (Attribute a in attributes)
@@ -762,10 +759,10 @@ namespace CS7056_AIToolKit
         /// Shortcut jump to a specified state. This is normally used for example to exit back to a menu or start state.
         /// </summary>
         /// <param name="stateID">State I.</param>
-        public void jumpToState(int stateID)
+        public void JumpToState(int stateID)
         {
-            state = getState(stateID);
-            fireStateEntered();
+            state = GetState(stateID);
+            FireStateEntered();
         }
         //------------------------------------------------------------
 
@@ -775,7 +772,7 @@ namespace CS7056_AIToolKit
         /// <summary>
         /// Reset the State Machine
         /// </summary>
-        public void reset()
+        public void Reset()
         {
             attributes.Clear();
             string[] attributeStrings = definition.Split(';');//attributes

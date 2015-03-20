@@ -15,9 +15,9 @@ public class carController: StateController ,StateControllerInterface
 
 void Start ()
   {
-    string pushString = CS7056_AIToolKit.HelperFile.getTextFileFromResource("carFSM");
+    string pushString = CS7056_AIToolKit.HelperFile.GetTextFileFromResource("carFSM");
     myStateMachine = new CS7056_AIToolKit.FSM(pushString,this);
-    myStateMachine.jumpToState(startStateID);
+    myStateMachine.JumpToState(startStateID);
 	moveVector    =Vector3.forward*speed;
   }
 
@@ -27,7 +27,7 @@ void Update ()
    
   // transform.Translate(moveVector);
 		
-   superUpdate();
+   SuperUpdate();
 
   }
   void FixedUpdate()
@@ -45,17 +45,17 @@ void Update ()
 		{
 			if(hit.collider.gameObject.tag=="car")
 			{
-				myStateMachine.setAttribute("distanceToCar",hit.distance);
+				myStateMachine.SetAttribute("distanceToCar",hit.distance);
 				
 				return hit.distance;
 			;
 			}
 		}
-		myStateMachine.setAttribute("distanceToCar",999);
+		myStateMachine.SetAttribute("distanceToCar",999);
 		return 999;	
 	}
 
-public override void tickFired(){
+public override void TickFired(){
 		
 		
 		refresh();
@@ -67,7 +67,7 @@ public void refresh()
 {
 		float d=getFrontDist();
 		//print(gameObject.name+ " front of the object is a "+"  dist="+d);
-		speed = float.Parse( myStateMachine.getAtributeValue("speed"));
+		speed = float.Parse( myStateMachine.GetAtributeValue("speed"));
 		
 		moveVector    =Vector3.forward*(speed*.1f);
 }

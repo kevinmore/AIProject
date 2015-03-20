@@ -9,10 +9,10 @@ public class gameController: StateController ,StateControllerInterface
 
 void Start ()
   {
-    string pushString = CS7056_AIToolKit.HelperFile.getTextFileFromResource("gameControllerFSM");
+    string pushString = CS7056_AIToolKit.HelperFile.GetTextFileFromResource("gameControllerFSM");
     myStateMachine = new CS7056_AIToolKit.FSM(pushString,this);
 
-    myStateMachine.jumpToState(startStateID);
+    myStateMachine.JumpToState(startStateID);
    }
 
 void Update () 
@@ -24,7 +24,7 @@ void Update ()
 		  target.transform.Rotate(new Vector3(.3f,.5f,.8f));
 		}
 	
-	superUpdate();
+	SuperUpdate();
 
   }
 
@@ -123,7 +123,7 @@ void Update ()
 		if(currentState == "levelUp")
 		{
 			
-			GUI.Box(new Rect(Screen.width/2-300, 20, 600, 40), "CONGRATS! You leveled-up to level "+myStateMachine.getAtributeValue("level")+"!!");
+			GUI.Box(new Rect(Screen.width/2-300, 20, 600, 40), "CONGRATS! You leveled-up to level "+myStateMachine.GetAtributeValue("level")+"!!");
 			
 			if (GUI.Button(new Rect(Screen.width/2-75, 180, 150, 50), "Continue"))
 			{
@@ -136,7 +136,7 @@ void Update ()
 
 
 
-public override void tickFired(){
+public override void TickFired(){
 
 }
 

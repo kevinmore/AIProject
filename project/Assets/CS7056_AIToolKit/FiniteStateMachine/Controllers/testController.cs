@@ -6,23 +6,23 @@ public class testController: StateController ,StateControllerInterface
 {
 void Start ()
   {
-    string pushString = CS7056_AIToolKit.HelperFile.getTextFileFromResource("testFSM");
+    string pushString = CS7056_AIToolKit.HelperFile.GetTextFileFromResource("testFSM");
     myStateMachine = new CS7056_AIToolKit.FSM(pushString,this);
 
-myStateMachine.jumpToState(startStateID);
+myStateMachine.JumpToState(startStateID);
    }
 
 void Update () 
   {
 //Your code here
 
-superUpdate();
+SuperUpdate();
 
   }
 
 
 
-public override void tickFired(){
+public override void TickFired(){
 
 }
 

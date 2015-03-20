@@ -11,7 +11,7 @@ private Animator ani;
 void Start ()
   {
     ani=GetComponent<Animator>();
-    string pushString = CS7056_AIToolKit.HelperFile.getTextFileFromResource("walkerFSM");
+    string pushString = CS7056_AIToolKit.HelperFile.GetTextFileFromResource("walkerFSM");
     myStateMachine    = new CS7056_AIToolKit.FSM(pushString,this);
 	currentState      =	myStateMachine.state.name;
 		moveVector    =Vector3.forward*speed;
@@ -27,16 +27,16 @@ void Update ()
         
 		
 		transform.Translate(moveVector);
-		superUpdate();
+		SuperUpdate();
     
   }
 //---------------------------------------
 
 	public void incrementCount()
 	{
-	  int count = int.Parse( myStateMachine.getAtributeValue("count"));
+	  int count = int.Parse( myStateMachine.GetAtributeValue("count"));
 	  count++;
-	  myStateMachine.setAttribute("count",count);
+	  myStateMachine.SetAttribute("count",count);
 	}
 	
 	public void triggerEnter(GameObject sensesedObject)
@@ -57,7 +57,7 @@ private void randomAction()
 }
 
 
-	public override void tickFired()
+	public override void TickFired()
 	{
 	   //Debug.Log("Time tick fired");
 		incrementCount();

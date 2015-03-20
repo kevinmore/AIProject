@@ -18,9 +18,9 @@ void Start ()
 	listners=new List<GameObject>();
 	yellowLight.SetActive(false);
 	greenLight.SetActive(false);
-    string pushString = CS7056_AIToolKit.HelperFile.getTextFileFromResource("lightFSM");
+    string pushString = CS7056_AIToolKit.HelperFile.GetTextFileFromResource("lightFSM");
     myStateMachine = new CS7056_AIToolKit.FSM(pushString,this);
-	myStateMachine.jumpToState(startStateID);
+	myStateMachine.JumpToState(startStateID);
   }
 
 
@@ -29,7 +29,7 @@ void Start ()
 
 void Update () 
   {
-		superUpdate();
+		SuperUpdate();
 		
   }
 //
@@ -49,7 +49,7 @@ void Update ()
 		car.BroadcastMessage("recieveEvent","green");
 	}
 
-public override void tickFired(){
+public override void TickFired(){
 }
 
 private void informListners(string event_)

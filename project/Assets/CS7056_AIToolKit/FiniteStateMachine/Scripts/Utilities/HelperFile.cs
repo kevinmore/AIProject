@@ -8,7 +8,7 @@ namespace CS7056_AIToolKit
     {
 
         //------------------------------------------------------
-        public static string getTextFileFromResource(string filename)
+        public static string GetTextFileFromResource(string filename)
         {
             TextAsset textAsset = (TextAsset)Resources.Load("FSM/" + filename, typeof(TextAsset));
             if (textAsset != null)
@@ -19,7 +19,7 @@ namespace CS7056_AIToolKit
 
 
         //------------------------------------------------------
-        public static void saveToFile(string filename, string value)
+        public static void SaveToFile(string filename, string value)
         {
             System.IO.File.WriteAllText(filename, value);
             AssetDatabase.Refresh();

@@ -242,7 +242,7 @@ namespace CS7056_AIToolKit
             if (justRecompiled)
             {
                 justRecompiled = false;
-                LoadFSM(HelperFile.getTextFileFromResource(filename));
+                LoadFSM(HelperFile.GetTextFileFromResource(filename));
 
                 if (needToAddControllerScript)
                 {
@@ -318,7 +318,7 @@ namespace CS7056_AIToolKit
                 else
                 {
                     if (currentStateController != null)
-                        GUI.TextField(new Rect(15 + width + 25, i * lChunk, width / 1.5f, 20), currentStateController.myStateMachine.getAtributeValue(attr.label));
+                        GUI.TextField(new Rect(15 + width + 25, i * lChunk, width / 1.5f, 20), currentStateController.myStateMachine.GetAtributeValue(attr.label));
                 }
             }
             GUI.EndScrollView();
@@ -354,7 +354,7 @@ namespace CS7056_AIToolKit
         {
             //Debug.Log(("SAVE FSM " + Application.dataPath + resourcesDirectory));
             save();
-            HelperFile.saveToFile(Application.dataPath + resourcesDirectory + "/" + filename + ".txt", GetFSMString());
+            HelperFile.SaveToFile(Application.dataPath + resourcesDirectory + "/" + filename + ".txt", GetFSMString());
 
             //AssetDatabase.ImportAsset(Application.dataPath + resourcesDirectory+"/"+filename+".txt");
             //loadFSM(HelperFile.getTextFileFromResource(filename));
@@ -370,7 +370,7 @@ namespace CS7056_AIToolKit
             save();
             //HelperFile.saveToFile(Application.dataPath + resourcesDirectory+"/"+filename+".txt",getFSMString());
 
-            string filestring = HelperFile.getTextFileFromResource(filename);
+            string filestring = HelperFile.GetTextFileFromResource(filename);
             //filestring = EditorGUILayout.ObjectField(filestring,typeof(object), true);
 
 
@@ -492,7 +492,7 @@ namespace CS7056_AIToolKit
 
                 //Debug.Log("Make Controller: " + Application.dataPath + "/" + controllerName);
                 save();
-                HelperFile.saveToFile(Application.dataPath + "/CS7056_AIToolKit/FiniteStateMachine/Controllers/" + controllerName + ".cs", HelperFormater.makeFileUsing(controllerName, filename, statesPanels));
+                HelperFile.SaveToFile(Application.dataPath + "/CS7056_AIToolKit/FiniteStateMachine/Controllers/" + controllerName + ".cs", HelperFormater.GenerateControllerFile(controllerName, filename, statesPanels));
 
                 //AssetDatabase.ImportAsset(Application.dataPath+"/"+controllerName+".cs");
                 //loadFSM(HelperFile.getTextFileFromResource(filename));
@@ -927,7 +927,7 @@ namespace CS7056_AIToolKit
         //----------------------------------------------------------------------------
         NodeLocation GetNodeLocation(Rect start, Rect end)
         {
-            return GetNodeLocation(HelperGraphics.angle(start.center, end.center));
+            return GetNodeLocation(HelperGraphics.Angle(start.center, end.center));
         }
         //----------------------------------------------------------------------------
 
@@ -1254,7 +1254,7 @@ namespace CS7056_AIToolKit
         {
             Reset();
             //string line = FSM.Replace(" ","");
-            string line = HelperFormater.stripComments(FSM.Split('\n'));
+            string line = HelperFormater.StripComments(FSM.Split('\n'));
             if (line.Length == 0) return;
 
             string[] parts = line.Split('|');
